@@ -701,7 +701,7 @@
                 <h2>Stay Updated</h2>
                 <p>Subscribe to our newsletter for the latest insights, trends, and innovations</p>
                 <form class="newsletter-form">
-                    <input type="email" placeholder="Enter your email address" required>
+                    <input type="email" id="newsletter-email" name="newsletter-email" placeholder="Enter your email address" autocomplete="email" required>
                     <button type="submit" class="btn btn-primary">Subscribe</button>
                 </form>
             </div>
@@ -782,7 +782,7 @@
                 </div>
             </div>
             <div class="chatbot-input">
-                <input type="text" id="chatbotInput" placeholder="Type your message...">
+                <input type="text" id="chatbotInput" name="chatbotInput" placeholder="Type your message..." autocomplete="off">
                 <button id="sendChatMessage"><i class="fas fa-paper-plane"></i></button>
             </div>
         </div>
