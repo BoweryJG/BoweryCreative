@@ -1294,6 +1294,73 @@ section {
   margin-top: auto;
 }
 
+/* ===== SPHERE SUITE ENHANCEMENTS ===== */
+.sphere-content {
+  background: #fff;
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--box-shadow-lg);
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-xl);
+  padding: var(--spacing-xl);
+  margin-bottom: var(--spacing-xl);
+}
+.sphere-text h3 {
+  font-size: 2.1rem;
+  font-weight: 800;
+  color: var(--primary-color);
+  margin-bottom: var(--spacing-md);
+}
+.sphere-text p {
+  font-size: 1.1rem;
+  color: var(--gray-700);
+  margin-bottom: var(--spacing-md);
+}
+.feature-list {
+  background: var(--gray-100);
+  border-radius: var(--border-radius-md);
+  padding: var(--spacing-md) var(--spacing-lg);
+  margin-bottom: var(--spacing-lg);
+  box-shadow: var(--box-shadow-sm);
+}
+.feature-list li {
+  font-size: 1.08rem;
+  color: var(--primary-color);
+  margin-bottom: var(--spacing-sm);
+  display: flex;
+  align-items: center;
+  font-weight: 500;
+}
+.feature-list li i {
+  color: var(--accent-color);
+  margin-right: var(--spacing-sm);
+  font-size: 1.1em;
+}
+.sphere-image img {
+  border-radius: var(--border-radius-lg);
+  box-shadow: var(--box-shadow-md);
+  max-width: 320px;
+  transition: transform 0.3s;
+}
+.sphere-image img:hover {
+  transform: scale(1.04) rotate(-2deg);
+}
+.sphere-text .btn-primary {
+  background: linear-gradient(90deg, var(--accent-color), var(--highlight-color));
+  color: #fff;
+  border: none;
+  box-shadow: 0 2px 8px rgba(255, 88, 93, 0.18);
+  padding: 0.9em 2.2em;
+  font-size: 1.09rem;
+  border-radius: var(--border-radius-md);
+  font-weight: 700;
+  transition: background 0.2s, box-shadow 0.2s;
+}
+.sphere-text .btn-primary:hover {
+  background: linear-gradient(90deg, var(--highlight-color), var(--accent-color));
+  box-shadow: 0 4px 16px rgba(245, 184, 65, 0.19);
+}
+
 /* ===== WORK SECTION ===== */
 .work {
   background-color: var(--gray-100);
