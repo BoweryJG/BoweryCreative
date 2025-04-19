@@ -514,7 +514,8 @@ document.addEventListener('DOMContentLoaded', function() {
             iframe.parentNode.insertBefore(wrapper, iframe);
             wrapper.appendChild(iframe);
         }
-        
+    }); // <-- Close for document.querySelectorAll('iframe').forEach
+    
     // ===== Custom Cursor Effect =====
     const cursor = document.createElement('div');
     cursor.className = 'custom-cursor';
