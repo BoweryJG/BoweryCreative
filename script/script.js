@@ -534,4 +534,4 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-});
+}); // <-- This closes the DOMContentLoaded event listener
