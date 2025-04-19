@@ -64,6 +64,20 @@
   transform: scaleY(-1);
 }
 
+.site-logo {
+  height: 44px;
+  width: auto;
+  display: block;
+  filter: drop-shadow(0 2px 8px rgba(0,0,0,0.08));
+}
+.site-logo-footer {
+  height: 38px;
+  width: auto;
+  display: block;
+  opacity: 0.85;
+  filter: invert(1) drop-shadow(0 1px 4px rgba(0,0,0,0.12));
+}
+
 /* Blog Section */
 .blog-section {
   background: rgba(255,255,255,0.07);
