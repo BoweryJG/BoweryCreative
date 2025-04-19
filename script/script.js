@@ -533,4 +533,5 @@ document.addEventListener('DOMContentLoaded', function() {
             cursor.classList.remove('expanded');
         });
     });
+
 });
