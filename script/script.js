@@ -5,6 +5,112 @@
 
 document.addEventListener('DOMContentLoaded', function() {
 
+    // ===== Dynamic Blog Section =====
+    fetch('data/blog.json')
+      .then(res => res.json())
+      .then(posts => {
+        const blogGrid = document.getElementById('blogGrid');
+        if (!blogGrid) return;
+        function renderBlogCards(filter) {
+          blogGrid.innerHTML = '';
+          posts.filter(post => filter === 'all' || post.category === filter).forEach(post => {
+            const card = document.createElement('article');
+            card.className = 'blog-card fade-in';
+            card.setAttribute('data-category', post.category);
+            card.innerHTML = `
+              <img src="${post.image}" alt="${post.title}">
+              <div class="blog-content">
+                <h3>${post.title}</h3>
+                <p>${post.summary}</p>
+                <a href="#" class="btn btn-tertiary blog-detail-btn" data-id="${post.id}">Read More</a>
+              </div>`;
+            blogGrid.appendChild(card);
+          });
+        }
+        // Initial render
+        renderBlogCards('all');
+        // Filter logic
+        document.querySelectorAll('.blog-filter-btn').forEach(btn => {
+          btn.addEventListener('click', function() {
+            document.querySelectorAll('.blog-filter-btn').forEach(b => b.classList.remove('active'));
+            this.classList.add('active');
+            renderBlogCards(this.getAttribute('data-filter'));
+          });
+        });
+      });
+
+    // ===== Dynamic Podcast Section with Audio Player =====
+    fetch('data/podcast.json')
+      .then(res => res.json())
+      .then(episodes => {
+        const podcastGrid = document.getElementById('podcastGrid');
+        if (!podcastGrid) return;
+        podcastGrid.innerHTML = '';
+        episodes.forEach(ep => {
+          const card = document.createElement('div');
+          card.className = 'podcast-card fade-in';
+          card.innerHTML = `
+            <img src="${ep.image}" alt="${ep.title}">
+            <div class="podcast-content">
+              <h3>${ep.title}</h3>
+              <p>${ep.description}</p>
+              <div class="audio-player" data-audio="${ep.audio}">
+                <button class="audio-play"><i class="fas fa-play"></i></button>
+                <input type="range" class="audio-progress" min="0" max="100" value="0">
+                <span class="audio-time">0:00</span>
+              </div>
+            </div>`;
+          podcastGrid.appendChild(card);
+        });
+        // Audio player logic
+        let currentAudio = null, currentBtn = null, currentProgress = null, currentTime = null;
+        podcastGrid.addEventListener('click', function(e) {
+          if (e.target.closest('.audio-play')) {
+            const player = e.target.closest('.audio-player');
+            const audioSrc = player.getAttribute('data-audio');
+            if (!player.audio) {
+              player.audio = new Audio(audioSrc);
+              player.audio.addEventListener('timeupdate', () => {
+                const progress = player.querySelector('.audio-progress');
+                const time = player.querySelector('.audio-time');
+                progress.value = (player.audio.currentTime / player.audio.duration) * 100 || 0;
+                time.textContent = formatTime(player.audio.currentTime);
+              });
+              player.audio.addEventListener('ended', () => {
+                player.querySelector('.audio-play i').className = 'fas fa-play';
+                player.querySelector('.audio-progress').value = 0;
+                player.querySelector('.audio-time').textContent = '0:00';
+              });
+              player.querySelector('.audio-progress').addEventListener('input', function() {
+                if (player.audio.duration) {
+                  player.audio.currentTime = (this.value / 100) * player.audio.duration;
+                }
+              });
+            }
+            // Pause current audio
+            if (currentAudio && currentAudio !== player.audio) {
+              currentAudio.pause();
+              if (currentBtn) currentBtn.querySelector('i').className = 'fas fa-play';
+            }
+            // Play/pause toggle
+            if (player.audio.paused) {
+              player.audio.play();
+              player.querySelector('.audio-play i').className = 'fas fa-pause';
+              currentAudio = player.audio;
+              currentBtn = player.querySelector('.audio-play');
+            } else {
+              player.audio.pause();
+              player.querySelector('.audio-play i').className = 'fas fa-play';
+            }
+          }
+        });
+        function formatTime(sec) {
+          sec = Math.floor(sec);
+          return `${Math.floor(sec/60)}:${('0'+(sec%60)).slice(-2)}`;
+        }
+      });
+
+
     // ===== Section Reveal on Scroll =====
     const revealSections = document.querySelectorAll('section');
     const revealObserver = new IntersectionObserver((entries) => {

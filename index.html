@@ -492,31 +492,15 @@
           <h2>Latest Blog Posts</h2>
           <p>Insights, stories, and strategies from the Bowery Creative team</p>
         </div>
-        <div class="blog-grid">
-          <article class="blog-card">
-            <img src="img/blog/blog-1.jpg" alt="Blog Post 1">
-            <div class="blog-content">
-              <h3>How AI is Shaping the Future of Creative Campaigns</h3>
-              <p>Discover how artificial intelligence is revolutionizing the creative industry with real-world examples and expert insights.</p>
-              <a href="#" class="btn btn-tertiary">Read More</a>
-            </div>
-          </article>
-          <article class="blog-card">
-            <img src="img/blog/blog-2.jpg" alt="Blog Post 2">
-            <div class="blog-content">
-              <h3>Brand Storytelling in the Age of Automation</h3>
-              <p>Explore the intersection of technology and storytelling, and how brands can stay authentic in an automated world.</p>
-              <a href="#" class="btn btn-tertiary">Read More</a>
-            </div>
-          </article>
-          <article class="blog-card">
-            <img src="img/blog/blog-3.jpg" alt="Blog Post 3">
-            <div class="blog-content">
-              <h3>Design Trends to Watch in 2025</h3>
-              <p>A look ahead at the design trends that will define the coming year, from immersive UX to bold, expressive visuals.</p>
-              <a href="#" class="btn btn-tertiary">Read More</a>
-            </div>
-          </article>
+        <!-- Blog Filter Bar -->
+        <div class="blog-filter-bar">
+          <button class="blog-filter-btn active" data-filter="all">All</button>
+          <button class="blog-filter-btn" data-filter="AI & Innovation">AI & Innovation</button>
+          <button class="blog-filter-btn" data-filter="Branding">Branding</button>
+          <button class="blog-filter-btn" data-filter="Design Trends">Design Trends</button>
+        </div>
+        <div class="blog-grid" id="blogGrid">
+          <!-- Blog cards will be dynamically loaded here -->
         </div>
         <div class="blog-cta">
           <a href="#" class="btn btn-primary">View All Blog Posts</a>
@@ -536,31 +520,8 @@
           <h2>Podcast: The Creative Sphere</h2>
           <p>Conversations with innovators, creators, and industry leaders</p>
         </div>
-        <div class="podcast-grid">
-          <div class="podcast-card">
-            <img src="img/podcast/podcast-1.jpg" alt="Podcast Episode 1">
-            <div class="podcast-content">
-              <h3>Episode 12: AI & Creativity</h3>
-              <p>We sit down with AI experts to discuss how machine learning is transforming creative work in marketing and design.</p>
-              <a href="#" class="btn btn-secondary"><i class="fas fa-play"></i> Listen Now</a>
-            </div>
-          </div>
-          <div class="podcast-card">
-            <img src="img/podcast/podcast-2.jpg" alt="Podcast Episode 2">
-            <div class="podcast-content">
-              <h3>Episode 11: The Future of Branding</h3>
-              <p>Brand strategists share their predictions for the future of branding in a rapidly changing digital landscape.</p>
-              <a href="#" class="btn btn-secondary"><i class="fas fa-play"></i> Listen Now</a>
-            </div>
-          </div>
-          <div class="podcast-card">
-            <img src="img/podcast/podcast-3.jpg" alt="Podcast Episode 3">
-            <div class="podcast-content">
-              <h3>Episode 10: Medical Tech Marketing</h3>
-              <p>Industry leaders discuss the unique challenges and opportunities in marketing for medical technology.</p>
-              <a href="#" class="btn btn-secondary"><i class="fas fa-play"></i> Listen Now</a>
-            </div>
-          </div>
+        <div class="podcast-grid" id="podcastGrid">
+          <!-- Podcast cards with audio players will be dynamically loaded here -->
         </div>
         <div class="podcast-cta">
           <a href="#" class="btn btn-primary">View All Episodes</a>
