@@ -381,7 +381,7 @@ document.addEventListener('DOMContentLoaded', function() {
                     fadeObserver.unobserve(entry.target);
                 }
             });
-        }, { threshold: 0.3 });
+        }, { threshold: 0.535 });
         
         fadeElements.forEach(el => {
             fadeObserver.observe(el);
