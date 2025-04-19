@@ -206,8 +206,11 @@ document.addEventListener('DOMContentLoaded', function() {
                 window.scrollTo({
                     top: targetPosition - headerOffset,
                     behavior: 'smooth'
-                            }
-                
+                });
+            }
+        });
+    });
+
     // ===== Chatbot Functionality =====
     const chatbotButton = document.getElementById('chatbotButton');
     const chatbotContainer = document.getElementById('chatbotContainer');
@@ -220,14 +223,16 @@ document.addEventListener('DOMContentLoaded', function() {
     if (chatbotButton && chatbotContainer) {
         chatbotButton.addEventListener('click', function() {
             chatbotContainer.classList.toggle('active');
-            }
-    
+        });
+    }
+
     // Close chatbot
     if (closeChatbot) {
         closeChatbot.addEventListener('click', function() {
             chatbotContainer.classList.remove('active');
-            }
-    
+        });
+    }
+
     // Send message function
     function sendMessage() {
         const message = chatbotInput.value.trim();
@@ -277,8 +282,9 @@ document.addEventListener('DOMContentLoaded', function() {
             if (e.key === 'Enter') {
                 sendMessage();
             }
-            }
-    
+        });
+    }
+
     // ===== Form Validation =====
     const contactForm = document.getElementById('contactForm');
     
@@ -297,7 +303,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 } else {
                     field.classList.remove('error');
                 }
-                        
+            });
+            
             // Email validation
             const emailField = document.getElementById('email');
             if (emailField && emailField.value.trim()) {
@@ -313,7 +320,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 const formGroups = contactForm.querySelectorAll('.form-group');
                 formGroups.forEach(group => {
                     group.style.display = 'none';
-                                
+                });
+                
                 const submitButton = contactForm.querySelector('button[type="submit"]');
                 submitButton.style.display = 'none';
                 
@@ -327,8 +335,9 @@ document.addEventListener('DOMContentLoaded', function() {
                 
                 contactForm.appendChild(successMessage);
             }
-            }
-    
+        });
+    }
+
     // ===== Newsletter Signup =====
     const newsletterForm = document.querySelector('.newsletter-form');
     
@@ -344,7 +353,8 @@ document.addEventListener('DOMContentLoaded', function() {
                 const formElements = newsletterForm.querySelectorAll('input, button');
                 formElements.forEach(el => {
                     el.style.display = 'none';
-                                
+                });
+                
                 // Show success message
                 const successMessage = document.createElement('div');
                 successMessage.className = 'success-message';
@@ -357,8 +367,9 @@ document.addEventListener('DOMContentLoaded', function() {
             } else {
                 emailInput.classList.add('error');
             }
-            }
-    
+        });
+    }
+
     // ===== Intersection Observer for Animations =====
     const fadeElements = document.querySelectorAll('.fade-in');
     
@@ -369,11 +380,14 @@ document.addEventListener('DOMContentLoaded', function() {
                     entry.target.classList.add('visible');
                     fadeObserver.unobserve(entry.target);
                 }
-                    }, { threshold: 0.3         
+            });
+        }, { threshold: 0.3 });
+        
         fadeElements.forEach(el => {
             fadeObserver.observe(el);
-            }
-    
+        });
+    }
+
     // ===== Video Background Management =====
     const heroVideo = document.getElementById('heroVideo');
     
@@ -388,18 +402,23 @@ document.addEventListener('DOMContentLoaded', function() {
                     heroVideo.parentNode.style.backgroundImage = 'url("img/hero-fallback.jpg")';
                     heroVideo.parentNode.style.backgroundSize = 'cover';
                     heroVideo.parentNode.style.backgroundPosition = 'center';
-                            }
-                
+                });
+            }
+        });
+        
         // Pause video when not in viewport to improve performance
         const videoObserver = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
                     heroVideo.play().catch(e => {
                         console.log('Autoplay was prevented.');
-                                    } else {
+                    });
+                } else {
                     heroVideo.pause();
                 }
-                    }, { threshold: 0.1         
+            });
+        }, { threshold: 0.1 });
+        
         videoObserver.observe(heroVideo);
     }
     
