@@ -50,8 +50,11 @@ document.addEventListener('DOMContentLoaded', function() {
       renderBlogCards('all');
     }
     loadBlogPosts();
-            if (currentAudio && currentAudio !== player.audio) {
-              currentAudio.pause();
+
+// ===== Section Reveal on Scroll =====
+    const revealSections = document.querySelectorAll('section');
+    const revealObserver = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
 
     // ===== Section Reveal on Scroll =====
     const revealSections = document.querySelectorAll('section');
