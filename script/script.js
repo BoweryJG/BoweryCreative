@@ -51,11 +51,6 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     loadBlogPosts();
 
-// ===== Section Reveal on Scroll =====
-    const revealSections = document.querySelectorAll('section');
-    const revealObserver = new IntersectionObserver((entries) => {
-        entries.forEach((entry) => {
-
     // ===== Section Reveal on Scroll =====
     const revealSections = document.querySelectorAll('section');
     const revealObserver = new IntersectionObserver((entries) => {
@@ -75,6 +70,9 @@ document.addEventListener('DOMContentLoaded', function() {
         parallaxEls.forEach((el, i) => {
             const speed = el.dataset.speed ? parseFloat(el.dataset.speed) : 0.3 + i * 0.1;
             el.style.transform = `translateY(${scrollY * speed}px)`;
+        });
+    });
+
             
     // ===== Infinite Client Logo Carousel =====
     const carousel = document.getElementById('clientCarousel');
