@@ -56,12 +56,14 @@ document.addEventListener('DOMContentLoaded', function() {
     // ===== Section Reveal on Scroll =====
     const revealSections = document.querySelectorAll('section');
     const revealObserver = new IntersectionObserver((entries) => {
-        entries.forEach(entry => {
+        entries.forEach((entry) => {
             if (entry.isIntersecting) {
                 entry.target.classList.add('visible');
                 revealObserver.unobserve(entry.target);
             }
-            }, { threshold: 0.18     revealSections.forEach(section => revealObserver.observe(section));
+        });
+    }, { threshold: 0.18 });
+    revealSections.forEach((section) => revealObserver.observe(section));
 
     // ===== Parallax Effect for .parallax Elements =====
     const parallaxEls = document.querySelectorAll('.parallax');
@@ -79,10 +81,9 @@ document.addEventListener('DOMContentLoaded', function() {
         slides.forEach(slide => {
             const clone = slide.cloneNode(true);
             carousel.appendChild(clone);
-                // Animation handled via CSS. Pause on hover is already in CSS.
+        });
     }
 
-    
     // ===== Header Scroll Effect =====
     const header = document.querySelector('.header');
     window.addEventListener('scroll', function() {
@@ -108,10 +109,12 @@ document.addEventListener('DOMContentLoaded', function() {
             menuToggle.classList.remove('active');
             mobileMenu.classList.remove('active');
             document.body.classList.remove('menu-open');
-                
+        });
+    });
+
     // ===== Animated Statistics =====
     const stats = document.querySelectorAll('.stat-number');
-    
+
     function animateStats() {
         stats.forEach(stat => {
             const target = parseInt(stat.getAttribute('data-count'));
@@ -127,52 +130,16 @@ document.addEventListener('DOMContentLoaded', function() {
                     stat.textContent = target;
                     clearInterval(timer);
                 }
-            }, 10);
-            }
-    
+            }, 130);
+        });
+    }
+
     // Start animation when stats section is in view
     const statsSection = document.querySelector('.stats');
-    if (statsSection) {
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    animateStats();
-                    observer.unobserve(entry.target);
-                }
-                    }, { threshold: 0.5         
-        observer.observe(statsSection);
-    }
-    
-    // ===== Work Filters =====
-    const filterBtns = document.querySelectorAll('.filter-btn');
-    const workItems = document.querySelectorAll('.work-item');
-    
-    filterBtns.forEach(btn => {
-        btn.addEventListener('click', function() {
-            // Remove active class from all buttons
-            filterBtns.forEach(b => b.classList.remove('active'));
-            // Add active class to current button
-            this.classList.add('active');
-            
-            const filterValue = this.getAttribute('data-filter');
-            
-            workItems.forEach(item => {
-                if (filterValue === 'all') {
                     item.style.display = 'block';
                 } else {
-                    const categories = item.getAttribute('data-category').split(' ');
-                    if (categories.includes(filterValue)) {
-                        item.style.display = 'block';
-                    } else {
-                        item.style.display = 'none';
-                    }
+                    item.style.display = 'none';
                 }
-                            
-    // ===== Sphere Suite Tabs =====
-    const tabBtns = document.querySelectorAll('.tab-btn');
-    const tabPanes = document.querySelectorAll('.tab-pane');
-    
-    tabBtns.forEach(btn => {
         btn.addEventListener('click', function() {
             // Remove active class from all buttons and panes
             tabBtns.forEach(b => b.classList.remove('active'));
@@ -446,11 +413,13 @@ document.addEventListener('DOMContentLoaded', function() {
                     img.removeAttribute('data-src');
                     imageObserver.unobserve(img);
                 }
-                    }, { threshold: 0.1, rootMargin: '200px'         
-        lazyImages.forEach(img => {
+            });
+        }, { threshold: 0.1, rootMargin: '200px' });
+        lazyImages.forEach((img) => {
             imageObserver.observe(img);
-            }
-    
+        });
+    }
+
     // ===== Dynamic Copyright Year =====
     const copyrightYear = document.querySelector('.copyright p');
     
@@ -467,7 +436,9 @@ document.addEventListener('DOMContentLoaded', function() {
         document.querySelectorAll('.parallax').forEach(element => {
             const speed = element.getAttribute('data-speed') || 0.5;
             element.style.transform = `translateY(${scrollPosition * speed}px)`;
-                
+        });
+    });
+    
     // ===== Scroll to Top Button =====
     const scrollTopBtn = document.createElement('button');
     scrollTopBtn.className = 'scroll-top-btn';
@@ -481,13 +452,16 @@ document.addEventListener('DOMContentLoaded', function() {
         } else {
             scrollTopBtn.classList.remove('visible');
         }
-        
+    });
+
     // Scroll to top when button is clicked
     scrollTopBtn.addEventListener('click', function() {
         window.scrollTo({
             top: 0,
             behavior: 'smooth'
-                
+        });
+    });
+
     // ===== Page Loading Animation =====
     window.addEventListener('load', function() {
         const loader = document.querySelector('.page-loader');
@@ -504,7 +478,9 @@ document.addEventListener('DOMContentLoaded', function() {
             setTimeout(() => {
                 el.classList.add('revealed');
             }, 200 * index);
-                
+        });
+    });
+
     // ===== Responsive Video Embeds =====
     document.querySelectorAll('iframe').forEach(iframe => {
         if (iframe.getAttribute('src') && 
@@ -526,11 +502,14 @@ document.addEventListener('DOMContentLoaded', function() {
     document.addEventListener('mousemove', e => {
         cursor.style.left = e.clientX + 'px';
         cursor.style.top = e.clientY + 'px';
-        
+    });
+
     document.querySelectorAll('a, button, .interactive').forEach(el => {
         el.addEventListener('mouseenter', () => {
             cursor.classList.add('expanded');
-                
+        });
         el.addEventListener('mouseleave', () => {
             cursor.classList.remove('expanded');
-            
+        });
+    });
+});
