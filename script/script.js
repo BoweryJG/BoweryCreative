@@ -440,7 +440,6 @@ document.addEventListener('DOMContentLoaded', function() {
             imageObserver.observe(img);
         });
     }
-}
 
     // ===== Dynamic Copyright Year =====
     const copyrightYear = document.querySelector('.copyright p');
