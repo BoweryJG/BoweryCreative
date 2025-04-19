@@ -136,22 +136,24 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // Start animation when stats section is in view
     const statsSection = document.querySelector('.stats');
-                    item.style.display = 'block';
-                } else {
-                    item.style.display = 'none';
-                }
+
+    // ===== Sphere Suite Tabs =====
+    const tabBtns = document.querySelectorAll('.tab-btn');
+    const tabPanes = document.querySelectorAll('.tab-pane');
+
+    tabBtns.forEach(btn => {
         btn.addEventListener('click', function() {
             // Remove active class from all buttons and panes
             tabBtns.forEach(b => b.classList.remove('active'));
             tabPanes.forEach(p => p.classList.remove('active'));
-            
             // Add active class to current button
             this.classList.add('active');
-            
             // Show the corresponding tab pane
             const tabId = this.getAttribute('data-tab');
             document.getElementById(`${tabId}-tab`).classList.add('active');
-                
+        });
+    });
+
     // ===== Testimonial Slider =====
     const testimonialSlides = document.querySelectorAll('.testimonial-slide');
     const prevBtn = document.querySelector('.testimonial-prev');

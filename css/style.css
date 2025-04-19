@@ -856,6 +856,11 @@ section {
   position: relative;
 }
 
+/* Add extra space after last nav item (Members) before Get in Touch */
+.main-nav ul li:last-child {
+  margin-right: 2.5rem;
+}
+
 .main-nav ul li a {
   color: var(--primary-color);
   font-weight: 500;
