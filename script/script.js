@@ -537,5 +537,5 @@ document.addEventListener('DOMContentLoaded', function() {
             cursor.classList.remove('expanded');
         });
     });
-
+}
 }); // <-- This closes the DOMContentLoaded event listener
