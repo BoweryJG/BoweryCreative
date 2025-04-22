@@ -1119,10 +1119,16 @@ section {
 
 .logo-slider {
   display: flex;
+  flex-direction: row;
   flex-wrap: nowrap;
-  overflow: hidden;
+  overflow-x: auto;
+  overflow-y: hidden;
   align-items: center;
-  animation: slideLogos 20s linear infinite;
+  gap: 2.5rem;
+  width: 100%;
+  padding: 1.5rem 0;
+  scrollbar-width: thin;
+  scrollbar-color: var(--accent-color) var(--gray-200);
 }
 
 .logo-slide {
