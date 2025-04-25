@@ -55,6 +55,36 @@ document.addEventListener('DOMContentLoaded', function() {
     
     loadBlogPosts();
 
+    // ===== Dynamic Podcast Section via Supabase =====
+    async function loadPodcasts() {
+        const podcastGrid = document.getElementById('podcastGrid');
+        if (!podcastGrid) return;
+        let { data: podcasts, error } = await supabase
+            .from('podcasts')
+            .select('*')
+            .order('title', { ascending: false });
+        if (error) {
+            podcastGrid.innerHTML = '<div class="error">Failed to load podcasts.</div>';
+            return;
+        }
+        podcastGrid.innerHTML = '';
+        podcasts.forEach(podcast => {
+            const card = document.createElement('article');
+            card.className = 'podcast-card fade-in';
+            card.innerHTML = `
+                <img src="${podcast.image_url || 'img/podcast/default-podcast.jpg'}" alt="${podcast.title}" class="podcast-img">
+                <div class="podcast-content">
+                    <h3>${podcast.title}</h3>
+                    <p>${podcast.description || ''}</p>
+                    <div class="podcast-meta">${podcast.author ? 'By ' + podcast.author : ''}</div>
+                    <audio controls src="${podcast.audio_url}" class="podcast-audio">Your browser does not support the audio element.</audio>
+                </div>
+            `;
+            podcastGrid.appendChild(card);
+        });
+    }
+    loadPodcasts();
+
     // ===== Section Reveal on Scroll =====
     const revealSections = document.querySelectorAll('section');
     const revealObserver = new IntersectionObserver((entries) => {
