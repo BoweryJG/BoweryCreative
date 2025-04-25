@@ -4,47 +4,6 @@
  */
 
 document.addEventListener('DOMContentLoaded', function() {
-        }
-        if (!podcastGrid) {
-            console.error('Podcast grid element not found');
-            return;
-        }
-        let { data: podcasts, error } = await supabase
-            .from('podcasts')
-            .select('*')
-            .order('title', { ascending: false });
-        console.log("Supabase podcasts data:", podcasts, "Error:", error);
-        if (error) {
-            podcastGrid.innerHTML = '<div class="error">Failed to load podcasts: ' + error.message + '</div>';
-            return;
-        }
-        if (!podcasts || podcasts.length === 0) {
-            podcastGrid.innerHTML = '<div class="error">No podcasts found.</div>';
-            return;
-        }
-        podcastGrid.innerHTML = '';
-        podcasts.forEach(podcast => {
-            const card = document.createElement('article');
-            card.className = 'podcast-card fade-in';
-            card.innerHTML = `
-                <img src="${podcast.image_url || 'img/podcast/default-podcast.jpg'}" alt="${podcast.title}" class="podcast-img">
-                <div class="podcast-content">
-                    <h3>${podcast.title}</h3>
-                    <p>${podcast.description || ''}</p>
-                    <div class="podcast-meta">${podcast.author ? 'By ' + podcast.author : ''}</div>
-                    <audio controls src="${podcast.audio_url}" class="podcast-audio">Your browser does not support the audio element.</audio>
-                </div>
-            `;
-            podcastGrid.appendChild(card);
-        });
-    }
-    // Ensure loadPodcasts runs after DOM and Supabase client are loaded
-    if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', loadPodcasts);
-    } else {
-        loadPodcasts();
-    }
-
     // ===== Section Reveal on Scroll =====
     const revealSections = document.querySelectorAll('section');
     const revealObserver = new IntersectionObserver((entries) => {
