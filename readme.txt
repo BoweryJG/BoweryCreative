@@ -100,7 +100,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
     
-    // ===== Sphere Suite Tabs =====
+    // ===== Sphere OS Tabs =====
     const tabBtns = document.querySelectorAll('.tab-btn');
     const tabPanes = document.querySelectorAll('.tab-pane');
     
@@ -219,7 +219,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 const botResponses = [
                     "Thanks for your message! One of our team members will get back to you shortly.",
                     "I'd be happy to help with that. Would you like to schedule a consultation?",
-                    "Great question! Our Sphere Suite offers AI-driven solutions for the aesthetics industry.",
+                    "Great question! Our Sphere OS offers AI-driven solutions for the aesthetics industry.",
                     "Would you like to learn more about our services or see some case studies?"
                 ];
                 
