@@ -844,13 +844,13 @@ section {
   background-color: var(--primary-color);
   z-index: 1000;
   transition: background-color var(--transition-normal);
-  padding: var(--spacing-md) 0;
+  padding: 0.5rem 0;
 }
 
 .header.scrolled {
   background-color: #06162e !important;
   box-shadow: 0 2px 16px rgba(10,35,66,0.18);
-  padding: var(--spacing-sm) 0;
+  padding: 0.25rem 0;
 }
 
 .header, .header.scrolled {
