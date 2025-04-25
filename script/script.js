@@ -58,10 +58,10 @@ document.addEventListener('DOMContentLoaded', function() {
     // ===== Dynamic Podcast Section via Supabase =====
     async function loadPodcasts() {
         // Debug: Check Supabase client and DOM
-        console.log("Supabase object:", window.supabase);
+        console.log("Supabase object:", supabase);
         const podcastGrid = document.getElementById('podcastGrid');
         console.log("Podcast grid:", podcastGrid);
-        if (!window.supabase) {
+        if (!supabase) {
             if (podcastGrid) podcastGrid.innerHTML = '<div class="error">Supabase client not loaded. Check script order.</div>';
             return;
         }
@@ -69,7 +69,7 @@ document.addEventListener('DOMContentLoaded', function() {
             console.error('Podcast grid element not found');
             return;
         }
-        let { data: podcasts, error } = await window.supabase
+        let { data: podcasts, error } = await supabase
             .from('podcasts')
             .select('*')
             .order('title', { ascending: false });
