@@ -27,7 +27,7 @@
   <!-- Hero Banner -->
   <section class="hero-banner blog-hero">
     <div class="hero-content">
-      <h1>Insights & Stories</h1>
+      <h1>Blog</h1>
       <p>Latest news, trends, and strategies from Bowery’s creative team.</p>
     </div>
     <svg class="hero-divider" viewBox="0 0 1440 120" fill="none" xmlns="http://www.w3.org/2000/svg"><path fill-opacity="0.7" d="M0,120 C480,0 960,120 1440,0 L1440,120 L0,120 Z" fill="#21709e"/></svg>
@@ -37,27 +37,18 @@
   <div class="container">
     <div class="section-header">
       <h2>Latest Blog Posts</h2>
-      <p>Insights, stories, and strategies from the Bowery Creative team</p>
+      <p>Latest news, trends, and strategies from Bowery’s creative team.</p>
     </div>
-    <div class="blog-grid">
-  <!-- Blog post cards copied from index.html -->
-  <!-- Example:
-  <div class="blog-card">
-    <img src="img/blog/blog-1.jpg" alt="Blog Post 1">
-    <div class="blog-info">
-      <h3>Blog Post Title</h3>
-      <p>Short summary of the blog post...</p>
-      <a href="#" class="btn btn-secondary">Read More</a>
+    <div class="blog-grid" id="blogGrid">
+      <!-- Blog cards will be dynamically loaded here by JS -->
     </div>
-  </div>
-  ...
-  -->
-</div>
   </div>
 </section>
   </main>
   <footer class="footer">
     <p>&copy; 2025 Bowery. All rights reserved.</p>
   </footer>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+  <script src="script/blog.js"></script>
 </body>
 </html>
