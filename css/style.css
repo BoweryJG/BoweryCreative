@@ -832,7 +832,7 @@ section {
   top: 0;
   left: 0;
   width: 100%;
-  background-color: transparent;
+  background-color: var(--primary-color);
   z-index: 1000;
   transition: background-color var(--transition-normal);
   padding: var(--spacing-md) 0;
