@@ -57,14 +57,29 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // ===== Dynamic Podcast Section via Supabase =====
     async function loadPodcasts() {
+        // Debug: Check Supabase client and DOM
+        console.log("Supabase object:", window.supabase);
         const podcastGrid = document.getElementById('podcastGrid');
-        if (!podcastGrid) return;
-        let { data: podcasts, error } = await supabase
+        console.log("Podcast grid:", podcastGrid);
+        if (!window.supabase) {
+            if (podcastGrid) podcastGrid.innerHTML = '<div class="error">Supabase client not loaded. Check script order.</div>';
+            return;
+        }
+        if (!podcastGrid) {
+            console.error('Podcast grid element not found');
+            return;
+        }
+        let { data: podcasts, error } = await window.supabase
             .from('podcasts')
             .select('*')
             .order('title', { ascending: false });
+        console.log("Supabase podcasts data:", podcasts, "Error:", error);
         if (error) {
-            podcastGrid.innerHTML = '<div class="error">Failed to load podcasts.</div>';
+            podcastGrid.innerHTML = '<div class="error">Failed to load podcasts: ' + error.message + '</div>';
+            return;
+        }
+        if (!podcasts || podcasts.length === 0) {
+            podcastGrid.innerHTML = '<div class="error">No podcasts found.</div>';
             return;
         }
         podcastGrid.innerHTML = '';
@@ -83,7 +98,12 @@ document.addEventListener('DOMContentLoaded', function() {
             podcastGrid.appendChild(card);
         });
     }
-    loadPodcasts();
+    // Ensure loadPodcasts runs after DOM and Supabase client are loaded
+    if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', loadPodcasts);
+    } else {
+        loadPodcasts();
+    }
 
     // ===== Section Reveal on Scroll =====
     const revealSections = document.querySelectorAll('section');
