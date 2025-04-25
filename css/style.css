@@ -379,30 +379,35 @@ body::before {
   border-radius: 2rem;
   padding: 0.9rem 2.2rem;
   font-size: 1.15rem;
-  font-weight: 700;
+  font-weight: 800;
   letter-spacing: 0.04em;
   cursor: pointer;
   transition: background 0.2s, box-shadow 0.2s, transform 0.15s;
   box-shadow: 0 6px 24px 0 rgba(10,35,66,0.20), 0 1.5px 4px 0 rgba(0,0,0,0.12);
   position: relative;
   overflow: hidden;
+  color: #fff !important;
+  text-shadow: 0 2px 8px rgba(10,35,66,0.22), 0 1px 2px rgba(0,0,0,0.14);
 }
+
 
 .btn-primary {
   background: linear-gradient(90deg, #FF585D 80%, #F5B841 100%);
   color: #fff !important;
   border: 2px solid #FF585D;
   box-shadow: 0 8px 32px 0 rgba(255,88,93,0.22), 0 2px 8px 0 rgba(0,0,0,0.14);
-  text-shadow: 0 1px 2px rgba(0,0,0,0.10);
+  text-shadow: 0 2px 8px rgba(10,35,66,0.18), 0 1px 2px rgba(0,0,0,0.14);
 }
+
 
 .btn-secondary {
   background: linear-gradient(90deg, #1CADE4 80%, #0A2342 100%);
   color: #fff !important;
   border: 2px solid #1CADE4;
   box-shadow: 0 8px 32px 0 rgba(28,173,228,0.22), 0 2px 8px 0 rgba(0,0,0,0.14);
-  text-shadow: 0 1px 2px rgba(0,0,0,0.10);
+  text-shadow: 0 2px 8px rgba(10,35,66,0.18), 0 1px 2px rgba(0,0,0,0.14);
 }
+
 
 .btn:hover, .btn-primary:hover, .btn-secondary:hover {
   transform: scale(1.05) translateY(-2px);
@@ -810,6 +815,10 @@ section {
 }
 
 .btn-tertiary {
+  color: #fff !important;
+  font-weight: 800;
+  text-shadow: 0 2px 8px rgba(10,35,66,0.22), 0 1px 2px rgba(0,0,0,0.14);
+
   background-color: transparent;
   color: var(--primary-color);
   border: 1px solid var(--gray-300);
@@ -839,10 +848,27 @@ section {
 }
 
 .header.scrolled {
-  background-color: #0a2342 !important;
-  box-shadow: var(--box-shadow-md);
+  background-color: #06162e !important;
+  box-shadow: 0 2px 16px rgba(10,35,66,0.18);
   padding: var(--spacing-sm) 0;
 }
+
+.header, .header.scrolled {
+  background-color: #0a2342;
+}
+
+.header .main-nav ul li a {
+  color: #fff !important;
+  font-weight: 700;
+  text-shadow: 0 2px 8px rgba(10,35,66,0.18), 0 1px 2px rgba(0,0,0,0.14);
+  letter-spacing: 0.02em;
+}
+
+.header .main-nav ul li a:hover, .header .main-nav ul li a:focus {
+  color: #ffb841 !important;
+  text-shadow: 0 2px 8px rgba(255,184,65,0.22), 0 1px 2px rgba(0,0,0,0.14);
+}
+
 
 /* Ensure podcast cards display properly */
 .podcast-grid {
