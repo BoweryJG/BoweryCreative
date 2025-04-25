@@ -521,6 +521,35 @@ document.addEventListener('DOMContentLoaded', function() {
         copyrightYear.innerHTML = copyrightYear.innerHTML.replace('2025', currentYear);
     }
     
+    // ===== Animate City Procedure Counters =====
+    function animateProcedureCounter(id, start, end, duration) {
+        const el = document.getElementById(id);
+        if (!el) return;
+        let startTime = null;
+        function animateStep(timestamp) {
+            if (!startTime) startTime = timestamp;
+            const progress = Math.min((timestamp - startTime) / duration, 1);
+            const value = Math.floor(progress * (end - start) + start);
+            el.textContent = value.toLocaleString();
+            if (progress < 1) {
+                requestAnimationFrame(animateStep);
+            } else {
+                el.textContent = end.toLocaleString();
+            }
+        }
+        requestAnimationFrame(animateStep);
+    }
+
+    function animateAllProcedureCounters() {
+        animateProcedureCounter('nyc-procedures', 9800, 10000, 2500);
+        animateProcedureCounter('atl-procedures', 4700, 5000, 2300);
+        animateProcedureCounter('ca-procedures', 48000, 50000, 2700);
+    }
+
+    // Animate on load and every 10 seconds for dynamic effect
+    animateAllProcedureCounters();
+    setInterval(animateAllProcedureCounters, 10000);
+
     // ===== Scroll to Top Button =====
     const scrollTopBtn = document.createElement('button');
     scrollTopBtn.className = 'scroll-top-btn';
