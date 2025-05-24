@@ -1,9 +1,24 @@
 import express from 'express';
 import axios from 'axios';
+import { google } from 'googleapis';
+import path from 'path';
+import { fileURLToPath } from 'url';
 
 const app = express();
 app.use(express.json());
 const PORT = process.env.PORT || 3001;
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
+
+function adminAuth(req, res, next) {
+  const header = req.headers.authorization || '';
+  const token = header.startsWith('Bearer ') ? header.slice(7) : header;
+  if (process.env.ADMIN_TOKEN && token === process.env.ADMIN_TOKEN) {
+    return next();
+  }
+  res.status(401).send('Unauthorized');
+}
+
+app.use('/admin', adminAuth, express.static(path.join(__dirname, 'admin')));
 
 // --- TOOL SYSTEM ---
 const tools = {
@@ -41,6 +56,31 @@ app.post('/agent', async (req, res) => {
     res.json({ ok: true, result });
   } catch (err) {
     res.status(500).json({ ok: false, error: err.message });
+  }
+});
+
+app.get('/admin/analytics', adminAuth, async (req, res) => {
+  try {
+    const auth = new google.auth.GoogleAuth({
+      credentials: JSON.parse(process.env.GA_CREDENTIALS || '{}'),
+      scopes: ['https://www.googleapis.com/auth/analytics.readonly'],
+    });
+    const analytics = google.analyticsdata({
+      version: 'v1beta',
+      auth: await auth.getClient(),
+    });
+    const propertyId = process.env.GA_PROPERTY_ID;
+    const response = await analytics.properties.runReport({
+      property: `properties/${propertyId}`,
+      requestBody: {
+        dateRanges: [{ startDate: '7daysAgo', endDate: 'today' }],
+        metrics: [{ name: 'activeUsers' }, { name: 'newUsers' }],
+      },
+    });
+    res.json(response.data);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: 'Failed to fetch analytics' });
   }
 });
 
