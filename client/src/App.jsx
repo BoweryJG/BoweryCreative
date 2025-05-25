@@ -17,10 +17,10 @@ export default function App() {
       </AppBar>
       <Container sx={{ mt: 4 }}>
         <Typography variant="h3" component="h1" gutterBottom>
-          Welcome to Bowery Creative
+          Award-Winning Digital Experiences
         </Typography>
         <Typography variant="body1">
-          This React version uses Material-UI for a modern look and feel. Explore our services and discover how we can elevate your brand with AI-driven creative solutions.
+          Our React front end is built with Material-UI to showcase cutting edge design. Explore how our AI-driven solutions generate billions in value.
         </Typography>
       </Container>
     </>

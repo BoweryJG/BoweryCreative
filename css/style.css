@@ -456,9 +456,9 @@ body::before {
 }
 
 .hero-content h1.animate-text {
-  font-size: 3.7rem;
+  font-size: 3.9rem;
   font-weight: 900;
-  background: linear-gradient(90deg, #fff 60%, var(--highlight-color) 100%);
+  background: linear-gradient(90deg, var(--accent-color), var(--highlight-color));
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   text-shadow: 0 6px 36px rgba(245,184,65,0.22);
@@ -474,10 +474,10 @@ body::before {
 
 .hero-subtitle {
   color: #fff;
-  font-size: 1.45rem;
+  font-size: 1.55rem;
   margin-bottom: 2.5rem;
   font-weight: 500;
-  opacity: 0.93;
+  opacity: 0.95;
   animation: fadeInUp 1.2s cubic-bezier(.42,0,.58,1) 0.5s both;
 }
 
