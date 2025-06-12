@@ -74,15 +74,15 @@ export const SphereOS: React.FC = () => {
   const [activeModule, setActiveModule] = useState(sphereModules[0]);
 
   return (
-    <AnimatedSection className="section-padding bg-gradient-blue">
-      <div className="container-luxury">
+    <AnimatedSection className="section-padding bg-gradient-soft">
+      <div className="container-elegant">
         {/* Section Header */}
         <div className="text-center mb-16">
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="text-luxury-gold text-sm font-medium tracking-[0.3em] uppercase mb-4"
+            className="text-elegant-accent text-sm font-medium tracking-[0.3em] uppercase mb-4"
           >
             Technology Platform
           </motion.p>
@@ -91,7 +91,7 @@ export const SphereOS: React.FC = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.1 }}
-            className="text-4xl md:text-5xl lg:text-6xl font-display font-light text-luxury-white mb-6"
+            className="text-4xl md:text-5xl lg:text-6xl font-display font-light text-elegant-dark mb-6"
           >
             Sphere OS
           </motion.h2>
@@ -100,7 +100,7 @@ export const SphereOS: React.FC = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.2 }}
-            className="text-xl text-luxury-white/60 max-w-3xl mx-auto"
+            className="text-xl text-elegant-dark/60 max-w-3xl mx-auto"
           >
             The industry's most advanced AI platform for medical aesthetics
           </motion.p>
@@ -119,8 +119,8 @@ export const SphereOS: React.FC = () => {
               onClick={() => setActiveModule(module)}
               className={`px-6 py-3 rounded-full font-medium transition-all duration-300 ${
                 activeModule.id === module.id
-                  ? 'bg-luxury-gold text-luxury-black'
-                  : 'bg-luxury-white/10 text-luxury-white hover:bg-luxury-white/20'
+                  ? 'bg-elegant-accent text-elegant-white'
+                  : 'bg-elegant-dark/10 text-elegant-dark hover:bg-elegant-dark/20'
               }`}
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
@@ -150,18 +150,18 @@ export const SphereOS: React.FC = () => {
                     initial={{ scale: 0.8, opacity: 0 }}
                     animate={{ scale: 1, opacity: 1 }}
                     transition={{ delay: 0.2 }}
-                    className="w-20 h-20 rounded-2xl bg-luxury-gold/10 flex items-center justify-center mb-8"
+                    className="w-20 h-20 rounded-2xl bg-elegant-accent/10 flex items-center justify-center mb-8"
                   >
-                    <activeModule.icon className="w-10 h-10 text-luxury-gold" />
+                    <activeModule.icon className="w-10 h-10 text-elegant-accent" />
                   </motion.div>
 
-                  <h3 className="text-3xl font-display font-medium text-luxury-white mb-2">
+                  <h3 className="text-3xl font-display font-medium text-elegant-dark mb-2">
                     {activeModule.title}
                   </h3>
-                  <p className="text-luxury-gold text-lg mb-4">
+                  <p className="text-elegant-accent text-lg mb-4">
                     {activeModule.subtitle}
                   </p>
-                  <p className="text-luxury-white/70 mb-8">
+                  <p className="text-elegant-dark/70 mb-8">
                     {activeModule.description}
                   </p>
 
@@ -175,19 +175,19 @@ export const SphereOS: React.FC = () => {
                         transition={{ delay: 0.3 + idx * 0.1 }}
                         className="flex items-center"
                       >
-                        <CheckCircle className="w-5 h-5 text-luxury-gold mr-3 flex-shrink-0" />
-                        <span className="text-luxury-white/80">{feature}</span>
+                        <CheckCircle className="w-5 h-5 text-elegant-accent mr-3 flex-shrink-0" />
+                        <span className="text-elegant-dark/80">{feature}</span>
                       </motion.div>
                     ))}
                   </div>
 
                   {/* Stats */}
-                  <div className="flex items-center justify-between pt-8 border-t border-luxury-white/10">
+                  <div className="flex items-center justify-between pt-8 border-t border-elegant-dark/10">
                     <div>
-                      <div className="text-3xl font-display font-bold text-luxury-gold">
+                      <div className="text-3xl font-display font-bold text-elegant-accent">
                         {activeModule.stats.metric}
                       </div>
-                      <div className="text-sm text-luxury-white/60">
+                      <div className="text-sm text-elegant-dark/60">
                         {activeModule.stats.label}
                       </div>
                     </div>
@@ -206,15 +206,15 @@ export const SphereOS: React.FC = () => {
                 initial={{ scale: 0.9, opacity: 0 }}
                 animate={{ scale: 1, opacity: 1 }}
                 transition={{ delay: 0.3 }}
-                className="relative aspect-video rounded-2xl overflow-hidden bg-luxury-charcoal/50 backdrop-blur-sm border border-luxury-gold/20"
+                className="relative aspect-video rounded-2xl overflow-hidden bg-elegant-cream/50 backdrop-blur-sm border border-elegant-accent/20"
               >
                 {/* Demo Placeholder */}
                 <div className="absolute inset-0 flex items-center justify-center">
                   <motion.div
                     whileHover={{ scale: 1.1 }}
-                    className="w-20 h-20 rounded-full bg-luxury-gold/20 flex items-center justify-center cursor-pointer group"
+                    className="w-20 h-20 rounded-full bg-elegant-accent/20 flex items-center justify-center cursor-pointer group"
                   >
-                    <Play className="w-8 h-8 text-luxury-gold ml-1 group-hover:text-luxury-white transition-colors" />
+                    <Play className="w-8 h-8 text-elegant-accent ml-1 group-hover:text-elegant-dark transition-colors" />
                   </motion.div>
                 </div>
 
@@ -223,7 +223,7 @@ export const SphereOS: React.FC = () => {
                   <svg className="w-full h-full">
                     <defs>
                       <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
-                        <path d="M 40 0 L 0 0 0 40" fill="none" stroke="currentColor" strokeWidth="0.5" className="text-luxury-gold" />
+                        <path d="M 40 0 L 0 0 0 40" fill="none" stroke="currentColor" strokeWidth="0.5" className="text-elegant-accent" />
                       </pattern>
                     </defs>
                     <rect width="100%" height="100%" fill="url(#grid)" />
@@ -240,7 +240,7 @@ export const SphereOS: React.FC = () => {
                     repeat: Infinity,
                     ease: "easeInOut"
                   }}
-                  className="absolute top-10 right-10 w-32 h-32 rounded-2xl bg-gradient-to-br from-luxury-gold/20 to-transparent backdrop-blur-sm"
+                  className="absolute top-10 right-10 w-32 h-32 rounded-2xl bg-gradient-to-br from-elegant-accent/20 to-transparent backdrop-blur-sm"
                 />
                 <motion.div
                   animate={{
@@ -260,7 +260,7 @@ export const SphereOS: React.FC = () => {
                 initial={{ opacity: 0, scale: 0.8 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ delay: 0.5 }}
-                className="absolute -top-4 -right-4 bg-luxury-gold text-luxury-black px-4 py-2 rounded-full text-sm font-medium flex items-center"
+                className="absolute -top-4 -right-4 bg-elegant-accent text-elegant-white px-4 py-2 rounded-full text-sm font-medium flex items-center"
               >
                 <Zap className="w-4 h-4 mr-1" />
                 Live Demo
@@ -276,7 +276,7 @@ export const SphereOS: React.FC = () => {
           viewport={{ once: true }}
           className="text-center mt-16"
         >
-          <p className="text-luxury-white/60 mb-6">
+          <p className="text-elegant-dark/60 mb-6">
             Experience the power of AI-driven automation
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">

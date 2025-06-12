@@ -26,9 +26,9 @@ export const Card = React.forwardRef<HTMLDivElement, CardProps>(
     };
 
     const gradients = {
-      subtle: 'from-luxury-charcoal/30 to-luxury-black/30',
-      bold: 'from-luxury-gold/20 to-luxury-charcoal/50',
-      dark: 'from-luxury-black to-luxury-charcoal/80',
+      subtle: 'from-elegant-cream/30 to-elegant-white/30',
+      bold: 'from-elegant-accent/20 to-elegant-cream/50',
+      dark: 'from-elegant-white to-elegant-cream/80',
     };
 
     const hoverEffects = {
@@ -43,9 +43,9 @@ export const Card = React.forwardRef<HTMLDivElement, CardProps>(
         className={cn(
           'relative overflow-hidden rounded-lg p-8',
           'bg-gradient-to-br backdrop-blur-sm',
-          'border border-luxury-gold/10',
+          'border border-elegant-accent/10',
           'transition-all duration-500',
-          'hover:border-luxury-gold/30',
+          'hover:border-elegant-accent/30',
           gradients[gradient],
           className
         )}

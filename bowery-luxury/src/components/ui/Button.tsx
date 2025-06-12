@@ -27,9 +27,9 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
     };
 
     const variants = {
-      primary: 'bg-luxury-gold text-luxury-black hover:bg-luxury-gold/90',
-      secondary: 'bg-transparent text-luxury-gold border border-luxury-gold/50 hover:bg-luxury-gold/10',
-      ghost: 'bg-transparent text-luxury-white hover:bg-luxury-white/10',
+      primary: 'bg-elegant-accent text-elegant-white hover:bg-elegant-accent/90',
+      secondary: 'bg-transparent text-elegant-accent border border-elegant-accent/50 hover:bg-elegant-accent/10',
+      ghost: 'bg-transparent text-elegant-dark hover:bg-elegant-dark/10',
     };
 
     const sizes = {

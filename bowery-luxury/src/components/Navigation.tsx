@@ -39,7 +39,7 @@ export const Navigation: React.FC = () => {
         <div className={cn(
           'mx-auto px-6 md:px-8 lg:px-12 max-w-7xl',
           'glass-dark rounded-full',
-          'border border-luxury-gold/10',
+          'border border-elegant-accent/10',
           isScrolled && 'backdrop-blur-xl'
         )}>
           <div className="flex items-center justify-between h-16">
@@ -66,7 +66,7 @@ export const Navigation: React.FC = () => {
                   initial={{ opacity: 0, y: -20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.1 * (index + 1) }}
-                  className="text-luxury-white/80 hover:text-luxury-gold transition-colors duration-300 text-sm font-medium tracking-wide uppercase"
+                  className="text-elegant-dark/80 hover:text-elegant-accent transition-colors duration-300 text-sm font-medium tracking-wide uppercase"
                   whileHover={{ scale: 1.05 }}
                   whileTap={{ scale: 0.95 }}
                 >
@@ -96,7 +96,7 @@ export const Navigation: React.FC = () => {
               animate={{ opacity: 1 }}
               transition={{ delay: 0.3 }}
               onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-              className="lg:hidden text-luxury-white p-2"
+              className="lg:hidden text-elegant-dark p-2"
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
             >
@@ -116,7 +116,7 @@ export const Navigation: React.FC = () => {
             transition={{ type: 'spring', damping: 25, stiffness: 200 }}
             className="fixed inset-0 z-40 lg:hidden"
           >
-            <div className="absolute inset-0 bg-luxury-black/95 backdrop-blur-xl" />
+            <div className="absolute inset-0 bg-elegant-white/95 backdrop-blur-xl" />
             <div className="relative h-full flex flex-col items-center justify-center px-6">
               {navItems.map((item, index) => (
                 <motion.a
@@ -126,7 +126,7 @@ export const Navigation: React.FC = () => {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.1 * index }}
                   onClick={() => setIsMobileMenuOpen(false)}
-                  className="text-luxury-white text-3xl font-display font-light tracking-wider mb-8 hover:text-luxury-gold transition-colors"
+                  className="text-elegant-dark text-3xl font-display font-light tracking-wider mb-8 hover:text-elegant-accent transition-colors"
                 >
                   {item.label}
                 </motion.a>

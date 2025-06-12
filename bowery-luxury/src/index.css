@@ -6,12 +6,12 @@
 
 @layer base {
   :root {
-    --color-luxury-black: 10 10 10;
-    --color-luxury-charcoal: 26 26 26;
-    --color-luxury-gold: 201 169 97;
-    --color-luxury-red: 255 68 68;
-    --color-luxury-white: 245 245 245;
-    --color-luxury-gray: 136 136 136;
+    --color-elegant-white: 255 255 255;
+    --color-elegant-cream: 254 253 251;
+    --color-elegant-gray: 248 249 250;
+    --color-elegant-silver: 233 236 239;
+    --color-elegant-charcoal: 73 80 87;
+    --color-elegant-dark: 33 37 41;
   }
 
   * {
@@ -21,12 +21,12 @@
   }
 
   body {
-    @apply bg-luxury-black text-luxury-white font-body antialiased;
+    @apply bg-elegant-white text-elegant-dark font-body antialiased;
     font-feature-settings: "liga" 1, "calt" 1;
   }
 
   ::selection {
-    @apply bg-luxury-gold/20 text-luxury-white;
+    @apply bg-elegant-accent/10 text-elegant-dark;
   }
 
   /* Custom scrollbar */
@@ -36,61 +36,61 @@
   }
 
   ::-webkit-scrollbar-track {
-    @apply bg-luxury-black;
+    @apply bg-elegant-gray;
   }
 
   ::-webkit-scrollbar-thumb {
-    @apply bg-luxury-gold/30 rounded-full;
+    @apply bg-elegant-accent/30 rounded-full;
     transition: background-color 0.3s ease;
   }
 
   ::-webkit-scrollbar-thumb:hover {
-    @apply bg-luxury-gold/50;
+    @apply bg-elegant-accent/50;
   }
 }
 
 @layer components {
   .glass {
-    @apply backdrop-blur-md bg-white/5 border border-white/10;
+    @apply backdrop-blur-md bg-elegant-white/60 border border-elegant-silver/30;
   }
 
-  .glass-dark {
-    @apply backdrop-blur-md bg-black/30 border border-white/5;
+  .glass-light {
+    @apply backdrop-blur-md bg-elegant-cream/80 border border-elegant-silver/20;
   }
 
   .text-gradient {
-    @apply bg-clip-text text-transparent bg-gradient-to-r from-luxury-gold to-luxury-white;
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-elegant-charcoal to-elegant-accent;
   }
 
-  .btn-luxury {
-    @apply relative overflow-hidden px-8 py-4 font-display font-medium tracking-wider uppercase transition-all duration-300;
-    @apply before:absolute before:inset-0 before:bg-gradient-to-r before:from-luxury-gold before:to-luxury-gold/80;
+  .btn-elegant {
+    @apply relative overflow-hidden px-8 py-4 font-display font-medium tracking-wider transition-all duration-300;
+    @apply before:absolute before:inset-0 before:bg-gradient-to-r before:from-elegant-charcoal before:to-elegant-accent;
     @apply before:transition-transform before:duration-300 before:scale-x-0 before:origin-left hover:before:scale-x-100;
-    @apply border border-luxury-gold/50 hover:border-luxury-gold;
+    @apply border border-elegant-accent/30 hover:border-elegant-charcoal bg-elegant-white text-elegant-dark;
   }
 
-  .card-luxury {
-    @apply relative overflow-hidden rounded-lg p-8;
-    @apply bg-gradient-to-br from-luxury-charcoal/50 to-luxury-black/50;
-    @apply border border-luxury-gold/10 backdrop-blur-sm;
-    @apply transition-all duration-500 hover:border-luxury-gold/30;
-    @apply hover:shadow-[0_0_30px_rgba(201,169,97,0.1)];
+  .card-elegant {
+    @apply relative overflow-hidden rounded-lg p-12;
+    @apply bg-gradient-to-br from-elegant-white to-elegant-cream;
+    @apply border border-elegant-silver backdrop-blur-sm;
+    @apply transition-all duration-500 hover:border-elegant-accent/30;
+    @apply hover:shadow-[0_0_30px_rgba(108,117,125,0.08)];
   }
 
   .section-padding {
-    @apply py-20 md:py-32;
+    @apply py-24 md:py-40;
   }
 
-  .container-luxury {
-    @apply container mx-auto px-6 md:px-8 lg:px-12 max-w-7xl;
+  .container-elegant {
+    @apply container mx-auto px-8 md:px-12 lg:px-16 max-w-6xl;
   }
 
-  .heading-luxury {
+  .heading-elegant {
     @apply font-display font-light tracking-wide;
   }
 
   .magnetic-hover {
-    @apply transition-transform duration-300 hover:scale-105;
+    @apply transition-transform duration-300 hover:scale-[1.02];
   }
 }
 
@@ -107,8 +107,8 @@
     animation-delay: 600ms;
   }
 
-  .text-shadow-luxury {
-    text-shadow: 0 2px 20px rgba(201, 169, 97, 0.3);
+  .text-shadow-elegant {
+    text-shadow: 0 2px 20px rgba(108, 117, 125, 0.1);
   }
 
   .mask-gradient {

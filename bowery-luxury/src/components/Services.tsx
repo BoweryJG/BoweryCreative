@@ -14,66 +14,66 @@ import {
 const services = [
   {
     icon: Palette,
-    title: 'Branding & Creative Strategy',
-    description: 'Craft a distinctive identity that resonates with your elite clientele and sets you apart in the medical aesthetics market.',
+    title: 'Brand Excellence',
+    description: 'Sophisticated brand development that establishes authority and connects with discerning clients.',
     features: [
-      'Brand identity development',
-      'Visual storytelling',
-      'Positioning & messaging',
-      'Creative campaign design'
+      'Strategic brand architecture',
+      'Premium visual identity',
+      'Market positioning',
+      'Creative direction'
     ],
-    color: 'from-luxury-gold/20 to-transparent',
+    color: 'from-elegant-accent/20 to-transparent',
   },
   {
     icon: Brain,
-    title: 'AI & Automation',
-    description: 'Leverage our proprietary Sphere OS platform to automate workflows and unlock AI-driven insights.',
+    title: 'Technology Integration',
+    description: 'Advanced automation and AI-powered solutions that streamline operations and enhance decision-making.',
     features: [
-      'Sphere OS integration',
-      'Custom AI automations',
-      'Intelligent workflows',
-      'Data-driven decisions'
+      'Intelligent automation',
+      'Custom integrations',
+      'Workflow optimization',
+      'Data analytics'
     ],
-    color: 'from-blue-500/20 to-transparent',
+    color: 'from-elegant-charcoal/20 to-transparent',
     featured: true,
   },
   {
     icon: TrendingUp,
-    title: 'Content & Campaigns',
-    description: 'Execute multi-channel campaigns that convert prospects into patients and drive measurable ROI.',
+    title: 'Strategic Marketing',
+    description: 'Comprehensive marketing strategies designed to attract quality leads and drive sustainable growth.',
     features: [
-      'Multi-channel content',
-      'Social media strategy',
-      'Campaign management',
-      'Performance analytics'
+      'Multi-channel strategy',
+      'Content development',
+      'Campaign optimization',
+      'Performance tracking'
     ],
-    color: 'from-emerald-500/20 to-transparent',
+    color: 'from-elegant-soft/20 to-transparent',
   },
   {
     icon: Users,
-    title: 'Education & Training',
-    description: 'Empower your team with industry-leading training and resources to maximize your investment.',
+    title: 'Team Development',
+    description: 'Comprehensive training and development programs that elevate your team\'s expertise and performance.',
     features: [
-      'On-demand modules',
-      'Live workshops',
-      'Certification programs',
-      'Resource library'
+      'Strategic workshops',
+      'Skill development',
+      'Best practices training',
+      'Ongoing support'
     ],
-    color: 'from-purple-500/20 to-transparent',
+    color: 'from-elegant-accent/15 to-transparent',
   },
 ];
 
 export const Services: React.FC = () => {
   return (
-    <AnimatedSection className="section-padding bg-gradient-dark">
-      <div className="container-luxury">
+    <AnimatedSection className="section-padding bg-gradient-light">
+      <div className="container-elegant">
         {/* Section Header */}
         <div className="text-center mb-16">
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="text-luxury-gold text-sm font-medium tracking-[0.3em] uppercase mb-4"
+            className="text-elegant-accent text-sm font-medium tracking-[0.3em] uppercase mb-4"
           >
             Solutions & Services
           </motion.p>
@@ -82,7 +82,7 @@ export const Services: React.FC = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.1 }}
-            className="text-4xl md:text-5xl lg:text-6xl font-display font-light text-luxury-white mb-6"
+            className="text-4xl md:text-5xl lg:text-6xl font-display font-light text-elegant-dark mb-6"
           >
             Comprehensive Solutions
           </motion.h2>
@@ -91,7 +91,7 @@ export const Services: React.FC = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.2 }}
-            className="text-xl text-luxury-white/60 max-w-3xl mx-auto"
+            className="text-xl text-elegant-dark/60 max-w-3xl mx-auto"
           >
             Powered by AI and backed by 15 years of industry expertise
           </motion.p>
@@ -120,16 +120,16 @@ export const Services: React.FC = () => {
                   <motion.div
                     whileHover={{ scale: 1.1, rotate: 360 }}
                     transition={{ duration: 0.5 }}
-                    className="w-16 h-16 rounded-full bg-luxury-gold/10 flex items-center justify-center mb-6 group-hover:bg-luxury-gold/20 transition-colors"
+                    className="w-16 h-16 rounded-full bg-elegant-accent/10 flex items-center justify-center mb-6 group-hover:bg-elegant-accent/20 transition-colors"
                   >
-                    <service.icon className="w-8 h-8 text-luxury-gold" />
+                    <service.icon className="w-8 h-8 text-elegant-accent" />
                   </motion.div>
 
                   {/* Content */}
-                  <h3 className="text-2xl font-display font-medium text-luxury-white mb-4">
+                  <h3 className="text-2xl font-display font-medium text-elegant-dark mb-4">
                     {service.title}
                   </h3>
-                  <p className="text-luxury-white/70 mb-6">
+                  <p className="text-elegant-dark/70 mb-6">
                     {service.description}
                   </p>
 
@@ -142,9 +142,9 @@ export const Services: React.FC = () => {
                         whileInView={{ opacity: 1, x: 0 }}
                         viewport={{ once: true }}
                         transition={{ delay: 0.3 + idx * 0.1 }}
-                        className="flex items-center text-luxury-white/60 text-sm"
+                        className="flex items-center text-elegant-dark/60 text-sm"
                       >
-                        <Sparkles className="w-4 h-4 text-luxury-gold mr-2" />
+                        <Sparkles className="w-4 h-4 text-elegant-accent mr-2" />
                         {feature}
                       </motion.li>
                     ))}
@@ -171,7 +171,7 @@ export const Services: React.FC = () => {
           viewport={{ once: true }}
           className="text-center mt-16"
         >
-          <p className="text-luxury-white/60 mb-6">
+          <p className="text-elegant-dark/60 mb-6">
             Ready to transform your practice?
           </p>
           <Button variant="primary" size="lg">

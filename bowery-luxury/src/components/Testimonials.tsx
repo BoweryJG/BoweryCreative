@@ -61,15 +61,15 @@ export const Testimonials: React.FC = () => {
   };
 
   return (
-    <AnimatedSection className="section-padding bg-gradient-dark">
-      <div className="container-luxury">
+    <AnimatedSection className="section-padding bg-gradient-light">
+      <div className="container-elegant">
         {/* Section Header */}
         <div className="text-center mb-16">
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="text-luxury-gold text-sm font-medium tracking-[0.3em] uppercase mb-4"
+            className="text-elegant-accent text-sm font-medium tracking-[0.3em] uppercase mb-4"
           >
             Client Success
           </motion.p>
@@ -78,7 +78,7 @@ export const Testimonials: React.FC = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.1 }}
-            className="text-4xl md:text-5xl lg:text-6xl font-display font-light text-luxury-white mb-6"
+            className="text-4xl md:text-5xl lg:text-6xl font-display font-light text-elegant-dark mb-6"
           >
             Transformative Results
           </motion.h2>
@@ -87,7 +87,7 @@ export const Testimonials: React.FC = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.2 }}
-            className="text-xl text-luxury-white/60 max-w-3xl mx-auto"
+            className="text-xl text-elegant-dark/60 max-w-3xl mx-auto"
           >
             Hear from industry leaders who have revolutionized their businesses
           </motion.p>
@@ -107,8 +107,8 @@ export const Testimonials: React.FC = () => {
                 <div className="grid md:grid-cols-3 gap-8">
                   {/* Quote Section */}
                   <div className="md:col-span-2">
-                    <Quote className="w-12 h-12 text-luxury-gold/30 mb-6" />
-                    <p className="text-xl md:text-2xl text-luxury-white/90 font-light leading-relaxed mb-8">
+                    <Quote className="w-12 h-12 text-elegant-accent/30 mb-6" />
+                    <p className="text-xl md:text-2xl text-elegant-dark/90 font-light leading-relaxed mb-8">
                       {testimonials[currentIndex].quote}
                     </p>
 
@@ -116,10 +116,10 @@ export const Testimonials: React.FC = () => {
                     <div className="grid grid-cols-3 gap-6">
                       {Object.entries(testimonials[currentIndex].stats).map(([key, value]) => (
                         <div key={key} className="text-center">
-                          <div className="text-2xl md:text-3xl font-display font-bold text-luxury-gold">
+                          <div className="text-2xl md:text-3xl font-display font-bold text-elegant-accent">
                             {value}
                           </div>
-                          <div className="text-sm text-luxury-white/60 capitalize">
+                          <div className="text-sm text-elegant-dark/60 capitalize">
                             {key.replace(/([A-Z])/g, ' $1').trim()}
                           </div>
                         </div>
@@ -133,25 +133,25 @@ export const Testimonials: React.FC = () => {
                       initial={{ scale: 0.8, opacity: 0 }}
                       animate={{ scale: 1, opacity: 1 }}
                       transition={{ delay: 0.2 }}
-                      className="w-32 h-32 rounded-full overflow-hidden mb-6 ring-4 ring-luxury-gold/20"
+                      className="w-32 h-32 rounded-full overflow-hidden mb-6 ring-4 ring-elegant-accent/20"
                     >
-                      <div className="w-full h-full bg-gradient-to-br from-luxury-gold/20 to-luxury-charcoal" />
+                      <div className="w-full h-full bg-gradient-to-br from-elegant-accent/20 to-elegant-cream" />
                     </motion.div>
 
-                    <h4 className="text-xl font-display font-medium text-luxury-white mb-1">
+                    <h4 className="text-xl font-display font-medium text-elegant-dark mb-1">
                       {testimonials[currentIndex].name}
                     </h4>
-                    <p className="text-luxury-gold text-sm mb-1">
+                    <p className="text-elegant-accent text-sm mb-1">
                       {testimonials[currentIndex].role}
                     </p>
-                    <p className="text-luxury-white/60 text-sm mb-4">
+                    <p className="text-elegant-dark/60 text-sm mb-4">
                       {testimonials[currentIndex].company}
                     </p>
 
                     {/* Rating */}
                     <div className="flex gap-1">
                       {Array.from({ length: testimonials[currentIndex].rating }).map((_, i) => (
-                        <Star key={i} className="w-5 h-5 text-luxury-gold fill-current" />
+                        <Star key={i} className="w-5 h-5 text-elegant-accent fill-current" />
                       ))}
                     </div>
                   </div>
@@ -166,9 +166,9 @@ export const Testimonials: React.FC = () => {
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
               onClick={prevTestimonial}
-              className="w-12 h-12 rounded-full bg-luxury-white/10 flex items-center justify-center hover:bg-luxury-white/20 transition-colors"
+              className="w-12 h-12 rounded-full bg-elegant-dark/10 flex items-center justify-center hover:bg-elegant-dark/20 transition-colors"
             >
-              <ChevronLeft className="w-6 h-6 text-luxury-white" />
+              <ChevronLeft className="w-6 h-6 text-elegant-dark" />
             </motion.button>
 
             {/* Dots */}
@@ -179,8 +179,8 @@ export const Testimonials: React.FC = () => {
                   onClick={() => setCurrentIndex(index)}
                   className={`w-2 h-2 rounded-full transition-all duration-300 ${
                     index === currentIndex
-                      ? 'w-8 bg-luxury-gold'
-                      : 'bg-luxury-white/30 hover:bg-luxury-white/50'
+                      ? 'w-8 bg-elegant-accent'
+                      : 'bg-elegant-dark/30 hover:bg-elegant-dark/50'
                   }`}
                 />
               ))}
@@ -190,9 +190,9 @@ export const Testimonials: React.FC = () => {
               whileHover={{ scale: 1.1 }}
               whileTap={{ scale: 0.9 }}
               onClick={nextTestimonial}
-              className="w-12 h-12 rounded-full bg-luxury-white/10 flex items-center justify-center hover:bg-luxury-white/20 transition-colors"
+              className="w-12 h-12 rounded-full bg-elegant-dark/10 flex items-center justify-center hover:bg-elegant-dark/20 transition-colors"
             >
-              <ChevronRight className="w-6 h-6 text-luxury-white" />
+              <ChevronRight className="w-6 h-6 text-elegant-dark" />
             </motion.button>
           </div>
         </div>
@@ -202,12 +202,12 @@ export const Testimonials: React.FC = () => {
           initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-center mt-16 pt-16 border-t border-luxury-white/10"
+          className="text-center mt-16 pt-16 border-t border-elegant-dark/10"
         >
-          <h3 className="text-2xl font-display font-medium text-luxury-white mb-4">
+          <h3 className="text-2xl font-display font-medium text-elegant-dark mb-4">
             Want to see detailed case studies?
           </h3>
-          <p className="text-luxury-white/60 mb-8">
+          <p className="text-elegant-dark/60 mb-8">
             Explore in-depth analyses of our most successful campaigns
           </p>
           <div className="grid md:grid-cols-3 gap-6 max-w-4xl mx-auto">
@@ -218,15 +218,15 @@ export const Testimonials: React.FC = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.1 }}
-                className="glass-dark rounded-lg p-6 hover:bg-luxury-white/10 transition-colors cursor-pointer group"
+                className="glass-dark rounded-lg p-6 hover:bg-elegant-dark/10 transition-colors cursor-pointer group"
               >
-                <h4 className="text-luxury-white mb-2 group-hover:text-luxury-gold transition-colors">
+                <h4 className="text-elegant-dark mb-2 group-hover:text-elegant-accent transition-colors">
                   {study}
                 </h4>
-                <p className="text-sm text-luxury-white/60 mb-4">
+                <p className="text-sm text-elegant-dark/60 mb-4">
                   See how we generated ${(index + 1) * 100}M+ in revenue
                 </p>
-                <span className="text-luxury-gold text-sm font-medium">
+                <span className="text-elegant-accent text-sm font-medium">
                   Read Case Study →
                 </span>
               </motion.div>

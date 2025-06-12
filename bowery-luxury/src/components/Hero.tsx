@@ -14,10 +14,10 @@ export const Hero: React.FC = () => {
   }, []);
 
   const stats = [
-    { value: '15', label: 'Years' },
-    { value: '$3.2B', label: 'Generated' },
-    { value: '847%', label: 'Avg ROI' },
-    { value: '1', label: 'Agency' },
+    { value: '15', label: 'Years Experience' },
+    { value: '200+', label: 'Projects' },
+    { value: '98%', label: 'Client Satisfaction' },
+    { value: '24/7', label: 'Support' },
   ];
 
   return (
@@ -35,11 +35,11 @@ export const Hero: React.FC = () => {
           <source src="/New Smile Guide 2.mov" type="video/quicktime" />
           <source src="/New Smile Guide 2.mp4" type="video/mp4" />
         </video>
-        <div className="absolute inset-0 bg-gradient-to-b from-luxury-black/70 via-luxury-black/50 to-luxury-black" />
+        <div className="absolute inset-0 bg-gradient-to-b from-elegant-white/70 via-elegant-white/50 to-elegant-white" />
       </div>
 
       {/* Content */}
-      <div className="relative z-10 h-full flex flex-col justify-center container-luxury">
+      <div className="relative z-10 h-full flex flex-col justify-center container-elegant">
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -51,7 +51,7 @@ export const Hero: React.FC = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.5 }}
-            className="text-luxury-gold text-sm font-medium tracking-[0.3em] uppercase mb-6"
+            className="text-elegant-accent text-sm font-medium tracking-[0.3em] uppercase mb-6"
           >
             Bowery Creative Agency
           </motion.p>
@@ -60,20 +60,20 @@ export const Hero: React.FC = () => {
           <h1 className="text-5xl md:text-7xl lg:text-8xl font-display font-light leading-tight mb-6">
             <SplitText 
               text="Where Medical Excellence" 
-              className="text-luxury-white"
+              className="text-elegant-dark"
               delay={0.6}
             />
             <SplitText 
               text="Meets Digital Mastery" 
-              className="text-gradient text-shadow-luxury mt-2"
+              className="text-gradient text-shadow-elegant mt-2"
               delay={0.8}
             />
           </h1>
 
           {/* Subheadline */}
           <AnimatedText
-            text="AI-powered campaigns that transform practices and generate extraordinary results"
-            className="text-xl md:text-2xl text-luxury-white/80 font-light max-w-3xl mb-12"
+            text="Sophisticated marketing strategies that elevate your practice through innovative technology and refined creative execution"
+            className="text-xl md:text-2xl text-elegant-dark/80 font-light max-w-3xl mb-12"
             delay={1.2}
           />
 
@@ -100,7 +100,7 @@ export const Hero: React.FC = () => {
           transition={{ delay: 1.8 }}
           className="absolute bottom-20 left-0 right-0"
         >
-          <div className="container-luxury">
+          <div className="container-elegant">
             <div className="glass-dark rounded-2xl p-6 md:p-8">
               <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
                 {stats.map((stat, index) => (
@@ -111,10 +111,10 @@ export const Hero: React.FC = () => {
                     transition={{ delay: 2 + index * 0.1 }}
                     className="text-center"
                   >
-                    <div className="text-3xl md:text-4xl font-display font-bold text-luxury-gold">
+                    <div className="text-3xl md:text-4xl font-display font-bold text-elegant-accent">
                       {stat.value}
                     </div>
-                    <div className="text-sm text-luxury-white/60 uppercase tracking-wider mt-1">
+                    <div className="text-sm text-elegant-dark/60 uppercase tracking-wider mt-1">
                       {stat.label}
                     </div>
                   </motion.div>
@@ -134,7 +134,7 @@ export const Hero: React.FC = () => {
           <motion.div
             animate={{ y: [0, 10, 0] }}
             transition={{ duration: 2, repeat: Infinity }}
-            className="text-luxury-white/60 cursor-pointer"
+            className="text-elegant-dark/60 cursor-pointer"
             onClick={() => window.scrollTo({ top: window.innerHeight, behavior: 'smooth' })}
           >
             <ArrowDown size={24} />

@@ -13,18 +13,18 @@ const clients = [
 
 export const ClientLogos: React.FC = () => {
   return (
-    <section className="py-16 bg-luxury-charcoal/30 backdrop-blur-sm">
-      <div className="container-luxury">
+    <section className="py-16 bg-elegant-cream/30 backdrop-blur-sm">
+      <div className="container-elegant">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           className="text-center mb-12"
         >
-          <p className="text-luxury-gold text-sm font-medium tracking-[0.3em] uppercase mb-2">
+          <p className="text-elegant-accent text-sm font-medium tracking-[0.3em] uppercase mb-2">
             Trusted by Industry Leaders
           </p>
-          <h2 className="text-2xl md:text-3xl font-display font-light text-luxury-white">
+          <h2 className="text-2xl md:text-3xl font-display font-light text-elegant-dark">
             Powering Growth for Global Brands
           </h2>
         </motion.div>
@@ -40,9 +40,9 @@ export const ClientLogos: React.FC = () => {
               transition={{ delay: index * 0.1 }}
               className="relative group"
             >
-              <div className="bg-luxury-white/5 rounded-lg p-6 hover:bg-luxury-white/10 transition-all duration-300 group-hover:scale-105">
-                <div className="w-full h-12 bg-luxury-white/20 rounded opacity-60 group-hover:opacity-100 transition-opacity" />
-                <p className="text-xs text-luxury-white/40 mt-2 text-center">{client.name}</p>
+              <div className="bg-elegant-dark/5 rounded-lg p-6 hover:bg-elegant-dark/10 transition-all duration-300 group-hover:scale-105">
+                <div className="w-full h-12 bg-elegant-dark/20 rounded opacity-60 group-hover:opacity-100 transition-opacity" />
+                <p className="text-xs text-elegant-dark/40 mt-2 text-center">{client.name}</p>
               </div>
             </motion.div>
           ))}
@@ -56,20 +56,20 @@ export const ClientLogos: React.FC = () => {
           className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-8 text-center"
         >
           <div>
-            <div className="text-3xl font-display font-bold text-luxury-gold">500+</div>
-            <div className="text-sm text-luxury-white/60">Campaigns Launched</div>
+            <div className="text-3xl font-display font-bold text-elegant-accent">500+</div>
+            <div className="text-sm text-elegant-dark/60">Campaigns Launched</div>
           </div>
           <div>
-            <div className="text-3xl font-display font-bold text-luxury-gold">$3.2B</div>
-            <div className="text-sm text-luxury-white/60">Revenue Generated</div>
+            <div className="text-3xl font-display font-bold text-elegant-accent">$3.2B</div>
+            <div className="text-sm text-elegant-dark/60">Revenue Generated</div>
           </div>
           <div>
-            <div className="text-3xl font-display font-bold text-luxury-gold">847%</div>
-            <div className="text-sm text-luxury-white/60">Average ROI</div>
+            <div className="text-3xl font-display font-bold text-elegant-accent">847%</div>
+            <div className="text-sm text-elegant-dark/60">Average ROI</div>
           </div>
           <div>
-            <div className="text-3xl font-display font-bold text-luxury-gold">15</div>
-            <div className="text-sm text-luxury-white/60">Years Experience</div>
+            <div className="text-3xl font-display font-bold text-elegant-accent">15</div>
+            <div className="text-sm text-elegant-dark/60">Years Experience</div>
           </div>
         </motion.div>
       </div>
