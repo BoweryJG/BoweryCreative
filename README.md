@@ -1,11 +1,20 @@
 # Bowery Creative Agency
 
-This repository contains the source for the Bowery Creative Agency website and React front end. The site highlights our award‑winning digital experiences powered by AI-driven solutions.
+Sophisticated marketing strategies for medical professionals. This repository contains the elegant React-based website for Bowery Creative Agency.
 
-## Folders
-- **client/**: React + Material UI application
-- **server/**: Express server with admin analytics
-- **static HTML and assets**: Legacy marketing site
+## Overview
+The site features a refined, minimalist design with sophisticated typography and plenty of white space. Built with React, TypeScript, and Tailwind CSS for optimal performance and maintainability.
 
-## Development
-See `client/README.md` and `server/README.md` for instructions on running the front end and server respectively.
+## Technology Stack
+- React 18 with TypeScript
+- Tailwind CSS v3 for styling
+- Framer Motion for animations
+- Vite for fast development and building
+
+## Features
+- Elegant light theme with sophisticated color palette
+- Smooth animations and transitions
+- Mobile-responsive design
+- Optimized performance
+
+Last deployment: January 2025
