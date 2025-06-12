@@ -5,13 +5,10 @@ import { Card } from './ui/Card';
 import { Button } from './ui/Button';
 import { 
   Sparkles, 
-  Zap, 
   TrendingUp, 
   Users,
   Brain,
-  BarChart,
-  Palette,
-  MessageSquare
+  Palette
 } from 'lucide-react';
 
 const services = [

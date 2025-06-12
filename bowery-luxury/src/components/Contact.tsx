@@ -57,7 +57,7 @@ export const Contact: React.FC = () => {
   };
 
   return (
-    <AnimatedSection className="section-padding bg-gradient-blue" id="contact">
+    <AnimatedSection className="section-padding bg-gradient-blue">
       <div className="container-luxury">
         {/* Section Header */}
         <div className="text-center mb-16">

@@ -1,4 +1,4 @@
-import React from 'react';
+import { } from 'react';
 import { Navigation } from './components/Navigation';
 import { Hero } from './components/Hero';
 import { ClientLogos } from './components/ClientLogos';
