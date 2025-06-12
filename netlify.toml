@@ -1,6 +1,8 @@
 [build]
-  # Directory with the build output
-  publish = "/"
+  # Skip the build process - we're deploying pre-built files
+  command = "echo 'No build needed'"
+  publish = "."
+  ignore = "/bin/true"
 
 [[redirects]]
   from = "/*"
