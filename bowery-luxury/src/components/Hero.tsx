@@ -1,6 +1,14 @@
 import React, { useEffect, useState } from 'react';
+import {
+  Box,
+  Container,
+  Typography,
+  Button,
+} from '@mui/material';
+import {
+  KeyboardArrowRight,
+} from '@mui/icons-material';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ParticleBackground } from './ParticleBackground';
 
 export const Hero: React.FC = () => {
   const [currentWord, setCurrentWord] = useState(0);
@@ -14,146 +22,371 @@ export const Hero: React.FC = () => {
   }, [techWords.length]);
 
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-obsidian">
-      {/* Particle Background */}
-      <ParticleBackground />
-      
-      {/* Performance grid overlay */}
-      <div className="absolute inset-0 bg-[url('/grid.png')] opacity-5" />
-      
-      {/* Main Content */}
-      <div className="relative z-10 container-luxury text-center">
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 2 }}
-          className="max-w-7xl mx-auto"
-        >
+    <Box
+      sx={{
+        minHeight: '100vh',
+        display: 'flex',
+        alignItems: 'center',
+        background: 'linear-gradient(135deg, #0A0A0A 0%, #1C1C1C 100%)',
+        position: 'relative',
+        overflow: 'hidden',
+        '&::before': {
+          content: '""',
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          background: 'radial-gradient(circle at 30% 50%, rgba(212, 175, 55, 0.1) 0%, transparent 50%)',
+          zIndex: 1,
+        },
+        '&::after': {
+          content: '""',
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          background: 'radial-gradient(circle at 70% 80%, rgba(0, 128, 255, 0.05) 0%, transparent 50%)',
+          zIndex: 1,
+        }
+      }}
+    >
+      {/* Animated background elements */}
+      <Box
+        sx={{
+          position: 'absolute',
+          inset: 0,
+          zIndex: 2,
+          '& .particle': {
+            position: 'absolute',
+            width: '2px',
+            height: '2px',
+            backgroundColor: '#D4AF37',
+            borderRadius: '50%',
+            opacity: 0.3,
+            animation: 'float 6s ease-in-out infinite',
+            '@keyframes float': {
+              '0%, 100%': { transform: 'translateY(0px)' },
+              '50%': { transform: 'translateY(-20px)' },
+            }
+          }
+        }}
+      >
+        {Array.from({ length: 30 }).map((_, i) => (
+          <Box
+            key={i}
+            className="particle"
+            sx={{
+              left: `${Math.random() * 100}%`,
+              top: `${Math.random() * 100}%`,
+              animationDelay: `${Math.random() * 6}s`,
+            }}
+          />
+        ))}
+      </Box>
+
+      <Container maxWidth="lg" sx={{ position: 'relative', zIndex: 3 }}>
+        <Box textAlign="center">
           {/* Tech label */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3 }}
-            className="flex items-center justify-center gap-4 mb-8"
           >
-            <div className="h-px w-24 bg-champagne" />
-            <p className="text-champagne text-xs tracking-[0.3em] uppercase font-mono">
-              Engineering Tomorrow's Intelligence
-            </p>
-            <div className="h-px w-24 bg-champagne" />
+            <Box
+              sx={{
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                gap: 2,
+                mb: 4,
+              }}
+            >
+              <Box sx={{ height: '1px', width: 60, bgcolor: '#D4AF37' }} />
+              <Typography
+                variant="caption"
+                sx={{
+                  color: '#D4AF37',
+                  letterSpacing: '0.3em',
+                  textTransform: 'uppercase',
+                  fontFamily: 'monospace',
+                  fontWeight: 500,
+                }}
+              >
+                Engineering Tomorrow's Intelligence
+              </Typography>
+              <Box sx={{ height: '1px', width: 60, bgcolor: '#D4AF37' }} />
+            </Box>
           </motion.div>
 
-          {/* Main headline with glitch effect */}
-          <motion.h1
+          {/* Main headline */}
+          <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 0.5, duration: 1.5, ease: [0.16, 1, 0.3, 1] }}
-            className="font-display text-massive font-normal leading-none mb-8 tracking-tech"
+            transition={{ delay: 0.5, duration: 1.5 }}
           >
-            <span className="block text-gradient-gold">BOWERY</span>
-            <span className="block text-arctic mt-4 text-hero">CREATIVE</span>
-          </motion.h1>
+            <Typography
+              variant="h1"
+              sx={{
+                fontSize: { xs: '3rem', md: '6rem', lg: '8rem' },
+                fontWeight: 400,
+                lineHeight: 0.9,
+                mb: 4,
+                background: 'linear-gradient(135deg, #D4AF37 0%, #FFD700 25%, #D4AF37 50%, #B8860B 75%, #D4AF37 100%)',
+                backgroundClip: 'text',
+                WebkitBackgroundClip: 'text',
+                color: 'transparent',
+                backgroundSize: '200% auto',
+                animation: 'shimmer 3s linear infinite',
+                '@keyframes shimmer': {
+                  '0%': { backgroundPosition: '-200% 0' },
+                  '100%': { backgroundPosition: '200% 0' },
+                }
+              }}
+            >
+              BOWERY
+            </Typography>
+            <Typography
+              variant="h1"
+              sx={{
+                fontSize: { xs: '2.5rem', md: '5rem', lg: '6rem' },
+                fontWeight: 400,
+                color: '#FAFAFA',
+                mt: 2,
+                mb: 6,
+              }}
+            >
+              CREATIVE
+            </Typography>
+          </motion.div>
 
           {/* Dynamic tech words */}
-          <div className="h-20 flex items-center justify-center mb-12">
+          <Box sx={{ height: 80, display: 'flex', alignItems: 'center', justifyContent: 'center', mb: 6 }}>
             <AnimatePresence mode="wait">
-              <motion.p
+              <motion.div
                 key={currentWord}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 exit={{ opacity: 0, y: -20 }}
                 transition={{ duration: 0.5 }}
-                className="text-electric text-2xl md:text-3xl font-mono tracking-wide"
-                data-text={techWords[currentWord]}
               >
-                {techWords[currentWord]}
-              </motion.p>
+                <Typography
+                  variant="h4"
+                  sx={{
+                    color: '#0080FF',
+                    fontFamily: 'monospace',
+                    fontWeight: 500,
+                    letterSpacing: '0.1em',
+                  }}
+                >
+                  {techWords[currentWord]}
+                </Typography>
+              </motion.div>
             </AnimatePresence>
-          </div>
+          </Box>
 
           {/* Performance metrics */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 1 }}
-            className="grid grid-cols-3 gap-8 max-w-4xl mx-auto mb-16"
           >
-            <div className="text-center">
-              <p className="text-4xl md:text-5xl font-mono text-champagne mb-2">$5.2B</p>
-              <p className="text-xs uppercase tracking-wide text-racing-silver">Revenue Generated</p>
-            </div>
-            <div className="text-center">
-              <p className="text-4xl md:text-5xl font-mono text-champagne mb-2">98%</p>
-              <p className="text-xs uppercase tracking-wide text-racing-silver">AI Accuracy</p>
-            </div>
-            <div className="text-center">
-              <p className="text-4xl md:text-5xl font-mono text-champagne mb-2">0.3ms</p>
-              <p className="text-xs uppercase tracking-wide text-racing-silver">Response Time</p>
-            </div>
+            <Box
+              sx={{
+                display: 'grid',
+                gridTemplateColumns: 'repeat(3, 1fr)',
+                gap: 4,
+                maxWidth: 800,
+                mx: 'auto',
+                mb: 8,
+              }}
+            >
+              <Box textAlign="center">
+                <Typography
+                  variant="h3"
+                  sx={{
+                    color: '#D4AF37',
+                    fontFamily: 'monospace',
+                    fontWeight: 600,
+                    mb: 1,
+                  }}
+                >
+                  $5.2B
+                </Typography>
+                <Typography
+                  variant="caption"
+                  sx={{
+                    color: '#C0C0C0',
+                    textTransform: 'uppercase',
+                    letterSpacing: '0.1em',
+                  }}
+                >
+                  Revenue Generated
+                </Typography>
+              </Box>
+              <Box textAlign="center">
+                <Typography
+                  variant="h3"
+                  sx={{
+                    color: '#D4AF37',
+                    fontFamily: 'monospace',
+                    fontWeight: 600,
+                    mb: 1,
+                  }}
+                >
+                  98%
+                </Typography>
+                <Typography
+                  variant="caption"
+                  sx={{
+                    color: '#C0C0C0',
+                    textTransform: 'uppercase',
+                    letterSpacing: '0.1em',
+                  }}
+                >
+                  AI Accuracy
+                </Typography>
+              </Box>
+              <Box textAlign="center">
+                <Typography
+                  variant="h3"
+                  sx={{
+                    color: '#D4AF37',
+                    fontFamily: 'monospace',
+                    fontWeight: 600,
+                    mb: 1,
+                  }}
+                >
+                  0.3ms
+                </Typography>
+                <Typography
+                  variant="caption"
+                  sx={{
+                    color: '#C0C0C0',
+                    textTransform: 'uppercase',
+                    letterSpacing: '0.1em',
+                  }}
+                >
+                  Response Time
+                </Typography>
+              </Box>
+            </Box>
           </motion.div>
 
-          {/* Sophisticated subheadline */}
-          <motion.p
+          {/* Subheadline */}
+          <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 1.2 }}
-            className="text-titanium text-xl md:text-2xl font-light max-w-3xl mx-auto mb-16 leading-relaxed"
           >
-            Full-stack development meets artificial intelligence. 
-            <span className="block mt-2 text-racing-silver">
-              Custom AI infrastructure, machine learning solutions, and data synthesis at enterprise scale.
-            </span>
-          </motion.p>
+            <Typography
+              variant="h5"
+              sx={{
+                color: '#E5E5E5',
+                fontWeight: 300,
+                maxWidth: 600,
+                mx: 'auto',
+                mb: 8,
+                lineHeight: 1.6,
+              }}
+            >
+              Full-stack development meets artificial intelligence.
+              <Box component="span" sx={{ display: 'block', mt: 1, color: '#C0C0C0' }}>
+                Custom AI infrastructure, machine learning solutions, and data synthesis at enterprise scale.
+              </Box>
+            </Typography>
+          </motion.div>
 
-          {/* Dual CTAs */}
+          {/* CTAs */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 1.4 }}
-            className="flex flex-col sm:flex-row gap-6 justify-center items-center"
           >
-            <button className="btn-performance group">
-              <span className="relative z-10 flex items-center gap-2">
+            <Box sx={{ display: 'flex', gap: 3, justifyContent: 'center', flexWrap: 'wrap' }}>
+              <Button
+                variant="contained"
+                size="large"
+                endIcon={<KeyboardArrowRight />}
+                sx={{
+                  bgcolor: '#D4AF37',
+                  color: '#0A0A0A',
+                  px: 4,
+                  py: 2,
+                  fontSize: '0.875rem',
+                  fontWeight: 600,
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.1em',
+                  position: 'relative',
+                  overflow: 'hidden',
+                  '&:hover': {
+                    bgcolor: '#0080FF',
+                    color: '#FAFAFA',
+                    transform: 'scale(1.05)',
+                  },
+                  '&::before': {
+                    content: '""',
+                    position: 'absolute',
+                    top: 0,
+                    left: '-100%',
+                    width: '100%',
+                    height: '100%',
+                    background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent)',
+                    transition: 'left 0.5s',
+                  },
+                  '&:hover::before': {
+                    left: '100%',
+                  },
+                  transition: 'all 0.3s ease',
+                }}
+              >
                 Accelerate Your Vision
-                <svg className="w-4 h-4 transition-transform group-hover:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 7l5 5m0 0l-5 5m5-5H6" />
-                </svg>
-              </span>
-            </button>
-            <button className="btn-stealth">
-              View Performance
-            </button>
+              </Button>
+              
+              <Button
+                variant="outlined"
+                size="large"
+                sx={{
+                  borderColor: '#D4AF37',
+                  color: '#D4AF37',
+                  px: 4,
+                  py: 2,
+                  fontSize: '0.875rem',
+                  fontWeight: 600,
+                  textTransform: 'uppercase',
+                  letterSpacing: '0.1em',
+                  '&:hover': {
+                    borderColor: '#D4AF37',
+                    bgcolor: '#D4AF37',
+                    color: '#0A0A0A',
+                  },
+                  transition: 'all 0.3s ease',
+                }}
+              >
+                View Performance
+              </Button>
+            </Box>
           </motion.div>
-        </motion.div>
+        </Box>
+      </Container>
 
-        {/* Advanced scroll indicator */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 2 }}
-          className="absolute bottom-12 left-1/2 -translate-x-1/2"
-        >
-          <div className="flex flex-col items-center gap-2">
-            <p className="text-xs uppercase tracking-wide text-racing-silver">Scroll to Explore</p>
-            <div className="w-6 h-10 border border-champagne rounded-full p-1">
-              <motion.div
-                animate={{ y: [0, 16, 0] }}
-                transition={{ duration: 2, repeat: Infinity }}
-                className="w-1 h-2 bg-champagne rounded-full mx-auto"
-              />
-            </div>
-          </div>
-        </motion.div>
-      </div>
-
-      {/* Racing stripes */}
-      <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-transparent via-champagne to-transparent race-line" />
-      
-      {/* Corner accents */}
-      <div className="absolute top-0 left-0 w-32 h-32 border-t border-l border-champagne/20" />
-      <div className="absolute top-0 right-0 w-32 h-32 border-t border-r border-champagne/20" />
-      <div className="absolute bottom-0 left-0 w-32 h-32 border-b border-l border-champagne/20" />
-      <div className="absolute bottom-0 right-0 w-32 h-32 border-b border-r border-champagne/20" />
-    </section>
+      {/* Racing stripe */}
+      <Box
+        sx={{
+          position: 'absolute',
+          bottom: 0,
+          left: 0,
+          right: 0,
+          height: '4px',
+          background: 'linear-gradient(90deg, transparent, #D4AF37, transparent)',
+          animation: 'race 3s cubic-bezier(0.4, 0, 0.2, 1) infinite',
+          '@keyframes race': {
+            '0%': { transform: 'translateX(-100%)' },
+            '100%': { transform: 'translateX(100%)' },
+          }
+        }}
+      />
+    </Box>
   );
 };
