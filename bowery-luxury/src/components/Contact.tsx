@@ -8,8 +8,14 @@ export const Contact: React.FC = () => {
     email: '',
     company: '',
     phone: '',
-    interest: 'AI Infrastructure',
+    position: '',
+    project_type: 'AI Infrastructure',
     message: '',
+    budget_range: '',
+    timeline: '',
+    urgency: 'medium',
+    preferred_contact_method: 'email',
+    source: 'website',
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
@@ -20,11 +26,28 @@ export const Contact: React.FC = () => {
     setSubmitStatus('idle');
 
     try {
-      const { error } = await supabase
+      const { data: contact, error } = await supabase
         .from('contacts')
-        .insert([formData]);
+        .insert([formData])
+        .select()
+        .single();
 
       if (error) throw error;
+
+      // Calculate lead score based on form data
+      const leadScore = calculateLeadScore(formData);
+      
+      // Update contact with lead score
+      await supabase
+        .from('contacts')
+        .update({ lead_score: leadScore })
+        .eq('id', contact.id);
+
+      // Initialize onboarding steps
+      await initializeOnboardingSteps(contact.id);
+
+      // Send welcome email
+      await sendWelcomeEmail(contact.id);
 
       setSubmitStatus('success');
       setFormData({
@@ -32,8 +55,14 @@ export const Contact: React.FC = () => {
         email: '',
         company: '',
         phone: '',
-        interest: 'AI Infrastructure',
+        position: '',
+        project_type: 'AI Infrastructure',
         message: '',
+        budget_range: '',
+        timeline: '',
+        urgency: 'medium',
+        preferred_contact_method: 'email',
+        source: 'website',
       });
 
       // Reset success message after 5 seconds
@@ -51,6 +80,98 @@ export const Contact: React.FC = () => {
       ...prev,
       [e.target.name]: e.target.value,
     }));
+  };
+
+  const calculateLeadScore = (data: typeof formData): number => {
+    let score = 0;
+    
+    // Budget range scoring
+    const budgetScores: Record<string, number> = {
+      'Under $10k': 10,
+      '$10k - $25k': 25,
+      '$25k - $50k': 40,
+      '$50k - $100k': 60,
+      '$100k - $250k': 80,
+      '$250k+': 100
+    };
+    score += budgetScores[data.budget_range] || 0;
+
+    // Urgency scoring
+    const urgencyScores: Record<string, number> = {
+      'low': 10,
+      'medium': 30,
+      'high': 60,
+      'urgent': 100
+    };
+    score += urgencyScores[data.urgency] || 0;
+
+    // Timeline scoring (faster = higher score)
+    const timelineScores: Record<string, number> = {
+      'ASAP': 100,
+      '1-2 weeks': 80,
+      '1 month': 60,
+      '2-3 months': 40,
+      '3-6 months': 20,
+      '6+ months': 10,
+      'Flexible': 15
+    };
+    score += timelineScores[data.timeline] || 0;
+
+    // Company presence (has company = more serious)
+    if (data.company) score += 20;
+    
+    // Position indicates decision-making authority
+    const seniorPositions = ['ceo', 'cto', 'founder', 'vp', 'director', 'head'];
+    if (data.position && seniorPositions.some(pos => data.position.toLowerCase().includes(pos))) {
+      score += 30;
+    }
+
+    // Message quality (longer = more thought out)
+    if (data.message.length > 100) score += 20;
+    if (data.message.length > 300) score += 20;
+
+    return Math.min(score, 100); // Cap at 100
+  };
+
+  const initializeOnboardingSteps = async (contactId: string) => {
+    const steps = [
+      { step_name: 'qualification', step_type: 'form', order_index: 0 },
+      { step_name: 'packages', step_type: 'form', order_index: 1 },
+      { step_name: 'proposal', step_type: 'document', order_index: 2 },
+      { step_name: 'contract', step_type: 'document', order_index: 3 },
+      { step_name: 'payment', step_type: 'payment', order_index: 4 },
+      { step_name: 'kickoff', step_type: 'meeting', order_index: 5 }
+    ];
+
+    const onboardingSteps = steps.map(step => ({
+      contact_id: contactId,
+      ...step,
+      status: 'not_started' as const
+    }));
+
+    await supabase
+      .from('onboarding_steps')
+      .insert(onboardingSteps);
+  };
+
+  const sendWelcomeEmail = async (contactId: string) => {
+    try {
+      // Call the email automation edge function
+      await fetch(`${supabase.supabaseUrl}/functions/v1/email-automation`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${supabase.supabaseKey}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          contactId,
+          triggerEvent: 'contact_created'
+        }),
+      });
+    } catch (error) {
+      console.error('Failed to send welcome email:', error);
+      // Don't throw - email failure shouldn't break form submission
+    }
   };
   return (
     <section id="contact" className="section-luxury bg-gradient-to-b from-midnight to-obsidian relative overflow-hidden">
@@ -135,6 +256,20 @@ export const Contact: React.FC = () => {
                 />
               </div>
               <div>
+                <label className="block text-xs tracking-[0.2em] uppercase text-champagne mb-3 font-mono">Position</label>
+                <input
+                  type="text"
+                  name="position"
+                  value={formData.position}
+                  onChange={handleChange}
+                  className="w-full px-0 py-4 bg-transparent border-0 border-b border-racing-silver focus:border-champagne transition-colors duration-300 outline-none text-arctic placeholder-racing-silver"
+                  placeholder="CEO, CTO, Product Manager"
+                />
+              </div>
+            </div>
+
+            <div className="grid md:grid-cols-2 gap-8">
+              <div>
                 <label className="block text-xs tracking-[0.2em] uppercase text-champagne mb-3 font-mono">Phone</label>
                 <input
                   type="tel"
@@ -145,24 +280,76 @@ export const Contact: React.FC = () => {
                   placeholder="+1 (555) 123-4567"
                 />
               </div>
+              <div>
+                <label className="block text-xs tracking-[0.2em] uppercase text-champagne mb-3 font-mono">Budget Range</label>
+                <select
+                  name="budget_range"
+                  value={formData.budget_range}
+                  onChange={handleChange}
+                  className="w-full px-0 py-4 bg-transparent border-0 border-b border-racing-silver focus:border-champagne transition-colors duration-300 outline-none text-arctic"
+                >
+                  <option value="" className="bg-carbon text-arctic">Select Budget Range</option>
+                  <option value="Under $10k" className="bg-carbon text-arctic">Under $10k</option>
+                  <option value="$10k - $25k" className="bg-carbon text-arctic">$10k - $25k</option>
+                  <option value="$25k - $50k" className="bg-carbon text-arctic">$25k - $50k</option>
+                  <option value="$50k - $100k" className="bg-carbon text-arctic">$50k - $100k</option>
+                  <option value="$100k - $250k" className="bg-carbon text-arctic">$100k - $250k</option>
+                  <option value="$250k+" className="bg-carbon text-arctic">$250k+</option>
+                </select>
+              </div>
+            </div>
+
+            <div className="grid md:grid-cols-2 gap-8">
+              <div>
+                <label className="block text-xs tracking-[0.2em] uppercase text-champagne mb-3 font-mono">Project Type</label>
+                <select
+                  name="project_type"
+                  value={formData.project_type}
+                  onChange={handleChange}
+                  className="w-full px-0 py-4 bg-transparent border-0 border-b border-racing-silver focus:border-champagne transition-colors duration-300 outline-none text-arctic"
+                >
+                  <option value="AI Infrastructure" className="bg-carbon text-arctic">AI Infrastructure</option>
+                  <option value="Machine Learning" className="bg-carbon text-arctic">Machine Learning</option>
+                  <option value="Full-Stack Development" className="bg-carbon text-arctic">Full-Stack Development</option>
+                  <option value="Data Analytics" className="bg-carbon text-arctic">Data Analytics</option>
+                  <option value="Process Automation" className="bg-carbon text-arctic">Process Automation</option>
+                  <option value="Custom AI Agents" className="bg-carbon text-arctic">Custom AI Agents</option>
+                  <option value="Creative Technology" className="bg-carbon text-arctic">Creative Technology</option>
+                  <option value="Other" className="bg-carbon text-arctic">Other</option>
+                </select>
+              </div>
+              <div>
+                <label className="block text-xs tracking-[0.2em] uppercase text-champagne mb-3 font-mono">Timeline</label>
+                <select
+                  name="timeline"
+                  value={formData.timeline}
+                  onChange={handleChange}
+                  className="w-full px-0 py-4 bg-transparent border-0 border-b border-racing-silver focus:border-champagne transition-colors duration-300 outline-none text-arctic"
+                >
+                  <option value="" className="bg-carbon text-arctic">Select Timeline</option>
+                  <option value="ASAP" className="bg-carbon text-arctic">ASAP (Rush)</option>
+                  <option value="1-2 weeks" className="bg-carbon text-arctic">1-2 weeks</option>
+                  <option value="1 month" className="bg-carbon text-arctic">1 month</option>
+                  <option value="2-3 months" className="bg-carbon text-arctic">2-3 months</option>
+                  <option value="3-6 months" className="bg-carbon text-arctic">3-6 months</option>
+                  <option value="6+ months" className="bg-carbon text-arctic">6+ months</option>
+                  <option value="Flexible" className="bg-carbon text-arctic">Flexible</option>
+                </select>
+              </div>
             </div>
 
             <div>
-              <label className="block text-xs tracking-[0.2em] uppercase text-champagne mb-3 font-mono">Project Type</label>
+              <label className="block text-xs tracking-[0.2em] uppercase text-champagne mb-3 font-mono">Priority Level</label>
               <select
-                name="interest"
-                value={formData.interest}
+                name="urgency"
+                value={formData.urgency}
                 onChange={handleChange}
                 className="w-full px-0 py-4 bg-transparent border-0 border-b border-racing-silver focus:border-champagne transition-colors duration-300 outline-none text-arctic"
               >
-                <option value="AI Infrastructure" className="bg-carbon text-arctic">AI Infrastructure</option>
-                <option value="Machine Learning" className="bg-carbon text-arctic">Machine Learning</option>
-                <option value="Full-Stack Development" className="bg-carbon text-arctic">Full-Stack Development</option>
-                <option value="Data Analytics" className="bg-carbon text-arctic">Data Analytics</option>
-                <option value="Process Automation" className="bg-carbon text-arctic">Process Automation</option>
-                <option value="Custom AI Agents" className="bg-carbon text-arctic">Custom AI Agents</option>
-                <option value="Creative Technology" className="bg-carbon text-arctic">Creative Technology</option>
-                <option value="Other" className="bg-carbon text-arctic">Other</option>
+                <option value="low" className="bg-carbon text-arctic">Low - Exploring options</option>
+                <option value="medium" className="bg-carbon text-arctic">Medium - Planning phase</option>
+                <option value="high" className="bg-carbon text-arctic">High - Ready to start</option>
+                <option value="urgent" className="bg-carbon text-arctic">Urgent - Need immediate help</option>
               </select>
             </div>
 
@@ -228,15 +415,12 @@ export const Contact: React.FC = () => {
           >
             <div className="text-center">
               <div className="w-16 h-16 border border-champagne mx-auto mb-4 flex items-center justify-center">
-                <span className="text-champagne font-mono text-sm">@</span>
+                <span className="text-champagne font-mono text-sm">✦</span>
               </div>
-              <p className="text-xs tracking-[0.2em] uppercase text-champagne mb-2 font-mono">Email</p>
-              <a 
-                href="mailto:hello@bowerycreative.com" 
-                className="text-arctic hover:text-champagne transition-colors duration-300"
-              >
-                hello@bowerycreative.com
-              </a>
+              <p className="text-xs tracking-[0.2em] uppercase text-champagne mb-2 font-mono">Contact Method</p>
+              <p className="text-arctic">
+                Secure Form Only
+              </p>
             </div>
             
             <div className="text-center">

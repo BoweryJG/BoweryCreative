@@ -50,13 +50,28 @@ export const Footer: React.FC = () => {
 
             {/* Social Links */}
             <div className="flex gap-4">
-              <a href="#" className="text-racing-silver hover:text-champagne transition-colors">
+              <a 
+                href="https://github.com/jasonwgolden" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="text-racing-silver hover:text-champagne transition-colors"
+              >
                 <Github className="w-5 h-5" />
               </a>
-              <a href="#" className="text-racing-silver hover:text-champagne transition-colors">
+              <a 
+                href="https://www.linkedin.com/in/jasonwilliamgolden/" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="text-racing-silver hover:text-champagne transition-colors"
+              >
                 <Linkedin className="w-5 h-5" />
               </a>
-              <a href="#" className="text-racing-silver hover:text-champagne transition-colors">
+              <a 
+                href="https://twitter.com/jasonwgolden" 
+                target="_blank" 
+                rel="noopener noreferrer"
+                className="text-racing-silver hover:text-champagne transition-colors"
+              >
                 <Twitter className="w-5 h-5" />
               </a>
             </div>
@@ -108,12 +123,12 @@ export const Footer: React.FC = () => {
             
             <div className="space-y-4 mb-8">
               <div>
-                <p className="text-xs uppercase tracking-wide text-racing-silver mb-1">Email</p>
+                <p className="text-xs uppercase tracking-wide text-racing-silver mb-1">Contact</p>
                 <a 
-                  href="mailto:hello@bowerycreative.com" 
+                  href="#contact" 
                   className="text-arctic hover:text-champagne transition-colors"
                 >
-                  hello@bowerycreative.com
+                  Secure Contact Form
                 </a>
               </div>
               
