@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { NeuralNetwork } from './NeuralNetwork';
+import { ParticleBackground } from './ParticleBackground';
 
 export const Hero: React.FC = () => {
   const [currentWord, setCurrentWord] = useState(0);
@@ -15,8 +15,8 @@ export const Hero: React.FC = () => {
 
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-obsidian">
-      {/* 3D Neural Network Background */}
-      <NeuralNetwork />
+      {/* Particle Background */}
+      <ParticleBackground />
       
       {/* Performance grid overlay */}
       <div className="absolute inset-0 bg-[url('/grid.png')] opacity-5" />
