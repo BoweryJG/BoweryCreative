@@ -1,4 +1,6 @@
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@300;400;500;600&family=Inter:wght@100;200;300;400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -12,133 +14,183 @@
   }
 
   body {
-    @apply bg-bowery-white text-bowery-black font-body antialiased;
+    @apply bg-obsidian text-arctic font-sans antialiased;
     font-feature-settings: "liga" 1, "calt" 1, "kern" 1;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
 
   ::selection {
-    @apply bg-bowery-black text-bowery-white;
+    @apply bg-champagne text-obsidian;
   }
 
-  /* Minimal scrollbar */
+  /* Luxury scrollbar */
   ::-webkit-scrollbar {
-    width: 2px;
-    height: 2px;
+    width: 8px;
+    height: 8px;
   }
 
   ::-webkit-scrollbar-track {
-    @apply bg-transparent;
+    @apply bg-obsidian;
   }
 
   ::-webkit-scrollbar-thumb {
-    @apply bg-bowery-black;
+    @apply bg-champagne rounded-full;
   }
 
-  /* Typography refinements */
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-electric;
+  }
+
+  /* Typography hierarchy */
   h1, h2, h3, h4, h5, h6 {
-    @apply font-display font-light;
+    @apply font-display font-normal tracking-tech;
   }
 
   p {
-    @apply leading-relaxed;
+    @apply leading-relaxed text-titanium;
   }
 
-  /* Remove focus outlines for mouse users */
+  /* Enhanced focus states */
   :focus:not(:focus-visible) {
     outline: none;
   }
 
-  /* Add subtle focus for keyboard users */
   :focus-visible {
-    @apply outline-none ring-1 ring-bowery-black ring-offset-4;
+    @apply outline-none ring-2 ring-champagne ring-offset-2 ring-offset-obsidian;
   }
 }
 
 @layer components {
-  /* Container with refined spacing */
-  .container-bowery {
-    @apply container mx-auto px-6 md:px-12 lg:px-24 max-w-7xl;
+  /* Container with luxury spacing */
+  .container-luxury {
+    @apply container mx-auto px-8 md:px-16 lg:px-24 max-w-[1920px];
   }
 
-  /* Minimalist button styles */
-  .btn-primary {
-    @apply inline-block px-8 py-4 bg-bowery-black text-bowery-white;
-    @apply text-sm tracking-refined uppercase transition-all duration-500;
-    @apply hover:bg-bowery-gray-900;
+  /* GT500-inspired buttons */
+  .btn-performance {
+    @apply relative inline-block px-10 py-4 bg-champagne text-obsidian font-medium;
+    @apply text-sm tracking-wide uppercase overflow-hidden;
+    @apply transition-all duration-300 transform hover:scale-105;
+    @apply before:absolute before:inset-0 before:bg-electric before:translate-x-[-100%];
+    @apply before:transition-transform before:duration-300 hover:before:translate-x-0;
+    @apply hover:text-arctic z-10;
   }
 
-  .btn-secondary {
-    @apply inline-block px-8 py-4 bg-transparent text-bowery-black;
-    @apply text-sm tracking-refined uppercase transition-all duration-500;
-    @apply border border-bowery-black hover:bg-bowery-black hover:text-bowery-white;
+  .btn-performance span {
+    @apply relative z-10;
   }
 
-  .btn-minimal {
-    @apply inline-block text-sm tracking-refined uppercase;
-    @apply border-b border-transparent hover:border-bowery-black;
+  .btn-stealth {
+    @apply inline-block px-10 py-4 bg-transparent text-champagne;
+    @apply text-sm tracking-wide uppercase border border-champagne;
+    @apply transition-all duration-300;
+    @apply hover:bg-champagne hover:text-obsidian hover:border-champagne;
+    @apply relative overflow-hidden;
+  }
+
+  .btn-ghost {
+    @apply inline-block text-sm tracking-wide uppercase text-racing-silver;
+    @apply border-b-2 border-transparent hover:border-champagne hover:text-champagne;
     @apply transition-all duration-300;
   }
 
-  /* Typography classes */
-  .heading-display {
-    @apply font-display font-light tracking-tight;
+  /* Metallic card effects */
+  .card-metallic {
+    @apply bg-carbon border border-graphite rounded-none;
+    @apply backdrop-blur-sm relative overflow-hidden;
+    @apply before:absolute before:inset-0 before:bg-metallic-gradient before:opacity-0;
+    @apply before:transition-opacity before:duration-500 hover:before:opacity-10;
   }
 
-  .text-refined {
-    @apply text-sm tracking-refined uppercase;
+  /* Glitch text effect */
+  .text-glitch {
+    @apply relative;
+  }
+
+  .text-glitch::before,
+  .text-glitch::after {
+    content: attr(data-text);
+    @apply absolute top-0 left-0 w-full h-full;
+  }
+
+  .text-glitch::before {
+    @apply text-electric;
+    animation: glitch 2s infinite;
+    clip-path: polygon(0 0, 100% 0, 100% 45%, 0 45%);
+  }
+
+  .text-glitch::after {
+    @apply text-champagne;
+    animation: glitch 2.5s infinite;
+    clip-path: polygon(0 55%, 100% 55%, 100% 100%, 0 100%);
   }
 
   /* Section spacing */
-  .section-spacing {
+  .section-luxury {
     @apply py-32 md:py-48 lg:py-64;
   }
 
   /* Refined divider */
-  .divider {
-    @apply w-full h-px bg-bowery-gray-200;
+  .divider-gold {
+    @apply w-24 h-px bg-champagne mx-auto;
   }
 
-  /* Subtle hover effects */
+  /* Hover effects */
   .hover-lift {
-    @apply transition-transform duration-500 hover:-translate-y-1;
+    @apply transition-all duration-500 hover:-translate-y-2 hover:shadow-2xl;
   }
 
-  .hover-reveal {
-    @apply transition-opacity duration-500 opacity-0 group-hover:opacity-100;
+  .hover-glow {
+    @apply transition-all duration-300;
+    @apply hover:shadow-[0_0_30px_rgba(212,175,55,0.5)];
+  }
+
+  /* Gradient text */
+  .text-gradient-gold {
+    @apply bg-gradient-to-r from-champagne via-[#FFD700] to-champagne bg-clip-text text-transparent;
+    background-size: 200% auto;
+    animation: shimmer 3s linear infinite;
+  }
+
+  /* Glass morphism */
+  .glass-morphism {
+    @apply bg-carbon/20 backdrop-blur-md border border-racing-silver/20;
+  }
+
+  /* Carbon fiber texture overlay */
+  .carbon-overlay {
+    @apply relative;
+  }
+
+  .carbon-overlay::before {
+    content: '';
+    @apply absolute inset-0 opacity-5 pointer-events-none;
+    background-image: repeating-linear-gradient(
+      45deg,
+      transparent,
+      transparent 10px,
+      rgba(255,255,255,.05) 10px,
+      rgba(255,255,255,.05) 20px
+    );
   }
 }
 
 @layer utilities {
   /* Animation delays */
-  .delay-100 {
-    animation-delay: 100ms;
-  }
+  .delay-100 { animation-delay: 100ms; }
+  .delay-200 { animation-delay: 200ms; }
+  .delay-300 { animation-delay: 300ms; }
+  .delay-400 { animation-delay: 400ms; }
+  .delay-500 { animation-delay: 500ms; }
+  .delay-600 { animation-delay: 600ms; }
+  .delay-700 { animation-delay: 700ms; }
+  .delay-800 { animation-delay: 800ms; }
 
-  .delay-200 {
-    animation-delay: 200ms;
-  }
-
-  .delay-300 {
-    animation-delay: 300ms;
-  }
-
-  .delay-400 {
-    animation-delay: 400ms;
-  }
-
-  .delay-500 {
-    animation-delay: 500ms;
-  }
-
-  /* Refined effects */
-  .text-shadow-subtle {
-    text-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
-  }
-
-  .border-refined {
-    @apply border border-bowery-gray-200;
+  /* Performance metrics */
+  .font-mono-refined {
+    @apply font-mono tracking-tech;
+    font-variant-numeric: tabular-nums;
   }
 
   /* Responsive typography */
@@ -147,12 +199,58 @@
   }
 
   .heading-responsive {
-    font-size: clamp(2rem, 5vw, 4rem);
+    font-size: clamp(3rem, 8vw, 8rem);
   }
 
-  /* Subtle mask */
-  .mask-fade {
+  /* Gradient masks */
+  .mask-fade-bottom {
     mask-image: linear-gradient(to bottom, black 0%, transparent 100%);
     -webkit-mask-image: linear-gradient(to bottom, black 0%, transparent 100%);
   }
+
+  .mask-fade-sides {
+    mask-image: linear-gradient(to right, transparent, black 20%, black 80%, transparent);
+    -webkit-mask-image: linear-gradient(to right, transparent, black 20%, black 80%, transparent);
+  }
+
+  /* Performance shadows */
+  .shadow-performance {
+    box-shadow: 0 20px 40px -10px rgba(212, 175, 55, 0.3);
+  }
+
+  /* Text shadows */
+  .text-shadow-luxury {
+    text-shadow: 0 2px 10px rgba(212, 175, 55, 0.3);
+  }
+
+  /* Custom cursor */
+  .cursor-luxury {
+    cursor: url("data:image/svg+xml,%3Csvg width='24' height='24' viewBox='0 0 24 24' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Ccircle cx='12' cy='12' r='8' fill='%23D4AF37'/%3E%3C/svg%3E") 12 12, auto;
+  }
+}
+
+/* Three.js canvas container */
+.canvas-container {
+  @apply fixed inset-0 -z-10;
+}
+
+/* Performance animations */
+@keyframes race-line {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
+
+.race-line {
+  animation: race-line 3s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+/* Loading states */
+.loading-performance {
+  @apply relative overflow-hidden;
+}
+
+.loading-performance::after {
+  content: '';
+  @apply absolute bottom-0 left-0 h-1 bg-champagne;
+  animation: race-line 1.5s cubic-bezier(0.4, 0, 0.2, 1) infinite;
 }
