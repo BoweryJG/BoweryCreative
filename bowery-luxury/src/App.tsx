@@ -5,7 +5,7 @@ import { Capabilities } from './components/Capabilities';
 import { Showcase } from './components/Showcase';
 import { Technology } from './components/Technology';
 import { Process } from './components/Process';
-import { Team } from './components/Team';
+import { About } from './components/About';
 import { Insights } from './components/Insights';
 import { Contact } from './components/Contact';
 import { Footer } from './components/Footer';
@@ -33,7 +33,7 @@ function App() {
       <Showcase />
       <Technology />
       <Process />
-      <Team />
+      <About />
       <Insights />
       <Contact />
       <Footer />
