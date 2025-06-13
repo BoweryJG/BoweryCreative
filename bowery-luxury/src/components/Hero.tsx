@@ -1,146 +1,86 @@
-import React, { useEffect, useRef } from 'react';
+import React from 'react';
 import { motion } from 'framer-motion';
-import { AnimatedText, SplitText } from './ui/AnimatedText';
-import { Button } from './ui/Button';
-import { ArrowDown } from 'lucide-react';
 
 export const Hero: React.FC = () => {
-  const videoRef = useRef<HTMLVideoElement>(null);
-
-  useEffect(() => {
-    if (videoRef.current) {
-      videoRef.current.playbackRate = 0.8; // Slow motion effect
-    }
-  }, []);
-
-  const stats = [
-    { value: '15', label: 'Years Experience' },
-    { value: '200+', label: 'Projects' },
-    { value: '98%', label: 'Client Satisfaction' },
-    { value: '24/7', label: 'Support' },
-  ];
-
   return (
-    <section className="relative h-screen overflow-hidden">
-      {/* Video Background */}
-      <div className="absolute inset-0 z-0">
-        <video
-          ref={videoRef}
-          autoPlay
-          loop
-          muted
-          playsInline
-          className="absolute inset-0 w-full h-full object-cover"
-        >
-          <source src="/New Smile Guide 2.mov" type="video/quicktime" />
-          <source src="/New Smile Guide 2.mp4" type="video/mp4" />
-        </video>
-        <div className="absolute inset-0 bg-gradient-to-b from-elegant-white/70 via-elegant-white/50 to-elegant-white" />
-      </div>
-
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+      {/* Subtle background gradient */}
+      <div className="absolute inset-0 bg-gradient-to-b from-bowery-white via-bowery-gray-50 to-bowery-white opacity-50" />
+      
       {/* Content */}
-      <div className="relative z-10 h-full flex flex-col justify-center container-elegant">
+      <div className="relative z-10 container-bowery text-center">
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 1.5 }}
-          className="max-w-5xl"
+          className="max-w-4xl mx-auto"
         >
-          {/* Tagline */}
+          {/* Small tagline */}
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.5 }}
-            className="text-elegant-accent text-sm font-medium tracking-[0.3em] uppercase mb-6"
+            transition={{ delay: 0.3 }}
+            className="text-bowery-gray-600 text-xs tracking-luxury uppercase mb-8"
           >
-            Bowery Creative Agency
+            Bowery Creative
           </motion.p>
 
-          {/* Main Headline */}
-          <h1 className="text-5xl md:text-7xl lg:text-8xl font-display font-light leading-tight mb-6">
-            <SplitText 
-              text="Where Medical Excellence" 
-              className="text-elegant-dark"
-              delay={0.6}
-            />
-            <SplitText 
-              text="Meets Digital Mastery" 
-              className="text-gradient text-shadow-elegant mt-2"
-              delay={0.8}
-            />
-          </h1>
+          {/* Main headline - refined serif */}
+          <motion.h1
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.5, duration: 1 }}
+            className="font-display text-5xl md:text-7xl lg:text-8xl font-light leading-[0.9] mb-8"
+          >
+            <span className="block">Where Medical</span>
+            <span className="block mt-2">Excellence Meets</span>
+            <span className="block mt-2 text-bowery-accent">Digital Mastery</span>
+          </motion.h1>
 
-          {/* Subheadline */}
-          <AnimatedText
-            text="Sophisticated marketing strategies that elevate your practice through innovative technology and refined creative execution"
-            className="text-xl md:text-2xl text-elegant-dark/80 font-light max-w-3xl mb-12"
-            delay={1.2}
-          />
+          {/* Minimalist subheadline */}
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.8 }}
+            className="text-bowery-gray-600 text-lg md:text-xl font-light max-w-2xl mx-auto mb-16 leading-relaxed"
+          >
+            Sophisticated marketing strategies for forward-thinking medical professionals
+          </motion.p>
 
-          {/* CTA Buttons */}
+          {/* Single, refined CTA */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 1.5 }}
-            className="flex flex-col sm:flex-row gap-4"
+            transition={{ delay: 1 }}
           >
-            <Button variant="primary" size="lg" className="min-w-[200px]">
-              Start Your Campaign
-            </Button>
-            <Button variant="secondary" size="lg" className="min-w-[200px]">
-              Calculate Your ROI
-            </Button>
+            <a 
+              href="#contact" 
+              className="btn-primary inline-block"
+            >
+              Begin Your Journey
+            </a>
           </motion.div>
         </motion.div>
 
-        {/* Stats Bar */}
-        <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 1.8 }}
-          className="absolute bottom-20 left-0 right-0"
-        >
-          <div className="container-elegant">
-            <div className="glass-dark rounded-2xl p-6 md:p-8">
-              <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-                {stats.map((stat, index) => (
-                  <motion.div
-                    key={stat.label}
-                    initial={{ opacity: 0, scale: 0.8 }}
-                    animate={{ opacity: 1, scale: 1 }}
-                    transition={{ delay: 2 + index * 0.1 }}
-                    className="text-center"
-                  >
-                    <div className="text-3xl md:text-4xl font-display font-bold text-elegant-accent">
-                      {stat.value}
-                    </div>
-                    <div className="text-sm text-elegant-dark/60 uppercase tracking-wider mt-1">
-                      {stat.label}
-                    </div>
-                  </motion.div>
-                ))}
-              </div>
-            </div>
-          </div>
-        </motion.div>
-
-        {/* Scroll Indicator */}
+        {/* Minimal scroll indicator */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ delay: 2.5 }}
-          className="absolute bottom-8 left-1/2 -translate-x-1/2"
+          transition={{ delay: 1.5 }}
+          className="absolute bottom-12 left-1/2 -translate-x-1/2"
         >
-          <motion.div
-            animate={{ y: [0, 10, 0] }}
-            transition={{ duration: 2, repeat: Infinity }}
-            className="text-elegant-dark/60 cursor-pointer"
-            onClick={() => window.scrollTo({ top: window.innerHeight, behavior: 'smooth' })}
-          >
-            <ArrowDown size={24} />
-          </motion.div>
+          <div className="w-[1px] h-16 bg-bowery-gray-300 mx-auto">
+            <motion.div
+              animate={{ y: [0, 32, 0] }}
+              transition={{ duration: 2, repeat: Infinity }}
+              className="w-[1px] h-8 bg-bowery-black"
+            />
+          </div>
         </motion.div>
       </div>
+
+      {/* Subtle corner accent */}
+      <div className="absolute top-0 right-0 w-96 h-96 bg-bowery-accent/5 rounded-full -translate-y-1/2 translate-x-1/2" />
     </section>
   );
 };
