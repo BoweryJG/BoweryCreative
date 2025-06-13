@@ -79,7 +79,7 @@ export const Hero: React.FC = () => {
             className="grid grid-cols-3 gap-8 max-w-4xl mx-auto mb-16"
           >
             <div className="text-center">
-              <p className="text-4xl md:text-5xl font-mono text-champagne mb-2">$4.7B</p>
+              <p className="text-4xl md:text-5xl font-mono text-champagne mb-2">$5.2B</p>
               <p className="text-xs uppercase tracking-wide text-racing-silver">Revenue Generated</p>
             </div>
             <div className="text-center">
