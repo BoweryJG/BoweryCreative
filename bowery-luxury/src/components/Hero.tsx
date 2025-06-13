@@ -101,7 +101,7 @@ export const Hero: React.FC = () => {
           >
             Full-stack development meets artificial intelligence. 
             <span className="block mt-2 text-racing-silver">
-              Custom AI infrastructure, machine learning solutions, and data synthesis at scale.
+              Custom AI infrastructure, machine learning solutions, and data synthesis at enterprise scale.
             </span>
           </motion.p>
 
