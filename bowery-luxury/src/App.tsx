@@ -4,6 +4,7 @@ import { Hero } from './components/Hero';
 import { Capabilities } from './components/Capabilities';
 import { Showcase } from './components/Showcase';
 import { Technology } from './components/Technology';
+import { Process } from './components/Process';
 import { Contact } from './components/Contact';
 import { Footer } from './components/Footer';
 import { trackPageView } from './lib/analytics';
@@ -29,6 +30,7 @@ function App() {
       <Capabilities />
       <Showcase />
       <Technology />
+      <Process />
       <Contact />
       <Footer />
     </div>
