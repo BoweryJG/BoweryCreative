@@ -23,7 +23,6 @@ import {
   DataObject,
   Hub,
   Architecture,
-  Terminal,
 } from '@mui/icons-material';
 
 interface TechCategory {
