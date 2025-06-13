@@ -130,7 +130,9 @@ export const Hero: React.FC = () => {
               variant="h1"
               sx={{
                 fontSize: { xs: '3rem', md: '6rem', lg: '8rem' },
-                fontWeight: 400,
+                fontWeight: 300,
+                fontFamily: '"Bebas Neue", "Anton", sans-serif',
+                letterSpacing: '0.15em',
                 lineHeight: 0.9,
                 mb: 4,
                 background: 'linear-gradient(135deg, #FFD700 0%, #FFEF94 25%, #FFD700 50%, #FFA500 75%, #FFD700 100%)',
@@ -139,6 +141,7 @@ export const Hero: React.FC = () => {
                 color: 'transparent',
                 backgroundSize: '200% auto',
                 animation: 'shimmer 3s linear infinite',
+                textShadow: '0 0 80px rgba(255, 215, 0, 0.5), 0 0 120px rgba(255, 215, 0, 0.3)',
                 '@keyframes shimmer': {
                   '0%': { backgroundPosition: '-200% 0' },
                   '100%': { backgroundPosition: '200% 0' },
@@ -151,10 +154,13 @@ export const Hero: React.FC = () => {
               variant="h1"
               sx={{
                 fontSize: { xs: '2.5rem', md: '5rem', lg: '6rem' },
-                fontWeight: 400,
+                fontWeight: 200,
+                fontFamily: '"Bebas Neue", "Anton", sans-serif',
+                letterSpacing: '0.2em',
                 color: '#F8F8FF',
                 mt: 2,
                 mb: 6,
+                textShadow: '0 0 40px rgba(248, 248, 255, 0.3), 0 0 80px rgba(0, 191, 255, 0.2)',
               }}
             >
               CREATIVE
