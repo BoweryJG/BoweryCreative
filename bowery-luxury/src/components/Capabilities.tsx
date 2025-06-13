@@ -4,15 +4,9 @@ import {
   Brain, 
   Code2, 
   Database, 
-  Cpu, 
-  Zap, 
   Bot, 
-  BarChart3, 
   Cog, 
-  Film, 
-  MessageSquareBot,
-  Network,
-  Target
+  Film
 } from 'lucide-react';
 
 const capabilities = [
