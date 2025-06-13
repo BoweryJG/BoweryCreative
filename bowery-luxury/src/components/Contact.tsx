@@ -157,17 +157,16 @@ export const Contact: React.FC = () => {
   const sendWelcomeEmail = async (contactId: string) => {
     try {
       // Call the email automation edge function
-      await fetch(`${supabase.supabaseUrl}/functions/v1/email-automation`, {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${supabase.supabaseKey}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
+      const { data, error } = await supabase.functions.invoke('email-automation', {
+        body: {
           contactId,
           triggerEvent: 'contact_created'
-        }),
+        }
       });
+      
+      if (error) {
+        console.error('Email automation error:', error);
+      }
     } catch (error) {
       console.error('Failed to send welcome email:', error);
       // Don't throw - email failure shouldn't break form submission

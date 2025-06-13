@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { 
   ChevronLeft, 
   ChevronRight, 
@@ -8,12 +8,10 @@ import {
   CreditCard, 
   Users, 
   Rocket,
-  Mail,
-  Calendar,
   DollarSign,
   Shield
 } from 'lucide-react';
-import { supabase, type Contact, type Project, type OnboardingStep } from '../lib/supabase';
+import { supabase, type Contact, type Project } from '../lib/supabase';
 
 interface OnboardingFlowProps {
   contactId: string;
@@ -84,7 +82,7 @@ const ONBOARDING_STEPS = [
 export const OnboardingFlow: React.FC<OnboardingFlowProps> = ({ contactId, onComplete }) => {
   const [currentStep, setCurrentStep] = useState(0);
   const [stepData, setStepData] = useState<StepData>({});
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading] = useState(false);
   const [contact, setContact] = useState<Contact | null>(null);
   const [servicePackages, setServicePackages] = useState<any[]>([]);
 
@@ -126,7 +124,7 @@ export const OnboardingFlow: React.FC<OnboardingFlowProps> = ({ contactId, onCom
   const updateStepData = (step: string, data: any) => {
     setStepData(prev => ({
       ...prev,
-      [step]: { ...prev[step as keyof StepData], ...data }
+      [step]: { ...(prev[step as keyof StepData] as any), ...data }
     }));
   };
 
@@ -342,8 +340,12 @@ export const OnboardingFlow: React.FC<OnboardingFlowProps> = ({ contactId, onCom
   );
 };
 
-// Step Components (we'll create these next)
-const QualificationStep: React.FC<any> = ({ data = {}, onChange, contact }) => {
+// Step Components
+const QualificationStep: React.FC<{
+  data?: any;
+  onChange: (data: any) => void;
+  contact: Contact | null;
+}> = ({ data = {}, onChange, contact }) => {
   const [formData, setFormData] = useState({
     name: data.name || `${contact?.name || 'Untitled'} Project`,
     description: data.description || '',
@@ -440,7 +442,12 @@ const QualificationStep: React.FC<any> = ({ data = {}, onChange, contact }) => {
   );
 };
 
-const PackageSelectionStep: React.FC<any> = ({ packages, selected, onChange, onCustomRequirements }) => {
+const PackageSelectionStep: React.FC<{
+  packages: any[];
+  selected: string[];
+  onChange: (packages: string[]) => void;
+  onCustomRequirements: (req: string) => void;
+}> = ({ packages, selected, onChange, onCustomRequirements }) => {
   const [selectedPackages, setSelectedPackages] = useState<string[]>(selected || []);
   const [customReqs, setCustomReqs] = useState('');
 
@@ -543,7 +550,12 @@ const PackageSelectionStep: React.FC<any> = ({ packages, selected, onChange, onC
   );
 };
 
-const ProposalReviewStep: React.FC<any> = ({ project, packages, servicePackages, customRequirements }) => {
+const ProposalReviewStep: React.FC<{
+  project?: any;
+  packages?: string[];
+  servicePackages: any[];
+  customRequirements?: string;
+}> = ({ project, packages, servicePackages, customRequirements }) => {
   const selectedPackageDetails = servicePackages.filter((pkg: any) => packages?.includes(pkg.id));
   const totalInvestment = selectedPackageDetails.reduce((sum: number, pkg: any) => sum + (pkg.base_price || 0), 0);
   const totalDuration = Math.max(...selectedPackageDetails.map((pkg: any) => pkg.estimated_duration_days || 0));
@@ -639,7 +651,10 @@ const ProposalReviewStep: React.FC<any> = ({ project, packages, servicePackages,
   );
 };
 
-const ContractStep: React.FC<any> = ({ contact, project }) => {
+const ContractStep: React.FC<{
+  contact: Contact | null;
+  project?: any;
+}> = ({ contact, project }) => {
   return (
     <div className="space-y-8">
       <div className="text-center">
@@ -707,7 +722,10 @@ const ContractStep: React.FC<any> = ({ contact, project }) => {
   );
 };
 
-const PaymentSetupStep: React.FC<any> = ({ data = {}, onChange }) => {
+const PaymentSetupStep: React.FC<{
+  data?: any;
+  onChange: (data: any) => void;
+}> = ({ data = {}, onChange }) => {
   const [paymentData, setPaymentData] = useState({
     method: data.method || '',
     terms: data.terms || 'net30',
@@ -811,7 +829,11 @@ const PaymentSetupStep: React.FC<any> = ({ data = {}, onChange }) => {
   );
 };
 
-const KickoffSchedulingStep: React.FC<any> = ({ data = {}, onChange, contact }) => {
+const KickoffSchedulingStep: React.FC<{
+  data?: any;
+  onChange: (data: any) => void;
+  contact: Contact | null;
+}> = ({ data = {}, onChange }) => {
   const [meetingData, setMeetingData] = useState({
     date: data.date || '',
     time: data.time || '',

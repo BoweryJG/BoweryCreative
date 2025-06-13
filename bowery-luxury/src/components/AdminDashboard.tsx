@@ -4,19 +4,12 @@ import {
   Users,
   DollarSign,
   TrendingUp,
-  Calendar,
-  Mail,
-  Phone,
   FileText,
-  Clock,
-  CheckCircle,
   AlertCircle,
-  Filter,
   Search,
   MoreHorizontal,
   Eye,
-  Edit,
-  Trash2
+  Edit
 } from 'lucide-react';
 import { supabase, type Contact, type Project, type ProjectStatus } from '../lib/supabase';
 
@@ -126,18 +119,6 @@ export const AdminDashboard: React.FC = () => {
     return matchesSearch && matchesStatus;
   });
 
-  const getStatusColor = (status: ProjectStatus) => {
-    const colors = {
-      lead: 'text-blue-400',
-      qualified: 'text-yellow-400',
-      proposal_sent: 'text-purple-400',
-      contract_signed: 'text-green-400',
-      in_progress: 'text-electric',
-      completed: 'text-champagne',
-      cancelled: 'text-red-400'
-    };
-    return colors[status] || 'text-racing-silver';
-  };
 
   const getStatusBadge = (status: ProjectStatus) => {
     const badges = {
