@@ -1,8 +1,7 @@
 [build]
-  base = "."
+  base = "bowery-luxury"
   command = "npm ci && npm run build"
   publish = "dist"
-  ignore = ""
 
 [build.environment]
   NODE_VERSION = "18"
