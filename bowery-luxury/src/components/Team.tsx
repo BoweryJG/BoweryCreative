@@ -36,6 +36,7 @@ interface TeamMember {
   };
   icon: React.ReactNode;
   gradient: string;
+  primaryColor: string;
 }
 
 const teamMembers: TeamMember[] = [
@@ -58,6 +59,7 @@ const teamMembers: TeamMember[] = [
     },
     icon: <TrendingUp />,
     gradient: 'linear-gradient(135deg, #FFD700 0%, #FFA500 100%)',
+    primaryColor: '#FFD700',
   },
   {
     id: 'cto',
@@ -78,6 +80,7 @@ const teamMembers: TeamMember[] = [
     },
     icon: <Psychology />,
     gradient: 'linear-gradient(135deg, #00BFFF 0%, #0080FF 100%)',
+    primaryColor: '#00BFFF',
   },
   {
     id: 'creative',
@@ -98,6 +101,7 @@ const teamMembers: TeamMember[] = [
     },
     icon: <Palette />,
     gradient: 'linear-gradient(135deg, #FF6B6B 0%, #FF8E53 100%)',
+    primaryColor: '#FF6B6B',
   },
   {
     id: 'engineering',
@@ -118,6 +122,7 @@ const teamMembers: TeamMember[] = [
     },
     icon: <Code />,
     gradient: 'linear-gradient(135deg, #4ECDC4 0%, #44A08D 100%)',
+    primaryColor: '#4ECDC4',
   },
 ];
 
@@ -267,7 +272,7 @@ export const Team: React.FC = () => {
                         left: '-50%',
                         width: '200%',
                         height: '200%',
-                        background: `linear-gradient(45deg, transparent 30%, ${alpha(member.gradient.split(' ')[2], 0.1)} 50%, transparent 70%)`,
+                        background: `linear-gradient(45deg, transparent 30%, ${alpha(member.primaryColor, 0.1)} 50%, transparent 70%)`,
                         transform: hoveredMember === member.id ? 'rotate(0deg)' : 'rotate(-45deg)',
                         transition: 'transform 0.6s ease',
                         pointerEvents: 'none',
@@ -287,7 +292,7 @@ export const Team: React.FC = () => {
                         mb: 3,
                         position: 'relative',
                         boxShadow: hoveredMember === member.id
-                          ? `0 8px 32px ${alpha(member.gradient.split(' ')[2], 0.4)}`
+                          ? `0 8px 32px ${alpha(member.primaryColor, 0.4)}`
                           : 'none',
                         transition: 'all 0.3s ease',
                       }}
