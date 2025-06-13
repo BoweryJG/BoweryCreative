@@ -123,7 +123,6 @@ const teamMembers: TeamMember[] = [
 
 export const Team: React.FC = () => {
   const [hoveredMember, setHoveredMember] = useState<string | null>(null);
-  const [selectedMember, setSelectedMember] = useState<string | null>(null);
 
   return (
     <Box
@@ -246,7 +245,6 @@ export const Team: React.FC = () => {
                       transition: 'all 0.3s ease',
                     },
                   }}
-                  onClick={() => setSelectedMember(member.id)}
                 >
                   <CardContent
                     sx={{
