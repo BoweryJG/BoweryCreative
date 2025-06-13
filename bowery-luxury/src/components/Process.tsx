@@ -6,8 +6,6 @@ import {
   Card,
   CardContent,
   IconButton,
-  useTheme,
-  useMediaQuery,
   alpha,
 } from '@mui/material';
 import {
@@ -112,9 +110,6 @@ const processSteps: ProcessStep[] = [
 ];
 
 export const Process: React.FC = () => {
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
-  const isTablet = useMediaQuery(theme.breakpoints.down('md'));
   const [activeStep, setActiveStep] = useState(0);
   const containerRef = useRef<HTMLDivElement>(null);
   
