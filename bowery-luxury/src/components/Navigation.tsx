@@ -7,6 +7,8 @@ const navItems = [
   { label: 'Showcase', href: '#showcase' },
   { label: 'Technology', href: '#technology' },
   { label: 'Process', href: '#process' },
+  { label: 'Team', href: '#team' },
+  { label: 'Insights', href: '#insights' },
   { label: 'Contact', href: '#contact' },
 ];
 
