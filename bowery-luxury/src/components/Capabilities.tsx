@@ -27,42 +27,42 @@ const capabilities = [
     title: 'AI Infrastructure & Machine Learning',
     description: 'Custom LLM development, fine-tuning, and neural architecture design for enterprise-grade intelligence.',
     features: ['Custom Model Training', 'AGI Research & Implementation', 'Augmented Intelligence Systems', 'Neural Network Optimization'],
-    gradient: 'linear-gradient(135deg, #0080FF 0%, #0056B3 100%)'
+    gradient: 'linear-gradient(135deg, #00BFFF 0%, #0080FF 100%)'
   },
   {
     icon: Code,
     title: 'Full-Stack Engineering',
     description: 'Enterprise applications with real-time performance, cloud-native architectures, and scalable solutions.',
     features: ['React/Node.js Applications', 'Cloud Infrastructure', 'API Development', 'Performance Optimization'],
-    gradient: 'linear-gradient(135deg, #D4AF37 0%, #FFD700 100%)'
+    gradient: 'linear-gradient(135deg, #FFD700 0%, #FFA500 100%)'
   },
   {
     icon: Storage,
     title: 'Data Synthesis & Analytics',
     description: 'Live dashboards, predictive modeling, and real-time visualization systems.',
     features: ['Real-time Dashboards', 'Predictive Analytics', 'Custom BI Solutions', 'Data Pipeline Engineering'],
-    gradient: 'linear-gradient(135deg, #C0C0C0 0%, #E8E8E8 100%)'
+    gradient: 'linear-gradient(135deg, #E5E5E5 0%, #FFFFFF 100%)'
   },
   {
     icon: Settings,
     title: 'Automation & Workflows',
     description: 'Intelligent process automation with custom AI agents and workflow orchestration.',
     features: ['AI Agent Development', 'Process Automation', 'Workflow Orchestration', 'Integration Engineering'],
-    gradient: 'linear-gradient(135deg, #2D2D2D 0%, #1C1C1C 100%)'
+    gradient: 'linear-gradient(135deg, #1C1C1C 0%, #000000 100%)'
   },
   {
     icon: SmartToy,
     title: 'Custom AI Agent Design',
     description: 'Autonomous agents for research, customer service, and complex workflow implementation.',
     features: ['Research Agent Design', 'Conversational AI', 'Multi-Agent Systems', 'Custom Training Pipelines'],
-    gradient: 'linear-gradient(135deg, #0080FF 0%, #D4AF37 100%)'
+    gradient: 'linear-gradient(135deg, #00BFFF 0%, #FFD700 100%)'
   },
   {
     icon: Movie,
     title: 'Creative Technology',
     description: 'Interactive experiences, generative AI applications, and immersive digital solutions.',
     features: ['Interactive Experiences', 'Generative AI', 'Digital Twin Development', '3D Visualizations'],
-    gradient: 'linear-gradient(135deg, #0056B3 0%, #0080FF 100%)'
+    gradient: 'linear-gradient(135deg, #0080FF 0%, #00BFFF 100%)'
   }
 ];
 
@@ -73,7 +73,7 @@ export const Capabilities: React.FC = () => {
       id="capabilities"
       sx={{
         py: 16,
-        background: 'linear-gradient(180deg, #0F0F0F 0%, #0A0A0A 100%)',
+        background: 'linear-gradient(180deg, #000000 0%, #0a0a0a 50%, #1a0f0a 100%)',
         position: 'relative',
         overflow: 'hidden',
         '&::before': {
@@ -83,7 +83,7 @@ export const Capabilities: React.FC = () => {
           left: '25%',
           width: 400,
           height: 400,
-          background: 'radial-gradient(circle, rgba(212, 175, 55, 0.05) 0%, transparent 70%)',
+          background: 'radial-gradient(circle, rgba(255, 215, 0, 0.08) 0%, transparent 70%)',
           borderRadius: '50%',
           filter: 'blur(60px)',
         },
@@ -94,7 +94,7 @@ export const Capabilities: React.FC = () => {
           right: '25%',
           width: 400,
           height: 400,
-          background: 'radial-gradient(circle, rgba(0, 128, 255, 0.05) 0%, transparent 70%)',
+          background: 'radial-gradient(circle, rgba(0, 191, 255, 0.08) 0%, transparent 70%)',
           borderRadius: '50%',
           filter: 'blur(60px)',
         }
@@ -118,11 +118,11 @@ export const Capabilities: React.FC = () => {
                 mb: 3,
               }}
             >
-              <Box sx={{ height: '1px', width: 60, bgcolor: '#D4AF37' }} />
+              <Box sx={{ height: '1px', width: 60, bgcolor: '#FFD700' }} />
               <Typography
                 variant="caption"
                 sx={{
-                  color: '#D4AF37',
+                  color: '#FFD700',
                   letterSpacing: '0.3em',
                   textTransform: 'uppercase',
                   fontFamily: 'monospace',
@@ -131,7 +131,7 @@ export const Capabilities: React.FC = () => {
               >
                 Precision-Crafted Solutions
               </Typography>
-              <Box sx={{ height: '1px', width: 60, bgcolor: '#D4AF37' }} />
+              <Box sx={{ height: '1px', width: 60, bgcolor: '#FFD700' }} />
             </Box>
           </motion.div>
 
@@ -147,7 +147,7 @@ export const Capabilities: React.FC = () => {
                 fontSize: { xs: '2.5rem', md: '4rem', lg: '5rem' },
                 fontWeight: 400,
                 mb: 4,
-                background: 'linear-gradient(135deg, #D4AF37 0%, #FFD700 50%, #D4AF37 100%)',
+                background: 'linear-gradient(135deg, #FFD700 0%, #FFEF94 50%, #FFD700 100%)',
                 backgroundClip: 'text',
                 WebkitBackgroundClip: 'text',
                 color: 'transparent',
@@ -160,7 +160,7 @@ export const Capabilities: React.FC = () => {
               sx={{
                 fontSize: { xs: '2rem', md: '3rem', lg: '4rem' },
                 fontWeight: 400,
-                color: '#FAFAFA',
+                color: '#F8F8FF',
                 mb: 4,
               }}
             >
@@ -223,7 +223,7 @@ export const Capabilities: React.FC = () => {
                       overflow: 'hidden',
                       '&:hover': {
                         transform: 'translateY(-8px)',
-                        border: '1px solid rgba(212, 175, 55, 0.3)',
+                        border: '1px solid rgba(255, 215, 0, 0.4)',
                         '& .capability-icon': {
                           transform: 'scale(1.1)',
                         },
@@ -267,7 +267,7 @@ export const Capabilities: React.FC = () => {
                               justifyContent: 'center',
                             }}
                           >
-                            <IconComponent sx={{ fontSize: 32, color: '#FAFAFA' }} />
+                            <IconComponent sx={{ fontSize: 32, color: '#F8F8FF' }} />
                           </Box>
                         </Box>
                       </Box>
@@ -276,7 +276,7 @@ export const Capabilities: React.FC = () => {
                       <Typography
                         variant="h6"
                         sx={{
-                          color: '#FAFAFA',
+                          color: '#F8F8FF',
                           fontWeight: 400,
                           mb: 2,
                           fontSize: '1.25rem',
@@ -305,7 +305,7 @@ export const Capabilities: React.FC = () => {
                               <FiberManualRecord
                                 sx={{
                                   fontSize: 8,
-                                  color: '#D4AF37',
+                                  color: '#FFD700',
                                 }}
                               />
                             </ListItemIcon>
@@ -357,7 +357,7 @@ export const Capabilities: React.FC = () => {
                 <Typography
                   variant="h4"
                   sx={{
-                    color: '#D4AF37',
+                    color: '#FFD700',
                     fontFamily: 'monospace',
                     fontWeight: 600,
                     mb: 1,
@@ -380,7 +380,7 @@ export const Capabilities: React.FC = () => {
                 <Typography
                   variant="h4"
                   sx={{
-                    color: '#D4AF37',
+                    color: '#FFD700',
                     fontFamily: 'monospace',
                     fontWeight: 600,
                     mb: 1,
@@ -403,7 +403,7 @@ export const Capabilities: React.FC = () => {
                 <Typography
                   variant="h4"
                   sx={{
-                    color: '#D4AF37',
+                    color: '#FFD700',
                     fontFamily: 'monospace',
                     fontWeight: 600,
                     mb: 1,
@@ -426,7 +426,7 @@ export const Capabilities: React.FC = () => {
                 <Typography
                   variant="h4"
                   sx={{
-                    color: '#D4AF37',
+                    color: '#FFD700',
                     fontFamily: 'monospace',
                     fontWeight: 600,
                     mb: 1,

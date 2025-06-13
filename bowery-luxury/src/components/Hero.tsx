@@ -27,7 +27,7 @@ export const Hero: React.FC = () => {
         minHeight: '100vh',
         display: 'flex',
         alignItems: 'center',
-        background: 'linear-gradient(135deg, #0A0A0A 0%, #1C1C1C 100%)',
+        background: 'linear-gradient(135deg, #000000 0%, #1a0f0a 50%, #0d0d0d 100%)',
         position: 'relative',
         overflow: 'hidden',
         '&::before': {
@@ -37,7 +37,7 @@ export const Hero: React.FC = () => {
           left: 0,
           right: 0,
           bottom: 0,
-          background: 'radial-gradient(circle at 30% 50%, rgba(212, 175, 55, 0.1) 0%, transparent 50%)',
+          background: 'radial-gradient(circle at 30% 50%, rgba(255, 215, 0, 0.15) 0%, transparent 50%)',
           zIndex: 1,
         },
         '&::after': {
@@ -47,7 +47,7 @@ export const Hero: React.FC = () => {
           left: 0,
           right: 0,
           bottom: 0,
-          background: 'radial-gradient(circle at 70% 80%, rgba(0, 128, 255, 0.05) 0%, transparent 50%)',
+          background: 'radial-gradient(circle at 70% 80%, rgba(0, 191, 255, 0.08) 0%, transparent 50%)',
           zIndex: 1,
         }
       }}
@@ -62,7 +62,7 @@ export const Hero: React.FC = () => {
             position: 'absolute',
             width: '2px',
             height: '2px',
-            backgroundColor: '#D4AF37',
+            backgroundColor: '#FFD700',
             borderRadius: '50%',
             opacity: 0.3,
             animation: 'float 6s ease-in-out infinite',
@@ -103,11 +103,11 @@ export const Hero: React.FC = () => {
                 mb: 4,
               }}
             >
-              <Box sx={{ height: '1px', width: 60, bgcolor: '#D4AF37' }} />
+              <Box sx={{ height: '1px', width: 60, bgcolor: '#FFD700' }} />
               <Typography
                 variant="caption"
                 sx={{
-                  color: '#D4AF37',
+                  color: '#FFD700',
                   letterSpacing: '0.3em',
                   textTransform: 'uppercase',
                   fontFamily: 'monospace',
@@ -116,7 +116,7 @@ export const Hero: React.FC = () => {
               >
                 Engineering Tomorrow's Intelligence
               </Typography>
-              <Box sx={{ height: '1px', width: 60, bgcolor: '#D4AF37' }} />
+              <Box sx={{ height: '1px', width: 60, bgcolor: '#FFD700' }} />
             </Box>
           </motion.div>
 
@@ -133,7 +133,7 @@ export const Hero: React.FC = () => {
                 fontWeight: 400,
                 lineHeight: 0.9,
                 mb: 4,
-                background: 'linear-gradient(135deg, #D4AF37 0%, #FFD700 25%, #D4AF37 50%, #B8860B 75%, #D4AF37 100%)',
+                background: 'linear-gradient(135deg, #FFD700 0%, #FFEF94 25%, #FFD700 50%, #FFA500 75%, #FFD700 100%)',
                 backgroundClip: 'text',
                 WebkitBackgroundClip: 'text',
                 color: 'transparent',
@@ -152,7 +152,7 @@ export const Hero: React.FC = () => {
               sx={{
                 fontSize: { xs: '2.5rem', md: '5rem', lg: '6rem' },
                 fontWeight: 400,
-                color: '#FAFAFA',
+                color: '#F8F8FF',
                 mt: 2,
                 mb: 6,
               }}
@@ -174,7 +174,7 @@ export const Hero: React.FC = () => {
                 <Typography
                   variant="h4"
                   sx={{
-                    color: '#0080FF',
+                    color: '#00BFFF',
                     fontFamily: 'monospace',
                     fontWeight: 500,
                     letterSpacing: '0.1em',
@@ -206,7 +206,7 @@ export const Hero: React.FC = () => {
                 <Typography
                   variant="h3"
                   sx={{
-                    color: '#D4AF37',
+                    color: '#FFD700',
                     fontFamily: 'monospace',
                     fontWeight: 600,
                     mb: 1,
@@ -229,7 +229,7 @@ export const Hero: React.FC = () => {
                 <Typography
                   variant="h3"
                   sx={{
-                    color: '#D4AF37',
+                    color: '#FFD700',
                     fontFamily: 'monospace',
                     fontWeight: 600,
                     mb: 1,
@@ -252,7 +252,7 @@ export const Hero: React.FC = () => {
                 <Typography
                   variant="h3"
                   sx={{
-                    color: '#D4AF37',
+                    color: '#FFD700',
                     fontFamily: 'monospace',
                     fontWeight: 600,
                     mb: 1,
@@ -310,8 +310,8 @@ export const Hero: React.FC = () => {
                 size="large"
                 endIcon={<KeyboardArrowRight />}
                 sx={{
-                  bgcolor: '#D4AF37',
-                  color: '#0A0A0A',
+                  bgcolor: '#FFD700',
+                  color: '#000000',
                   px: 4,
                   py: 2,
                   fontSize: '0.875rem',
@@ -321,8 +321,8 @@ export const Hero: React.FC = () => {
                   position: 'relative',
                   overflow: 'hidden',
                   '&:hover': {
-                    bgcolor: '#0080FF',
-                    color: '#FAFAFA',
+                    bgcolor: '#00BFFF',
+                    color: '#000000',
                     transform: 'scale(1.05)',
                   },
                   '&::before': {
@@ -348,8 +348,8 @@ export const Hero: React.FC = () => {
                 variant="outlined"
                 size="large"
                 sx={{
-                  borderColor: '#D4AF37',
-                  color: '#D4AF37',
+                  borderColor: '#FFD700',
+                  color: '#FFD700',
                   px: 4,
                   py: 2,
                   fontSize: '0.875rem',
@@ -357,9 +357,9 @@ export const Hero: React.FC = () => {
                   textTransform: 'uppercase',
                   letterSpacing: '0.1em',
                   '&:hover': {
-                    borderColor: '#D4AF37',
-                    bgcolor: '#D4AF37',
-                    color: '#0A0A0A',
+                    borderColor: '#FFD700',
+                    bgcolor: '#FFD700',
+                    color: '#000000',
                   },
                   transition: 'all 0.3s ease',
                 }}
@@ -379,7 +379,7 @@ export const Hero: React.FC = () => {
           left: 0,
           right: 0,
           height: '4px',
-          background: 'linear-gradient(90deg, transparent, #D4AF37, transparent)',
+          background: 'linear-gradient(90deg, transparent, #FFD700, transparent)',
           animation: 'race 3s cubic-bezier(0.4, 0, 0.2, 1) infinite',
           '@keyframes race': {
             '0%': { transform: 'translateX(-100%)' },
