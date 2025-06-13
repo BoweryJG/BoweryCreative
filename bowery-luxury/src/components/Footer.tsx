@@ -161,10 +161,10 @@ export const Footer: React.FC = () => {
           </p>
           
           <div className="flex gap-8 text-sm">
-            <a href="#" className="text-racing-silver hover:text-champagne transition-colors">
+            <a href="#privacy-policy" className="text-racing-silver hover:text-champagne transition-colors">
               Privacy Policy
             </a>
-            <a href="#" className="text-racing-silver hover:text-champagne transition-colors">
+            <a href="#terms-of-service" className="text-racing-silver hover:text-champagne transition-colors">
               Terms of Service
             </a>
           </div>

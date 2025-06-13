@@ -1,6 +1,52 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { supabase } from '../lib/supabase';
+
+// Rate limiting: Track submissions per IP/session
+const SUBMISSION_COOLDOWN = 60000; // 1 minute
+const MAX_DAILY_SUBMISSIONS = 5;
+
+// Input validation utilities
+const validateEmail = (email: string): boolean => {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return emailRegex.test(email.toLowerCase());
+};
+
+const validatePhone = (phone: string): boolean => {
+  if (!phone) return true; // Phone is optional
+  const phoneRegex = /^[\+]?[1-9][\d\s\-\(\)]{7,15}$/;
+  return phoneRegex.test(phone.replace(/\s/g, ''));
+};
+
+const sanitizeInput = (input: string): string => {
+  return input
+    .trim()
+    .replace(/<script[^>]*>.*?<\/script>/gi, '') // Remove script tags
+    .replace(/[<>"']/g, '') // Remove dangerous characters
+    .substring(0, 1000); // Limit length
+};
+
+const validateFormData = (data: any): { isValid: boolean; errors: string[] } => {
+  const errors: string[] = [];
+  
+  if (!data.name || data.name.trim().length < 2) {
+    errors.push('Name must be at least 2 characters long');
+  }
+  
+  if (!data.email || !validateEmail(data.email)) {
+    errors.push('Please enter a valid email address');
+  }
+  
+  if (!data.message || data.message.trim().length < 10) {
+    errors.push('Message must be at least 10 characters long');
+  }
+  
+  if (data.phone && !validatePhone(data.phone)) {
+    errors.push('Please enter a valid phone number');
+  }
+  
+  return { isValid: errors.length === 0, errors };
+};
 
 export const Contact: React.FC = () => {
   const [formData, setFormData] = useState({
@@ -18,17 +64,86 @@ export const Contact: React.FC = () => {
     source: 'website',
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
+  const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error' | 'validation-error'>('idle');
+  const [validationErrors, setValidationErrors] = useState<string[]>([]);
+  const [honeypot, setHoneypot] = useState(''); // Bot detection
+  const lastSubmission = useRef<number>(0);
+  const submissionCount = useRef<number>(0);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
     setSubmitStatus('idle');
+    setValidationErrors([]);
+
+    // Bot detection - honeypot field should be empty
+    if (honeypot) {
+      console.warn('Bot detected - honeypot field filled');
+      setIsSubmitting(false);
+      return;
+    }
+
+    // Rate limiting check
+    const now = Date.now();
+    if (now - lastSubmission.current < SUBMISSION_COOLDOWN) {
+      setSubmitStatus('validation-error');
+      setValidationErrors(['Please wait before submitting another message']);
+      setIsSubmitting(false);
+      return;
+    }
+
+    if (submissionCount.current >= MAX_DAILY_SUBMISSIONS) {
+      setSubmitStatus('validation-error');
+      setValidationErrors(['Daily submission limit reached. Please try again tomorrow.']);
+      setIsSubmitting(false);
+      return;
+    }
+
+    // Sanitize and validate input
+    const sanitizedData = {
+      ...formData,
+      name: sanitizeInput(formData.name),
+      email: sanitizeInput(formData.email.toLowerCase()),
+      company: sanitizeInput(formData.company),
+      phone: sanitizeInput(formData.phone),
+      position: sanitizeInput(formData.position),
+      message: sanitizeInput(formData.message),
+    };
+
+    const validation = validateFormData(sanitizedData);
+    if (!validation.isValid) {
+      setSubmitStatus('validation-error');
+      setValidationErrors(validation.errors);
+      setIsSubmitting(false);
+      return;
+    }
 
     try {
+      // Update rate limiting trackers
+      lastSubmission.current = now;
+      submissionCount.current += 1;
+
+      // Check for duplicate submissions (same email in last 24 hours)
+      const { data: existingContact } = await supabase
+        .from('contacts')
+        .select('id, created_at')
+        .eq('email', sanitizedData.email)
+        .gte('created_at', new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString())
+        .limit(1);
+
+      if (existingContact && existingContact.length > 0) {
+        setSubmitStatus('validation-error');
+        setValidationErrors(['We already received your message. We\'ll respond within 24 hours.']);
+        setIsSubmitting(false);
+        return;
+      }
       const { data: contact, error } = await supabase
         .from('contacts')
-        .insert([formData])
+        .insert([{
+          ...sanitizedData,
+          created_at: new Date().toISOString(),
+          ip_address: await getClientIP(), // For rate limiting
+        }])
         .select()
         .single();
 
@@ -67,18 +182,56 @@ export const Contact: React.FC = () => {
 
       // Reset success message after 5 seconds
       setTimeout(() => setSubmitStatus('idle'), 5000);
-    } catch (error) {
+    } catch (error: any) {
       console.error('Error submitting form:', error);
-      setSubmitStatus('error');
+      
+      // Handle specific error types
+      if (error?.message?.includes('duplicate key')) {
+        setSubmitStatus('validation-error');
+        setValidationErrors(['This email has already been submitted. We\'ll respond soon!']);
+      } else if (error?.message?.includes('rate limit')) {
+        setSubmitStatus('validation-error');
+        setValidationErrors(['Too many requests. Please try again later.']);
+      } else {
+        setSubmitStatus('error');
+        setValidationErrors(['Something went wrong. Please try again or contact us directly.']);
+      }
     } finally {
       setIsSubmitting(false);
     }
   };
 
+  // Get client IP for rate limiting (fallback method)
+  const getClientIP = async (): Promise<string> => {
+    try {
+      // This is a simple fallback - in production you'd use your server
+      return 'unknown';
+    } catch {
+      return 'unknown';
+    }
+  };
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
+    const { name, value } = e.target;
+    
+    // Clear validation errors when user starts typing
+    if (validationErrors.length > 0) {
+      setValidationErrors([]);
+      setSubmitStatus('idle');
+    }
+    
+    // Real-time validation feedback
+    let sanitizedValue = value;
+    if (name === 'email') {
+      sanitizedValue = value.toLowerCase().trim();
+    } else if (name === 'phone') {
+      // Allow only numbers, spaces, dashes, parentheses, and plus
+      sanitizedValue = value.replace(/[^\d\s\-\(\)\+]/g, '');
+    }
+    
     setFormData(prev => ({
       ...prev,
-      [e.target.name]: e.target.value,
+      [name]: sanitizedValue,
     }));
   };
 
@@ -367,24 +520,43 @@ export const Contact: React.FC = () => {
 
             {/* Submit Status Messages */}
             {submitStatus === 'success' && (
-              <motion.p
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                className="text-electric font-mono text-sm"
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="p-4 border border-electric bg-electric/10 rounded-lg"
               >
-                ✓ Message sent successfully. We'll respond within 24 hours.
-              </motion.p>
+                <p className="text-electric font-mono text-sm flex items-center">
+                  <span className="mr-2">✓</span>
+                  Message sent successfully! We'll respond within 24 hours.
+                </p>
+              </motion.div>
             )}
 
-            {submitStatus === 'error' && (
-              <motion.p
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                className="text-red-400 font-mono text-sm"
+            {(submitStatus === 'error' || submitStatus === 'validation-error') && (
+              <motion.div
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="p-4 border border-red-400 bg-red-400/10 rounded-lg"
               >
-                ✗ Error sending message. Please try again.
-              </motion.p>
+                {validationErrors.map((error, index) => (
+                  <p key={index} className="text-red-400 font-mono text-sm flex items-start">
+                    <span className="mr-2 mt-0.5">✗</span>
+                    {error}
+                  </p>
+                ))}
+              </motion.div>
             )}
+
+            {/* Honeypot field - hidden from users, visible to bots */}
+            <input
+              type="text"
+              name="website"
+              value={honeypot}
+              onChange={(e) => setHoneypot(e.target.value)}
+              style={{ position: 'absolute', left: '-9999px', opacity: 0 }}
+              tabIndex={-1}
+              autoComplete="off"
+            />
 
             <div className="flex flex-col sm:flex-row gap-6 pt-8">
               <button
