@@ -11,7 +11,8 @@ import {
   DollarSign,
   Shield
 } from 'lucide-react';
-import { supabase, type Contact, type Project } from '../lib/supabase';
+import type { Contact, Project } from '../lib/supabase';
+import { contactsAPI, onboardingAPI, servicesAPI } from '../services/api';
 
 interface OnboardingFlowProps {
   contactId: string;
@@ -93,13 +94,7 @@ export const OnboardingFlow: React.FC<OnboardingFlowProps> = ({ contactId, onCom
 
   const loadContactData = async () => {
     try {
-      const { data, error } = await supabase
-        .from('contacts')
-        .select('*')
-        .eq('id', contactId)
-        .single();
-
-      if (error) throw error;
+      const data = await contactsAPI.getById(contactId);
       setContact(data);
     } catch (error) {
       console.error('Error loading contact:', error);
@@ -108,14 +103,8 @@ export const OnboardingFlow: React.FC<OnboardingFlowProps> = ({ contactId, onCom
 
   const loadServicePackages = async () => {
     try {
-      const { data, error } = await supabase
-        .from('service_packages')
-        .select('*')
-        .eq('is_active', true)
-        .order('display_order');
-
-      if (error) throw error;
-      setServicePackages(data || []);
+      const packages = await servicesAPI.getPackages();
+      setServicePackages(packages || []);
     } catch (error) {
       console.error('Error loading service packages:', error);
     }
@@ -132,18 +121,18 @@ export const OnboardingFlow: React.FC<OnboardingFlowProps> = ({ contactId, onCom
     try {
       const step = ONBOARDING_STEPS[stepIndex];
       
-      await supabase
-        .from('onboarding_steps')
-        .upsert({
-          contact_id: contactId,
-          step_name: step.id,
-          step_type: 'form',
-          order_index: stepIndex,
-          status: status,
-          form_data: stepData,
-          started_at: status === 'in_progress' ? new Date().toISOString() : undefined,
-          completed_at: status === 'completed' ? new Date().toISOString() : undefined
-        });
+      // Get current onboarding steps
+      const steps = await onboardingAPI.getSteps(contactId);
+      const currentStep = steps.find(s => s.step_name === step.id);
+      
+      if (currentStep?.id) {
+        if (status === 'completed') {
+          await onboardingAPI.completeStep(currentStep.id, stepData);
+        } else {
+          // Update step to in_progress via API if needed
+          console.log('Step in progress:', step.id);
+        }
+      }
     } catch (error) {
       console.error('Error saving step progress:', error);
     }

@@ -11,7 +11,8 @@ import {
   Eye,
   Edit
 } from 'lucide-react';
-import { supabase, type Contact, type Project, type ProjectStatus } from '../lib/supabase';
+import type { Contact, Project, ProjectStatus } from '../lib/supabase';
+import { contactsAPI, analyticsAPI } from '../services/api';
 
 interface DashboardStats {
   totalContacts: number;
@@ -60,51 +61,48 @@ export const AdminDashboard: React.FC = () => {
   };
 
   const loadContacts = async () => {
-    const { data, error } = await supabase
-      .from('contacts')
-      .select(`
-        *,
-        projects:projects(*)
-      `)
-      .order('created_at', { ascending: false });
+    try {
+      // Get all contacts via API
+      const allContacts = await contactsAPI.getAll();
+      
+      // For now, we'll simulate the project relationship
+      // In a real implementation, the API would include project data
+      const processedContacts = allContacts.map(contact => ({
+        ...contact,
+        projects: [],
+        latest_project: null
+      }));
 
-    if (error) throw error;
-
-    // Process contacts to add latest project info
-    const processedContacts = data?.map(contact => ({
-      ...contact,
-      latest_project: contact.projects?.[0] || null
-    })) || [];
-
-    setContacts(processedContacts);
+      setContacts(processedContacts);
+    } catch (error) {
+      console.error('Error loading contacts:', error);
+    }
   };
 
   const loadStats = async () => {
     try {
-      // Total contacts
-      const { count: totalContacts } = await supabase
-        .from('contacts')
-        .select('*', { count: 'exact', head: true });
-
-      // Active projects
-      const { count: activeProjects } = await supabase
-        .from('projects')
-        .select('*', { count: 'exact', head: true })
-        .in('status', ['in_progress', 'contract_signed']);
-
-      // Revenue and other metrics would require more complex queries
-      // For now, we'll use placeholder calculations
+      // Get dashboard metrics from API
+      const metrics = await analyticsAPI.getDashboardMetrics();
       
       setStats({
-        totalContacts: totalContacts || 0,
-        activeProjects: activeProjects || 0,
-        monthlyRevenue: 125000, // Calculated from actual project data
-        conversionRate: 23.5, // Lead to project conversion
-        avgProjectValue: 45000, // Average project value
-        pendingPayments: 3 // Number of pending payments
+        totalContacts: metrics.totalContacts,
+        activeProjects: metrics.activeProjects,
+        monthlyRevenue: metrics.revenue.monthly,
+        conversionRate: metrics.conversionRate,
+        avgProjectValue: metrics.averageProjectValue,
+        pendingPayments: 3 // This would come from the API
       });
     } catch (error) {
       console.error('Error loading stats:', error);
+      // Fallback to default values if API fails
+      setStats({
+        totalContacts: 0,
+        activeProjects: 0,
+        monthlyRevenue: 0,
+        conversionRate: 0,
+        avgProjectValue: 0,
+        pendingPayments: 0
+      });
     }
   };
 

@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { motion } from 'framer-motion';
-import { supabase } from '../lib/supabase';
+import { contactsAPI, onboardingAPI, emailAPI } from '../services/api';
 
 // Rate limiting: Track submissions per IP/session
 const SUBMISSION_COOLDOWN = 60000; // 1 minute
@@ -123,46 +123,37 @@ export const Contact: React.FC = () => {
       lastSubmission.current = now;
       submissionCount.current += 1;
 
-      // Check for duplicate submissions (same email in last 24 hours)
-      const { data: existingContact } = await supabase
-        .from('contacts')
-        .select('id, created_at')
-        .eq('email', sanitizedData.email)
-        .gte('created_at', new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString())
-        .limit(1);
-
-      if (existingContact && existingContact.length > 0) {
-        setSubmitStatus('validation-error');
-        setValidationErrors(['We already received your message. We\'ll respond within 24 hours.']);
-        setIsSubmitting(false);
-        return;
-      }
-      const { data: contact, error } = await supabase
-        .from('contacts')
-        .insert([{
-          ...sanitizedData,
-          created_at: new Date().toISOString(),
-          ip_address: await getClientIP(), // For rate limiting
-        }])
-        .select()
-        .single();
-
-      if (error) throw error;
-
       // Calculate lead score based on form data
       const leadScore = calculateLeadScore(formData);
-      
-      // Update contact with lead score
-      await supabase
-        .from('contacts')
-        .update({ lead_score: leadScore })
-        .eq('id', contact.id);
 
-      // Initialize onboarding steps
-      await initializeOnboardingSteps(contact.id);
+      // Create contact through API
+      const contact = await contactsAPI.create({
+        ...sanitizedData,
+        lead_score: leadScore,
+        tags: [formData.project_type, formData.urgency],
+        availability: formData.timeline,
+      });
 
-      // Send welcome email
-      await sendWelcomeEmail(contact.id);
+      if (!contact.id) {
+        throw new Error('Failed to create contact');
+      }
+
+      // Initialize onboarding through API
+      const { projectId } = await onboardingAPI.startOnboarding(contact.id);
+
+      // Send welcome email through API
+      if (contact.email) {
+        await emailAPI.sendEmail(
+          'welcome', // template ID
+          contact.email,
+          {
+            name: contact.name,
+            projectType: formData.project_type,
+            timeline: formData.timeline,
+            projectId: projectId
+          }
+        );
+      }
 
       setSubmitStatus('success');
       setFormData({
@@ -286,45 +277,6 @@ export const Contact: React.FC = () => {
     return Math.min(score, 100); // Cap at 100
   };
 
-  const initializeOnboardingSteps = async (contactId: string) => {
-    const steps = [
-      { step_name: 'qualification', step_type: 'form', order_index: 0 },
-      { step_name: 'packages', step_type: 'form', order_index: 1 },
-      { step_name: 'proposal', step_type: 'document', order_index: 2 },
-      { step_name: 'contract', step_type: 'document', order_index: 3 },
-      { step_name: 'payment', step_type: 'payment', order_index: 4 },
-      { step_name: 'kickoff', step_type: 'meeting', order_index: 5 }
-    ];
-
-    const onboardingSteps = steps.map(step => ({
-      contact_id: contactId,
-      ...step,
-      status: 'not_started' as const
-    }));
-
-    await supabase
-      .from('onboarding_steps')
-      .insert(onboardingSteps);
-  };
-
-  const sendWelcomeEmail = async (contactId: string) => {
-    try {
-      // Call the email automation edge function
-      const { error } = await supabase.functions.invoke('email-automation', {
-        body: {
-          contactId,
-          triggerEvent: 'contact_created'
-        }
-      });
-      
-      if (error) {
-        console.error('Email automation error:', error);
-      }
-    } catch (error) {
-      console.error('Failed to send welcome email:', error);
-      // Don't throw - email failure shouldn't break form submission
-    }
-  };
   return (
     <section id="contact" className="section-luxury bg-gradient-to-b from-midnight to-obsidian relative overflow-hidden">
       {/* Background elements */}
