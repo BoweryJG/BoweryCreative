@@ -1,3 +1,7 @@
 [build]
-  command = "echo 'No build needed'"
+  command = "npm ci && npm run build"
   publish = "dist"
+
+[build.environment]
+  NODE_VERSION = "18"
+  NODE_OPTIONS = "--max-old-space-size=4096"
