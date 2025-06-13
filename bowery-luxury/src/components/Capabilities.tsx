@@ -16,14 +16,22 @@ import {
   Storage,
   Settings,
   SmartToy,
-  Movie,
   FiberManualRecord,
   ArrowForward,
 } from '@mui/icons-material';
 import { motion } from 'framer-motion';
 import { CapabilityModal } from './CapabilityModal';
 
-const capabilities = [
+interface Capability {
+  id: string;
+  icon: any;
+  title: string;
+  description: string;
+  features: string[];
+  gradient: string;
+}
+
+const capabilities: Capability[] = [
   {
     id: 'ai-infrastructure',
     icon: Psychology,

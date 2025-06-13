@@ -2,17 +2,10 @@ import React, { useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { 
   X, 
-  Brain, 
-  Code, 
-  Database, 
-  Zap, 
-  LineChart, 
-  Shield, 
   ArrowRight,
   CheckCircle,
   TrendingUp,
-  LocalHospital,
-  Psychology
+  Hospital
 } from 'lucide-react';
 
 interface CapabilityModalProps {
@@ -22,8 +15,9 @@ interface CapabilityModalProps {
     id: string;
     title: string;
     description: string;
-    icon: React.ReactNode;
+    icon: any;
     gradient: string;
+    features?: string[];
   } | null;
 }
 
@@ -334,7 +328,7 @@ export const CapabilityModal: React.FC<CapabilityModalProps> = ({ isOpen, onClos
                 {/* Header content */}
                 <div className="flex items-start gap-6">
                   <div className="p-4 rounded-xl bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-sm">
-                    {React.cloneElement(capability.icon as React.ReactElement, {
+                    {capability.icon && React.createElement(capability.icon, {
                       className: 'w-12 h-12 text-champagne'
                     })}
                   </div>
@@ -433,7 +427,7 @@ export const CapabilityModal: React.FC<CapabilityModalProps> = ({ isOpen, onClos
                   className="mb-8"
                 >
                   <h3 className="text-2xl font-display text-champagne mb-6 flex items-center gap-3">
-                    <LocalHospital className="w-6 h-6" />
+                    <Hospital className="w-6 h-6" />
                     Case Study
                   </h3>
                   <div className="glass-morphism p-6 rounded-xl border border-champagne/20">
