@@ -157,7 +157,7 @@ export const Contact: React.FC = () => {
   const sendWelcomeEmail = async (contactId: string) => {
     try {
       // Call the email automation edge function
-      const { data, error } = await supabase.functions.invoke('email-automation', {
+      const { error } = await supabase.functions.invoke('email-automation', {
         body: {
           contactId,
           triggerEvent: 'contact_created'

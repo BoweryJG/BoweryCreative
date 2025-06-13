@@ -361,7 +361,7 @@ const QualificationStep: React.FC<{
   }, [formData, onChange]);
 
   const handleChange = (field: string, value: any) => {
-    setFormData(prev => ({ ...prev, [field]: value }));
+    setFormData((prev: any) => ({ ...prev, [field]: value }));
   };
 
   return (
@@ -738,7 +738,7 @@ const PaymentSetupStep: React.FC<{
   }, [paymentData, onChange]);
 
   const handleChange = (field: string, value: any) => {
-    setPaymentData(prev => ({ ...prev, [field]: value }));
+    setPaymentData((prev: any) => ({ ...prev, [field]: value }));
   };
 
   return (
@@ -847,7 +847,7 @@ const KickoffSchedulingStep: React.FC<{
   }, [meetingData, onChange]);
 
   const handleChange = (field: string, value: any) => {
-    setMeetingData(prev => ({ ...prev, [field]: value }));
+    setMeetingData((prev: any) => ({ ...prev, [field]: value }));
   };
 
   return (

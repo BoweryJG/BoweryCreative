@@ -364,7 +364,7 @@ export const AdminDashboard: React.FC = () => {
                           <Edit size={16} className="text-racing-silver hover:text-champagne" />
                         </button>
                         <button className="p-2 hover:bg-carbon rounded-lg transition-colors">
-                          <Mail size={16} className="text-racing-silver hover:text-champagne" />
+                          <Edit size={16} className="text-racing-silver hover:text-champagne" />
                         </button>
                         <button className="p-2 hover:bg-carbon rounded-lg transition-colors">
                           <MoreHorizontal size={16} className="text-racing-silver hover:text-champagne" />
