@@ -129,11 +129,11 @@ export const Hero: React.FC = () => {
             <Typography
               variant="h1"
               sx={{
-                fontSize: { xs: '3rem', md: '6rem', lg: '8rem' },
+                fontSize: { xs: '2.5rem', sm: '3.5rem', md: '6rem', lg: '8rem' },
                 fontWeight: 300,
                 fontFamily: '"Bebas Neue", "Anton", sans-serif',
-                letterSpacing: '0.15em',
-                lineHeight: 0.9,
+                letterSpacing: { xs: '0.1em', md: '0.15em' },
+                lineHeight: { xs: 1.1, md: 0.9 },
                 mb: 4,
                 background: 'linear-gradient(135deg, #FFD700 0%, #FFEF94 25%, #FFD700 50%, #FFA500 75%, #FFD700 100%)',
                 backgroundClip: 'text',
@@ -153,10 +153,10 @@ export const Hero: React.FC = () => {
             <Typography
               variant="h1"
               sx={{
-                fontSize: { xs: '2.5rem', md: '5rem', lg: '6rem' },
+                fontSize: { xs: '2rem', sm: '2.5rem', md: '5rem', lg: '6rem' },
                 fontWeight: 200,
                 fontFamily: '"Bebas Neue", "Anton", sans-serif',
-                letterSpacing: '0.2em',
+                letterSpacing: { xs: '0.15em', md: '0.2em' },
                 color: '#F8F8FF',
                 mt: 2,
                 mb: 6,
