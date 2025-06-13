@@ -1,6 +1,6 @@
-# React + TypeScript + Vite
+# Bowery Creative - Luxury AI Agency
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Sophisticated AI infrastructure and full-stack development.
 
 Currently, two official plugins are available:
 
