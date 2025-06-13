@@ -5,18 +5,42 @@ const services = [
   {
     title: 'Brand Strategy',
     description: 'Positioning your practice as the definitive choice for discerning patients through sophisticated brand architecture.',
+    details: [
+      'Comprehensive market analysis and positioning',
+      'Visual identity and brand guidelines',
+      'Messaging framework and voice development',
+      'Competitive differentiation strategy',
+    ],
   },
   {
     title: 'Digital Excellence',
     description: 'Crafting digital experiences that reflect the precision and care of your medical practice.',
+    details: [
+      'Responsive website design and development',
+      'Patient portal and booking integration',
+      'SEO and local search optimization',
+      'Performance tracking and analytics',
+    ],
   },
   {
     title: 'Content Creation',
     description: 'Thought leadership and educational content that establishes your authority in the field.',
+    details: [
+      'Educational video production',
+      'Blog and article writing',
+      'Social media content strategy',
+      'Email marketing campaigns',
+    ],
   },
   {
     title: 'Campaign Management',
     description: 'Strategic campaigns designed to attract quality patients and drive sustainable growth.',
+    details: [
+      'Multi-channel campaign planning',
+      'Paid media management (Google, Meta, etc.)',
+      'ROI tracking and optimization',
+      'A/B testing and conversion optimization',
+    ],
   },
 ];
 
@@ -59,11 +83,21 @@ export const Services: React.FC = () => {
               <h3 className="font-display text-2xl md:text-3xl font-light mb-4 group-hover:text-bowery-accent transition-colors duration-300">
                 {service.title}
               </h3>
-              <p className="text-bowery-gray-600 leading-relaxed">
+              <p className="text-bowery-gray-600 leading-relaxed mb-6">
                 {service.description}
               </p>
+              {service.details && (
+                <ul className="space-y-2 mb-8">
+                  {service.details.map((detail, idx) => (
+                    <li key={idx} className="flex items-start">
+                      <span className="text-bowery-accent mr-2">•</span>
+                      <span className="text-sm text-bowery-gray-500">{detail}</span>
+                    </li>
+                  ))}
+                </ul>
+              )}
               <motion.div
-                className="mt-6 inline-block"
+                className="inline-block"
                 whileHover={{ x: 10 }}
                 transition={{ duration: 0.3 }}
               >

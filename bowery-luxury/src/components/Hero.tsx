@@ -44,7 +44,8 @@ export const Hero: React.FC = () => {
             transition={{ delay: 0.8 }}
             className="text-bowery-gray-600 text-lg md:text-xl font-light max-w-2xl mx-auto mb-16 leading-relaxed"
           >
-            Sophisticated marketing strategies for forward-thinking medical professionals
+            15 years of expertise. 200+ successful campaigns. $3.2B in revenue generated.
+            <span className="block mt-2">Transform your practice with marketing that commands respect.</span>
           </motion.p>
 
           {/* Single, refined CTA */}
