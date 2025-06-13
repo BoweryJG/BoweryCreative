@@ -1,4 +1,5 @@
-import React, { Component, ErrorInfo, ReactNode } from 'react';
+import React, { Component } from 'react';
+import type { ErrorInfo, ReactNode } from 'react';
 import { motion } from 'framer-motion';
 
 interface Props {
@@ -124,8 +125,9 @@ export class ErrorBoundary extends Component<Props, State> {
                 </button>
                 
                 <a
-                  href="mailto:support@bowerycreativeagency.com?subject=Website Error Report"
+                  href="#contact"
                   className="btn-ghost"
+                  onClick={() => window.location.hash = 'contact'}
                 >
                   Report Issue
                 </a>

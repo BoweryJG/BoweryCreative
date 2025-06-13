@@ -226,7 +226,7 @@ export const TermsOfService: React.FC = () => {
                 </p>
                 <div className="bg-carbon p-6 rounded-lg">
                   <p><strong>Bowery Creative Agency</strong></p>
-                  <p>Email: legal@bowerycreativeagency.com</p>
+                  <p>Contact: <a href="#contact" className="text-champagne hover:text-electric transition-colors">Secure Contact Form</a></p>
                   <p>Address: New York, NY, United States</p>
                 </div>
               </div>
