@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Box,
   Container,
@@ -18,55 +18,75 @@ import {
   SmartToy,
   Movie,
   FiberManualRecord,
+  ArrowForward,
 } from '@mui/icons-material';
 import { motion } from 'framer-motion';
+import { CapabilityModal } from './CapabilityModal';
 
 const capabilities = [
   {
+    id: 'ai-infrastructure',
     icon: Psychology,
-    title: 'AI Infrastructure & Machine Learning',
-    description: 'Custom LLM development, fine-tuning, and neural architecture design for enterprise-grade intelligence.',
-    features: ['Custom Model Training', 'AGI Research & Implementation', 'Augmented Intelligence Systems', 'Neural Network Optimization'],
+    title: 'AI Infrastructure',
+    description: 'Medical-grade neural networks and HIPAA-compliant AI systems for healthcare excellence.',
+    features: ['FDA-Cleared Algorithms', 'Surgical Robotics AI', 'Diagnostic Intelligence', 'Clinical Decision Support'],
     gradient: 'linear-gradient(135deg, #00BFFF 0%, #0080FF 100%)'
   },
   {
+    id: 'machine-learning',
+    icon: Psychology,
+    title: 'Machine Learning',
+    description: 'Predictive analytics for treatment outcomes, patient satisfaction, and practice optimization.',
+    features: ['Outcome Prediction', 'Risk Stratification', 'Revenue Optimization', 'Clinical ML Models'],
+    gradient: 'linear-gradient(135deg, #76B900 0%, #00D4AA 100%)'
+  },
+  {
+    id: 'full-stack',
     icon: Code,
     title: 'Full-Stack Engineering',
-    description: 'Enterprise applications with real-time performance, cloud-native architectures, and scalable solutions.',
-    features: ['React/Node.js Applications', 'Cloud Infrastructure', 'API Development', 'Performance Optimization'],
+    description: 'Complete digital transformation platforms for medical and aesthetic practices.',
+    features: ['Patient Portals', 'Telemedicine Platforms', 'Practice Management', 'Mobile Health Apps'],
     gradient: 'linear-gradient(135deg, #FFD700 0%, #FFA500 100%)'
   },
   {
+    id: 'data-synthesis',
     icon: Storage,
-    title: 'Data Synthesis & Analytics',
-    description: 'Live dashboards, predictive modeling, and real-time visualization systems.',
-    features: ['Real-time Dashboards', 'Predictive Analytics', 'Custom BI Solutions', 'Data Pipeline Engineering'],
+    title: 'Data Synthesis',
+    description: 'Transform clinical data into actionable insights for better outcomes and growth.',
+    features: ['Clinical Analytics', 'Market Intelligence', 'Outcome Tracking', 'Regulatory Reporting'],
     gradient: 'linear-gradient(135deg, #E5E5E5 0%, #FFFFFF 100%)'
   },
   {
+    id: 'automation',
     icon: Settings,
-    title: 'Automation & Workflows',
-    description: 'Intelligent process automation with custom AI agents and workflow orchestration.',
-    features: ['AI Agent Development', 'Process Automation', 'Workflow Orchestration', 'Integration Engineering'],
+    title: 'Automation',
+    description: 'Intelligent workflow automation to eliminate administrative burden and amplify care.',
+    features: ['Revenue Cycle Automation', 'Clinical Documentation', 'Patient Journey', 'Smart Scheduling'],
     gradient: 'linear-gradient(135deg, #1C1C1C 0%, #000000 100%)'
   },
   {
+    id: 'ai-luxury',
     icon: SmartToy,
-    title: 'Custom AI Agent Design',
-    description: 'Autonomous agents for research, customer service, and complex workflow implementation.',
-    features: ['Research Agent Design', 'Conversational AI', 'Multi-Agent Systems', 'Custom Training Pipelines'],
-    gradient: 'linear-gradient(135deg, #00BFFF 0%, #FFD700 100%)'
-  },
-  {
-    icon: Movie,
-    title: 'Creative Technology',
-    description: 'Interactive experiences, generative AI applications, and immersive digital solutions.',
-    features: ['Interactive Experiences', 'Generative AI', 'Digital Twin Development', '3D Visualizations'],
-    gradient: 'linear-gradient(135deg, #0080FF 0%, #00BFFF 100%)'
+    title: 'AI Luxury Innovation',
+    description: 'Bespoke AI experiences for elite medical practices and discerning patients.',
+    features: ['Concierge AI', 'VIP Patient Management', 'Luxury Experience Design', 'Elite Outcomes'],
+    gradient: 'linear-gradient(135deg, #FFD700 0%, #FF6B6B 100%)'
   }
 ];
 
 export const Capabilities: React.FC = () => {
+  const [selectedCapability, setSelectedCapability] = useState<typeof capabilities[0] | null>(null);
+  const [modalOpen, setModalOpen] = useState(false);
+
+  const handleOpenModal = (capability: typeof capabilities[0]) => {
+    setSelectedCapability(capability);
+    setModalOpen(true);
+  };
+
+  const handleCloseModal = () => {
+    setModalOpen(false);
+    setTimeout(() => setSelectedCapability(null), 300);
+  };
 
   return (
     <Box
@@ -213,6 +233,7 @@ export const Capabilities: React.FC = () => {
                 transition={{ delay: index * 0.1, duration: 0.8 }}
               >
                 <Card
+                    onClick={() => handleOpenModal(capability)}
                     sx={{
                       height: '100%',
                       background: 'rgba(28, 28, 28, 0.8)',
@@ -221,11 +242,16 @@ export const Capabilities: React.FC = () => {
                       transition: 'all 0.5s ease',
                       position: 'relative',
                       overflow: 'hidden',
+                      cursor: 'pointer',
                       '&:hover': {
                         transform: 'translateY(-8px)',
                         border: '1px solid rgba(255, 215, 0, 0.4)',
                         '& .capability-icon': {
                           transform: 'scale(1.1)',
+                        },
+                        '& .learn-more': {
+                          opacity: 1,
+                          transform: 'translateX(0)',
                         },
                         '&::before': {
                           opacity: 0.1,
@@ -319,6 +345,26 @@ export const Capabilities: React.FC = () => {
                           </ListItem>
                         ))}
                       </List>
+
+                      {/* Learn More */}
+                      <Box
+                        className="learn-more"
+                        sx={{
+                          mt: 3,
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: 1,
+                          color: '#FFD700',
+                          opacity: 0,
+                          transform: 'translateX(-10px)',
+                          transition: 'all 0.3s ease',
+                        }}
+                      >
+                        <Typography variant="caption" sx={{ fontWeight: 600 }}>
+                          Learn More
+                        </Typography>
+                        <ArrowForward sx={{ fontSize: 16 }} />
+                      </Box>
                     </CardContent>
                   </Card>
                 </motion.div>
@@ -449,6 +495,13 @@ export const Capabilities: React.FC = () => {
           </Box>
         </motion.div>
       </Container>
+
+      {/* Capability Modal */}
+      <CapabilityModal
+        isOpen={modalOpen}
+        onClose={handleCloseModal}
+        capability={selectedCapability}
+      />
     </Box>
   );
 };
