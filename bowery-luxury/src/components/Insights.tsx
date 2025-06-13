@@ -576,6 +576,12 @@ export const Insights: React.FC = () => {
               variant="contained"
               size="large"
               endIcon={<ArrowForward />}
+              onClick={() => {
+                const contactSection = document.getElementById('contact');
+                if (contactSection) {
+                  contactSection.scrollIntoView({ behavior: 'smooth' });
+                }
+              }}
               sx={{
                 background: 'linear-gradient(135deg, #FFD700 0%, #FFA500 100%)',
                 color: '#000',

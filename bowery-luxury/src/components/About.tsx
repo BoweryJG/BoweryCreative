@@ -46,11 +46,11 @@ const achievements: Achievement[] = [
   },
   {
     id: 'neocis',
-    title: 'NVIDIA-Backed Surgical Robotics',
-    description: 'Led innovation at Neocis, developing AI-powered surgical robotics systems that transform dental implant procedures with sub-millimeter precision.',
+    title: 'Advanced Surgical Robotics',
+    description: 'Regional sales leadership for Neocis surgical robotics systems, bringing AI-powered dental implant technology to the New York market.',
     icon: <Psychology />,
     gradient: 'linear-gradient(135deg, #76B900 0%, #00D4AA 100%)',
-    stats: 'AI + Robotics',
+    stats: 'NY Market Leader',
   },
   {
     id: 'medtech',
@@ -88,9 +88,9 @@ const timeline: TimelineItem[] = [
   },
   {
     year: '2020-2023',
-    title: 'Innovation Lead',
-    company: 'Neocis (NVIDIA-Backed)',
-    description: 'Surgical robotics & AI-guided dental implant systems',
+    title: 'Regional Sales Manager',
+    company: 'Neocis',
+    description: 'New York market leadership for AI-guided dental implant systems',
     highlight: true,
   },
   {
@@ -191,8 +191,8 @@ export const About: React.FC = () => {
                 mx: 'auto',
               }}
             >
-              From pioneering CoolSculpting's launch to developing NVIDIA-backed surgical robotics, 
-              now bringing that same innovation to luxury AI experiences
+              From pioneering CoolSculpting's regional launch to leading surgical robotics sales in New York, 
+              now bringing that same market expertise to luxury AI experiences
             </Typography>
           </Box>
         </motion.div>

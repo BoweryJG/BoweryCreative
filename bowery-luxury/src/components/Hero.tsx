@@ -315,6 +315,12 @@ export const Hero: React.FC = () => {
                 variant="contained"
                 size="large"
                 endIcon={<KeyboardArrowRight />}
+                onClick={() => {
+                  const contactSection = document.getElementById('contact');
+                  if (contactSection) {
+                    contactSection.scrollIntoView({ behavior: 'smooth' });
+                  }
+                }}
                 sx={{
                   bgcolor: '#FFD700',
                   color: '#000000',
@@ -353,6 +359,12 @@ export const Hero: React.FC = () => {
               <Button
                 variant="outlined"
                 size="large"
+                onClick={() => {
+                  const showcaseSection = document.getElementById('showcase');
+                  if (showcaseSection) {
+                    showcaseSection.scrollIntoView({ behavior: 'smooth' });
+                  }
+                }}
                 sx={{
                   borderColor: '#FFD700',
                   color: '#FFD700',

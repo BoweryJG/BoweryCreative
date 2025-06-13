@@ -13,7 +13,8 @@ const getSessionId = () => {
 // Track page views
 export const trackPageView = async (pagePath: string) => {
   try {
-    await supabase.from('analytics').insert({
+    // Check if analytics is available before attempting to track
+    const { error } = await supabase.from('analytics').insert({
       event_type: 'page_view',
       page_path: pagePath,
       referrer: document.referrer,
@@ -26,8 +27,18 @@ export const trackPageView = async (pagePath: string) => {
         viewport_height: window.innerHeight,
       },
     });
+    
+    if (error) {
+      // Silently fail if analytics table doesn't exist
+      if (error.code === '42P01' || error.message.includes('relation') || error.message.includes('does not exist')) {
+        console.debug('Analytics table not set up yet');
+      } else {
+        console.debug('Analytics tracking failed:', error.message);
+      }
+    }
   } catch (error) {
-    console.error('Analytics error:', error);
+    // Silently fail for analytics errors
+    console.debug('Analytics tracking failed:', error);
   }
 };
 
@@ -37,7 +48,7 @@ export const trackEvent = async (
   metadata?: Record<string, any>
 ) => {
   try {
-    await supabase.from('analytics').insert({
+    const { error } = await supabase.from('analytics').insert({
       event_type: eventType,
       page_path: window.location.pathname,
       referrer: document.referrer,
@@ -45,8 +56,12 @@ export const trackEvent = async (
       session_id: getSessionId(),
       metadata,
     });
+    
+    if (error && !error.message.includes('does not exist')) {
+      console.debug('Analytics tracking failed:', error.message);
+    }
   } catch (error) {
-    console.error('Analytics error:', error);
+    console.debug('Analytics tracking failed:', error);
   }
 };
 
