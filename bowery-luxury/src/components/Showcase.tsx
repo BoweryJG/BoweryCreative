@@ -37,6 +37,8 @@ interface Project {
   featured?: boolean;
   details?: string[];
   marketSize?: string;
+  liveUrl?: string;
+  githubUrl?: string;
 }
 
 const projects: Project[] = [
@@ -184,6 +186,29 @@ const projects: Project[] = [
     ],
     icon: <LocalHospital sx={{ fontSize: 30 }} />,
     gradient: 'linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%)',
+  },
+  {
+    id: 'boweryconnect',
+    title: 'BoweryConnect',
+    subtitle: 'AI Crisis Support for NYC Homeless',
+    description: 'Revolutionary platform connecting NYC\'s homeless community with dignity, opportunities, and hope. 24/7 AI-powered crisis support in 5 languages with offline mode.',
+    techStack: ['React Native', 'Expo', 'GPT-4', 'Redux Toolkit', 'Netlify'],
+    metrics: [
+      { label: 'Languages', value: '5' },
+      { label: 'Resources', value: '20+' },
+      { label: 'Availability', value: '24/7' },
+    ],
+    icon: <Psychology sx={{ fontSize: 30 }} />,
+    gradient: 'linear-gradient(135deg, #4ECDC4 0%, #556270 100%)',
+    details: [
+      '24/7 AI-powered crisis chatbot trained for homeless mental health',
+      'Multi-language support: English, Spanish, Mandarin, Arabic, Russian',
+      'Voice recognition for hands-free support',
+      'Offline mode with cached crisis responses',
+      'Real-time connection to 20+ NYC organizations',
+    ],
+    liveUrl: 'https://boweryconnect-web.netlify.app',
+    githubUrl: 'https://github.com/BoweryJG/BoweryConnect',
   },
 ];
 
@@ -507,13 +532,11 @@ export const Showcase: React.FC = () => {
                       border: '1px solid',
                       borderColor: alpha('#FFD700', 0.1),
                       transition: 'all 0.3s ease',
-                      cursor: 'pointer',
                       '&:hover': {
                         borderColor: alpha('#FFD700', 0.3),
                         background: alpha('#1a1a1a', 0.5),
                       },
                     }}
-                    onClick={() => setSelectedProject(project)}
                   >
                     <CardContent sx={{ p: 3 }}>
                       <Box
@@ -568,6 +591,46 @@ export const Showcase: React.FC = () => {
                         >
                           {project.marketSize}
                         </Typography>
+                      )}
+                      {(project.liveUrl || project.githubUrl) && (
+                        <Box sx={{ mt: 2, display: 'flex', gap: 1 }}>
+                          {project.liveUrl && (
+                            <Button
+                              size="small"
+                              href={project.liveUrl}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              sx={{
+                                color: '#FFD700',
+                                fontSize: '0.8rem',
+                                textTransform: 'none',
+                                '&:hover': {
+                                  background: alpha('#FFD700', 0.1),
+                                },
+                              }}
+                            >
+                              View Live
+                            </Button>
+                          )}
+                          {project.githubUrl && (
+                            <Button
+                              size="small"
+                              href={project.githubUrl}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              sx={{
+                                color: '#FFD700',
+                                fontSize: '0.8rem',
+                                textTransform: 'none',
+                                '&:hover': {
+                                  background: alpha('#FFD700', 0.1),
+                                },
+                              }}
+                            >
+                              GitHub
+                            </Button>
+                          )}
+                        </Box>
                       )}
                     </CardContent>
                   </Card>
