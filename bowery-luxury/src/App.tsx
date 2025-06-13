@@ -3,6 +3,7 @@ import { Navigation } from './components/Navigation';
 import { Hero } from './components/Hero';
 import { Capabilities } from './components/Capabilities';
 import { Showcase } from './components/Showcase';
+import { Technology } from './components/Technology';
 import { Contact } from './components/Contact';
 import { Footer } from './components/Footer';
 import { trackPageView } from './lib/analytics';
@@ -27,6 +28,7 @@ function App() {
       <Hero />
       <Capabilities />
       <Showcase />
+      <Technology />
       <Contact />
       <Footer />
     </div>
