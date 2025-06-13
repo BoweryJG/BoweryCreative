@@ -11,14 +11,10 @@ import {
   IconButton,
   Dialog,
   DialogContent,
-  useTheme,
   alpha,
 } from '@mui/material';
 import {
-  Code,
   Visibility,
-  GitHub,
-  Launch,
   Close,
   Psychology,
   LocalHospital,
@@ -27,7 +23,7 @@ import {
   ThreeDRotation,
   CloudQueue,
 } from '@mui/icons-material';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 
 interface Project {
   id: string;
@@ -201,7 +197,6 @@ const techStackIcons: Record<string, React.ReactNode> = {
 };
 
 export const Showcase: React.FC = () => {
-  const theme = useTheme();
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
   const [hoveredCard, setHoveredCard] = useState<string | null>(null);
 
