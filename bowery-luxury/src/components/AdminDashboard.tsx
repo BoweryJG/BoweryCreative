@@ -70,7 +70,7 @@ export const AdminDashboard: React.FC = () => {
       const processedContacts = allContacts.map(contact => ({
         ...contact,
         projects: [],
-        latest_project: null
+        latest_project: undefined
       }));
 
       setContacts(processedContacts);

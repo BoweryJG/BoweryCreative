@@ -1,4 +1,3 @@
-import { supabase } from '../lib/supabase';
 import type { 
   Contact, 
   Project, 
@@ -156,9 +155,9 @@ export const onboardingAPI = {
   }
 };
 
-// Email Automation API
+// Email Automation API with Resend
 export const emailAPI = {
-  // Send email using template
+  // Send email using template via backend
   async sendEmail(templateId: string, to: string, variables: Record<string, any>): Promise<{
     success: boolean;
     messageId: string;
@@ -170,7 +169,7 @@ export const emailAPI = {
     });
   },
 
-  // Send custom email
+  // Send custom email via backend
   async sendCustomEmail(data: {
     to: string;
     subject: string;
@@ -180,6 +179,117 @@ export const emailAPI = {
     bcc?: string[];
   }): Promise<{ success: boolean; messageId: string }> {
     return apiClient.post('/api/emails/send-custom', data);
+  },
+
+  // Direct Resend integration for immediate needs
+  async sendViaResend(data: {
+    to: string | string[];
+    from?: string;
+    subject: string;
+    html?: string;
+    text?: string;
+    cc?: string[];
+    bcc?: string[];
+    replyTo?: string;
+    tags?: Array<{ name: string; value: string }>;
+  }): Promise<{ id: string; from: string; to: string[] }> {
+    const RESEND_API_KEY = import.meta.env.VITE_RESEND_API_KEY || '';
+    
+    const response = await fetch('https://api.resend.com/emails', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${RESEND_API_KEY}`,
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        from: data.from || 'Bowery Creative <noreply@bowerycreativeagency.com>',
+        to: data.to,
+        subject: data.subject,
+        html: data.html,
+        text: data.text,
+        cc: data.cc,
+        bcc: data.bcc,
+        reply_to: data.replyTo,
+        tags: data.tags
+      })
+    });
+
+    if (!response.ok) {
+      const error = await response.json();
+      throw new Error(`Resend API error: ${error.message || response.statusText}`);
+    }
+
+    return response.json();
+  },
+
+  // Send medical/healthcare specific emails
+  async sendMedicalEmail(data: {
+    to: string;
+    type: 'appointment_reminder' | 'treatment_followup' | 'consultation_booking' | 'results_ready';
+    patientName: string;
+    details: Record<string, any>;
+  }): Promise<{ success: boolean; messageId: string }> {
+    const templates = {
+      appointment_reminder: {
+        subject: `Appointment Reminder - ${data.details.date}`,
+        html: `
+          <h2>Hello ${data.patientName},</h2>
+          <p>This is a reminder about your upcoming appointment:</p>
+          <div style="background: #f5f5f5; padding: 20px; border-radius: 8px; margin: 20px 0;">
+            <p><strong>Date:</strong> ${data.details.date}</p>
+            <p><strong>Time:</strong> ${data.details.time}</p>
+            <p><strong>Provider:</strong> ${data.details.provider}</p>
+            <p><strong>Location:</strong> ${data.details.location}</p>
+          </div>
+          <p>Please arrive 15 minutes early to complete any necessary paperwork.</p>
+        `
+      },
+      treatment_followup: {
+        subject: `Follow-up: How are you feeling, ${data.patientName}?`,
+        html: `
+          <h2>Hello ${data.patientName},</h2>
+          <p>We hope you're doing well after your recent ${data.details.treatment} treatment.</p>
+          <p>It's been ${data.details.daysSince} days since your procedure. We'd love to hear how you're feeling.</p>
+          <p>If you have any concerns or questions, please don't hesitate to contact us.</p>
+        `
+      },
+      consultation_booking: {
+        subject: 'Your Consultation is Confirmed',
+        html: `
+          <h2>Welcome ${data.patientName},</h2>
+          <p>Your consultation has been successfully scheduled.</p>
+          <div style="background: #f5f5f5; padding: 20px; border-radius: 8px; margin: 20px 0;">
+            <p><strong>Consultation Type:</strong> ${data.details.consultationType}</p>
+            <p><strong>Date:</strong> ${data.details.date}</p>
+            <p><strong>Duration:</strong> ${data.details.duration}</p>
+            <p><strong>Format:</strong> ${data.details.format}</p>
+          </div>
+          <p>We'll send you a reminder 24 hours before your consultation.</p>
+        `
+      },
+      results_ready: {
+        subject: 'Your Results Are Ready',
+        html: `
+          <h2>Hello ${data.patientName},</h2>
+          <p>Your ${data.details.testType} results are now available.</p>
+          <p>Please log into your patient portal to view your results, or contact our office to discuss them with your provider.</p>
+        `
+      }
+    };
+
+    const template = templates[data.type];
+    return emailAPI.sendViaResend({
+      to: data.to,
+      subject: template.subject,
+      html: template.html,
+      tags: [
+        { name: 'type', value: data.type },
+        { name: 'patient', value: data.patientName }
+      ]
+    }).then(result => ({
+      success: true,
+      messageId: result.id
+    }));
   },
 
   // Get email templates
@@ -335,6 +445,88 @@ export const projectsAPI = {
   // Complete milestone
   async completeMilestone(milestoneId: string, deliverableUrls?: string[]): Promise<ProjectMilestone> {
     return apiClient.post(`/api/projects/milestones/${milestoneId}/complete`, { deliverableUrls });
+  }
+};
+
+// OpenRouter AI API
+export const openRouterAPI = {
+  // Chat completion with various models
+  async chat(data: {
+    messages: Array<{ role: 'system' | 'user' | 'assistant'; content: string }>;
+    model?: string;
+    temperature?: number;
+    max_tokens?: number;
+  }): Promise<{ content: string; model: string; usage: any }> {
+    const OPENROUTER_API_KEY = import.meta.env.VITE_OPENROUTER_API_KEY || '';
+    
+    const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${OPENROUTER_API_KEY}`,
+        'Content-Type': 'application/json',
+        'HTTP-Referer': window.location.origin,
+        'X-Title': 'Bowery Creative AI'
+      },
+      body: JSON.stringify({
+        model: data.model || 'anthropic/claude-3.5-sonnet',
+        messages: data.messages,
+        temperature: data.temperature || 0.7,
+        max_tokens: data.max_tokens || 1000
+      })
+    });
+
+    if (!response.ok) {
+      throw new Error(`OpenRouter API error: ${response.statusText}`);
+    }
+
+    const result = await response.json();
+    return {
+      content: result.choices[0].message.content,
+      model: result.model,
+      usage: result.usage
+    };
+  },
+
+  // Medical/Healthcare specific models
+  async medicalChat(data: {
+    messages: Array<{ role: 'system' | 'user' | 'assistant'; content: string }>;
+    context?: string;
+  }): Promise<{ content: string; citations?: string[] }> {
+    // Use specialized medical models when available
+    return openRouterAPI.chat({
+      messages: data.messages,
+      model: 'meta-llama/llama-3.2-90b-vision-instruct', // Or other appropriate model
+      temperature: 0.3 // Lower temperature for medical accuracy
+    });
+  },
+
+  // Generate treatment recommendations
+  async generateTreatmentPlan(data: {
+    patientProfile: any;
+    condition: string;
+    preferences?: string[];
+  }): Promise<{ plan: string; alternatives: string[] }> {
+    const prompt = `Generate a personalized treatment plan for:
+    Condition: ${data.condition}
+    Patient Profile: ${JSON.stringify(data.patientProfile)}
+    Preferences: ${data.preferences?.join(', ') || 'None specified'}
+    
+    Provide evidence-based recommendations suitable for medical/aesthetic practices.`;
+
+    const response = await openRouterAPI.chat({
+      messages: [
+        { role: 'system', content: 'You are a medical AI assistant providing treatment recommendations for healthcare professionals.' },
+        { role: 'user', content: prompt }
+      ],
+      model: 'anthropic/claude-3.5-sonnet',
+      temperature: 0.3
+    });
+
+    // Parse the response to extract plan and alternatives
+    return {
+      plan: response.content,
+      alternatives: []
+    };
   }
 };
 

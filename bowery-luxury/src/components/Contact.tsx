@@ -192,15 +192,6 @@ export const Contact: React.FC = () => {
     }
   };
 
-  // Get client IP for rate limiting (fallback method)
-  const getClientIP = async (): Promise<string> => {
-    try {
-      // This is a simple fallback - in production you'd use your server
-      return 'unknown';
-    } catch {
-      return 'unknown';
-    }
-  };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
