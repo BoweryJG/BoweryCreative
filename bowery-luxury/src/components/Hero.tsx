@@ -27,7 +27,7 @@ export const Hero: React.FC = () => {
         minHeight: '100vh',
         display: 'flex',
         alignItems: 'center',
-        background: 'linear-gradient(135deg, #000000 0%, #1a0f0a 50%, #0d0d0d 100%)',
+        background: 'linear-gradient(135deg, #000000 0%, #0a0a0a 50%, #111111 100%)',
         position: 'relative',
         overflow: 'hidden',
         '&::before': {
