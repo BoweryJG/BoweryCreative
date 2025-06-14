@@ -1,6 +1,7 @@
 [build]
-  command = "cd bowerycreativefrontend && npm ci && npm run build"
-  publish = "bowerycreativefrontend/dist"
+  base = "bowerycreativefrontend"
+  command = "npm ci && npm run build"
+  publish = "dist"
 
 [build.environment]
   NODE_VERSION = "18"
