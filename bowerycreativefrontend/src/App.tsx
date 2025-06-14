@@ -11,6 +11,7 @@ import { About } from './components/About';
 import { Insights } from './components/Insights';
 import { Contact } from './components/Contact';
 import { Footer } from './components/Footer';
+import { AudioToggle } from './components/AudioToggle';
 import { trackPageView } from './lib/analytics';
 
 type LegalDocumentType = 'privacy' | 'terms' | null;
@@ -111,6 +112,9 @@ function App() {
         documentType={legalModal.documentType}
         onClose={closeLegalModal}
       />
+      
+      {/* Audio Toggle */}
+      <AudioToggle />
     </ErrorBoundary>
   );
 }

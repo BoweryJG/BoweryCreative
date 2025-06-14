@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { Brain, Github, Linkedin, Twitter, Code2, Database, Cpu } from 'lucide-react';
+import { TechIcon } from './TechIcon';
 
 export const Footer: React.FC = () => {
   return (
@@ -37,15 +38,18 @@ export const Footer: React.FC = () => {
 
             {/* Tech Icons */}
             <div className="flex gap-4 mb-8">
-              <div className="w-10 h-10 border border-racing-silver/30 flex items-center justify-center hover:border-champagne transition-colors cursor-pointer">
-                <Code2 className="w-5 h-5 text-racing-silver hover:text-champagne transition-colors" />
-              </div>
-              <div className="w-10 h-10 border border-racing-silver/30 flex items-center justify-center hover:border-champagne transition-colors cursor-pointer">
-                <Database className="w-5 h-5 text-racing-silver hover:text-champagne transition-colors" />
-              </div>
-              <div className="w-10 h-10 border border-racing-silver/30 flex items-center justify-center hover:border-champagne transition-colors cursor-pointer">
-                <Cpu className="w-5 h-5 text-racing-silver hover:text-champagne transition-colors" />
-              </div>
+              <TechIcon 
+                icon={<Code2 className="w-5 h-5 text-racing-silver hover:text-champagne transition-colors" />}
+                type="code"
+              />
+              <TechIcon 
+                icon={<Database className="w-5 h-5 text-racing-silver hover:text-champagne transition-colors" />}
+                type="database"
+              />
+              <TechIcon 
+                icon={<Cpu className="w-5 h-5 text-racing-silver hover:text-champagne transition-colors" />}
+                type="cpu"
+              />
             </div>
 
             {/* Social Links */}
