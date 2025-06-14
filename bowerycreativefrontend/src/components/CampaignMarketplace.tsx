@@ -19,7 +19,6 @@ import {
   Alert,
   IconButton,
   Tooltip,
-  Badge,
   Paper,
   Stack,
   Divider
@@ -27,18 +26,15 @@ import {
 import {
   Search as SearchIcon,
   Campaign as CampaignIcon,
-  LocalOffer as PriceIcon,
   Email as EmailIcon,
   TrendingUp as TrendingIcon,
-  Psychology as AIIcon,
   Visibility as PreviewIcon,
   ShoppingCart as CartIcon,
   CheckCircle as CheckIcon,
-  Star as StarIcon,
   Category as CategoryIcon
 } from '@mui/icons-material';
 import { supabase } from '../lib/supabase';
-import { useAuth } from '../contexts/AuthContext';
+import { useAuth } from '../hooks/useAuth';
 
 interface Campaign {
   id: string;

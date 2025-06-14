@@ -27,7 +27,7 @@ import {
   Email,
   Share,
   Create,
-  Analytics,
+  Analytics as AnalyticsIcon,
   Settings,
   Business,
   Menu as MenuIcon,
@@ -109,8 +109,8 @@ const navigationItems: NavigationItem[] = [
   { id: 'email', label: 'Email Marketing', icon: <Email /> },
   { id: 'social', label: 'Social Media', icon: <Share /> },
   { id: 'content', label: 'Content Studio', icon: <Create /> },
-  { id: 'seo', label: 'SEO Analyzer', icon: <Analytics /> },
-  { id: 'analytics', label: 'Analytics', icon: <Analytics /> },
+  { id: 'seo', label: 'SEO Analyzer', icon: <AnalyticsIcon /> },
+  { id: 'analytics', label: 'Analytics', icon: <AnalyticsIcon /> },
   { id: 'settings', label: 'Settings', icon: <Settings /> },
 ];
 

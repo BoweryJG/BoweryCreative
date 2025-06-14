@@ -24,12 +24,10 @@ import {
   IconButton,
   Tooltip,
   Stack,
-  Divider,
   List,
   ListItem,
   ListItemText,
   ListItemIcon,
-  Badge,
   CircularProgress
 } from '@mui/material';
 import {
@@ -40,11 +38,9 @@ import {
   Add as AddIcon,
   Remove as RemoveIcon,
   AutoAwesome as AIIcon,
-  CheckCircle as CheckIcon,
-  Schedule as ScheduleIcon,
-  Group as GroupIcon
+  CheckCircle as CheckIcon
 } from '@mui/icons-material';
-import { useAuth } from '../contexts/AuthContext';
+import { useAuth } from '../hooks/useAuth';
 
 interface Purchase {
   id: string;
@@ -432,7 +428,7 @@ const CampaignManager: React.FC = () => {
             disabled={
               generating || 
               recipients.length === 0 || 
-              (selectedPurchase && recipients.length > getCreditsRemaining(selectedPurchase))
+              (selectedPurchase ? recipients.length > getCreditsRemaining(selectedPurchase) : false)
             }
           >
             Generate {recipients.length} Email{recipients.length !== 1 ? 's' : ''}

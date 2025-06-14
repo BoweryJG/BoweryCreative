@@ -32,13 +32,10 @@ import {
   TrendingUp,
   TrendingDown,
   People,
-  Email,
   Chat,
   Share,
   AttachMoney,
-  CalendarMonth,
   Download,
-  Assessment,
   Visibility,
   ThumbUp,
   Comment,
@@ -228,11 +225,9 @@ const Analytics: React.FC = () => {
                       mr: 2,
                     }}
                   >
-                    {React.cloneElement(metric.icon as React.ReactElement, {
-                      sx: { color: metric.color },
-                    })}
+                    {metric.icon}
                   </Box>
-                  <Box sx={{ flexGrow: 1 }}>
+                  <Box style={{ flexGrow: 1 }}>
                     <Typography color="textSecondary" variant="body2">
                       {metric.title}
                     </Typography>

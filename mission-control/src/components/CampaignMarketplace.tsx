@@ -19,7 +19,6 @@ import {
   Alert,
   IconButton,
   Tooltip,
-  Badge,
   Paper,
   Stack,
   Divider
@@ -27,14 +26,11 @@ import {
 import {
   Search as SearchIcon,
   Campaign as CampaignIcon,
-  LocalOffer as PriceIcon,
   Email as EmailIcon,
   TrendingUp as TrendingIcon,
-  Psychology as AIIcon,
   Visibility as PreviewIcon,
   ShoppingCart as CartIcon,
   CheckCircle as CheckIcon,
-  Star as StarIcon,
   Category as CategoryIcon
 } from '@mui/icons-material';
 import { supabase } from '../lib/supabase';
@@ -222,7 +218,7 @@ const CampaignMarketplace: React.FC = () => {
       ) : (
         <Grid container spacing={3}>
           {filteredCampaigns.map((campaign) => (
-            <Grid item xs={12} md={6} lg={4} key={campaign.id}>
+            <Grid size={{ xs: 12, md: 6, lg: 4 }} key={campaign.id}>
               <Card 
                 sx={{ 
                   height: '100%', 
@@ -374,7 +370,7 @@ const CampaignMarketplace: React.FC = () => {
                     Performance Metrics:
                   </Typography>
                   <Grid container spacing={2}>
-                    <Grid item xs={4}>
+                    <Grid size={4}>
                       <Paper sx={{ p: 2, textAlign: 'center' }}>
                         <Typography variant="h4" color="primary">
                           {selectedCampaign.campaign_metrics.total_purchases}
@@ -384,7 +380,7 @@ const CampaignMarketplace: React.FC = () => {
                         </Typography>
                       </Paper>
                     </Grid>
-                    <Grid item xs={4}>
+                    <Grid size={4}>
                       <Paper sx={{ p: 2, textAlign: 'center' }}>
                         <Typography variant="h4" color="primary">
                           {selectedCampaign.campaign_metrics.average_open_rate}%
@@ -394,7 +390,7 @@ const CampaignMarketplace: React.FC = () => {
                         </Typography>
                       </Paper>
                     </Grid>
-                    <Grid item xs={4}>
+                    <Grid size={4}>
                       <Paper sx={{ p: 2, textAlign: 'center' }}>
                         <Typography variant="h4" color="primary">
                           {selectedCampaign.campaign_metrics.average_response_rate}%

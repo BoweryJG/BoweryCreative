@@ -24,12 +24,10 @@ import {
   IconButton,
   Tooltip,
   Stack,
-  Divider,
   List,
   ListItem,
   ListItemText,
   ListItemIcon,
-  Badge,
   CircularProgress
 } from '@mui/material';
 import {
@@ -41,8 +39,6 @@ import {
   Remove as RemoveIcon,
   AutoAwesome as AIIcon,
   CheckCircle as CheckIcon,
-  Schedule as ScheduleIcon,
-  Group as GroupIcon
 } from '@mui/icons-material';
 import { useAuth } from '../contexts/AuthContext';
 
@@ -253,7 +249,7 @@ const CampaignManager: React.FC = () => {
       ) : (
         <Grid container spacing={3}>
           {purchases.map((purchase) => (
-            <Grid item xs={12} md={6} key={purchase.id}>
+            <Grid size={{ xs: 12, md: 6 }} key={purchase.id}>
               <Card 
                 sx={{ 
                   opacity: isExpired(purchase) ? 0.6 : 1,
@@ -432,7 +428,7 @@ const CampaignManager: React.FC = () => {
             disabled={
               generating || 
               recipients.length === 0 || 
-              (selectedPurchase && recipients.length > getCreditsRemaining(selectedPurchase))
+              (selectedPurchase ? recipients.length > getCreditsRemaining(selectedPurchase) : false)
             }
           >
             Generate {recipients.length} Email{recipients.length !== 1 ? 's' : ''}
