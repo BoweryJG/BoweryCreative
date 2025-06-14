@@ -13,31 +13,45 @@ export const TechIcon: React.FC<TechIconProps> = ({ icon, type, className = '' }
   const synthRef = useRef<Tone.Synth | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
+  const audioInitialized = useRef(false);
+
+  const initializeAudio = async () => {
+    if (audioInitialized.current || synthRef.current) return;
+    
+    try {
+      // Only initialize audio after user interaction
+      await Tone.start();
+      
+      synthRef.current = new Tone.Synth({
+        oscillator: { type: 'sine' },
+        envelope: {
+          attack: 0.005,
+          decay: 0.1,
+          sustain: 0.3,
+          release: 1
+        }
+      }).toDestination();
+
+      // Set volume
+      synthRef.current.volume.value = -20; // Subtle volume
+      audioInitialized.current = true;
+    } catch (error) {
+      console.log('Audio initialization failed:', error);
+    }
+  };
+
   useEffect(() => {
-    // Initialize Tone.js synth
-    synthRef.current = new Tone.Synth({
-      oscillator: { type: 'sine' },
-      envelope: {
-        attack: 0.005,
-        decay: 0.1,
-        sustain: 0.3,
-        release: 1
-      }
-    }).toDestination();
-
-    // Set volume
-    synthRef.current.volume.value = -20; // Subtle volume
-
     return () => {
       synthRef.current?.dispose();
     };
   }, []);
 
   const playSound = async () => {
-    if (!synthRef.current) return;
-
     try {
-      await Tone.start();
+      // Initialize audio on first interaction
+      await initializeAudio();
+      
+      if (!synthRef.current) return;
       
       switch (type) {
         case 'code':
@@ -65,7 +79,7 @@ export const TechIcon: React.FC<TechIconProps> = ({ icon, type, className = '' }
           break;
       }
     } catch (error) {
-      console.log('Audio context not started');
+      console.log('Audio playback failed:', error);
     }
   };
 

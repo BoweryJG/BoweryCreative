@@ -5,6 +5,14 @@ import axios from 'axios';
 import Parser from 'rss-parser';
 import NodeCache from 'node-cache';
 import { createClient } from '@supabase/supabase-js';
+import {
+  createCheckoutSession,
+  createPortalSession,
+  createPaymentIntent,
+  handleWebhook,
+  getOrCreateCustomer,
+  BOWERY_PRODUCTS
+} from './services/stripe.js';
 
 dotenv.config();
 
@@ -1906,6 +1914,276 @@ app.post('/api/feeds/trending', async (req, res) => {
       error: 'Failed to fetch trending podcasts',
       details: error.message
     });
+  }
+});
+
+// ======= STRIPE PAYMENT ENDPOINTS =======
+
+// Create checkout session for client payments
+app.post('/api/stripe/create-checkout-session', authenticateAPI, async (req, res) => {
+  try {
+    const {
+      clientId,
+      clientEmail,
+      productType, // 'subscription', 'credits', 'service', 'custom'
+      productId,
+      quantity,
+      successUrl,
+      cancelUrl,
+      metadata
+    } = req.body;
+    
+    // Validate required fields
+    if (!clientId || !clientEmail || !productType) {
+      return res.status(400).json({ error: 'Missing required fields' });
+    }
+    
+    // Get or create Stripe customer
+    const customer = await getOrCreateCustomer(clientEmail, {
+      clientId,
+      source: 'mission-control'
+    });
+    
+    // Create checkout session
+    const session = await createCheckoutSession({
+      clientId,
+      clientEmail,
+      productType,
+      productId,
+      quantity,
+      successUrl,
+      cancelUrl,
+      metadata: {
+        ...metadata,
+        customerId: customer.id
+      }
+    });
+    
+    // Store payment intent in database
+    await supabase.from('payment_intents').insert({
+      client_id: clientId,
+      stripe_session_id: session.sessionId,
+      product_type: productType,
+      product_id: productId,
+      amount: metadata?.amount || 0,
+      status: 'pending',
+      metadata
+    });
+    
+    res.json(session);
+  } catch (error) {
+    console.error('Create checkout session error:', error);
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// Create customer portal session
+app.post('/api/stripe/create-portal-session', authenticateAPI, async (req, res) => {
+  try {
+    const { clientId, returnUrl } = req.body;
+    
+    // Get client's Stripe customer ID from database
+    const { data: client, error: clientError } = await supabase
+      .from('clients')
+      .select('stripe_customer_id, email')
+      .eq('id', clientId)
+      .single();
+    
+    if (clientError || !client) {
+      return res.status(404).json({ error: 'Client not found' });
+    }
+    
+    let customerId = client.stripe_customer_id;
+    
+    // Create customer if doesn't exist
+    if (!customerId) {
+      const customer = await getOrCreateCustomer(client.email, {
+        clientId,
+        source: 'mission-control'
+      });
+      
+      // Update client with Stripe customer ID
+      await supabase
+        .from('clients')
+        .update({ stripe_customer_id: customer.id })
+        .eq('id', clientId);
+      
+      customerId = customer.id;
+    }
+    
+    const session = await createPortalSession(customerId, returnUrl);
+    res.json(session);
+  } catch (error) {
+    console.error('Create portal session error:', error);
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// Create payment intent for custom amounts
+app.post('/api/stripe/create-payment-intent', authenticateAPI, async (req, res) => {
+  try {
+    const {
+      amount, // in dollars
+      clientId,
+      clientEmail,
+      description,
+      metadata
+    } = req.body;
+    
+    if (!amount || !clientId || !clientEmail) {
+      return res.status(400).json({ error: 'Missing required fields' });
+    }
+    
+    const paymentIntent = await createPaymentIntent({
+      amount: Math.round(amount * 100), // Convert to cents
+      clientId,
+      clientEmail,
+      description,
+      metadata
+    });
+    
+    // Store payment intent
+    await supabase.from('payment_intents').insert({
+      client_id: clientId,
+      stripe_payment_intent_id: paymentIntent.paymentIntentId,
+      amount: amount,
+      status: 'pending',
+      description,
+      metadata
+    });
+    
+    res.json(paymentIntent);
+  } catch (error) {
+    console.error('Create payment intent error:', error);
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// Stripe webhook handler
+app.post('/api/stripe/webhook', express.raw({ type: 'application/json' }), async (req, res) => {
+  try {
+    const signature = req.headers['stripe-signature'];
+    const event = await handleWebhook(req.body, signature);
+    
+    // Handle different event types
+    switch (event.type) {
+      case 'checkout.session.completed': {
+        const session = event.data.object;
+        
+        // Update payment status
+        await supabase
+          .from('payment_intents')
+          .update({ 
+            status: 'completed',
+            completed_at: new Date().toISOString()
+          })
+          .eq('stripe_session_id', session.id);
+        
+        // Update client subscription if applicable
+        if (session.mode === 'subscription') {
+          await supabase
+            .from('clients')
+            .update({
+              subscription_id: session.subscription,
+              subscription_status: 'active'
+            })
+            .eq('id', session.client_reference_id);
+        }
+        
+        // Add credits if purchasing campaign credits
+        if (session.metadata?.productType === 'credits') {
+          const credits = parseInt(session.metadata.creditAmount || '0');
+          await supabase.rpc('add_client_credits', {
+            p_client_id: session.client_reference_id,
+            p_credits: credits
+          });
+        }
+        
+        break;
+      }
+      
+      case 'customer.subscription.updated':
+      case 'customer.subscription.deleted': {
+        const subscription = event.data.object;
+        
+        await supabase
+          .from('clients')
+          .update({
+            subscription_status: subscription.status,
+            subscription_end_date: subscription.current_period_end 
+              ? new Date(subscription.current_period_end * 1000).toISOString()
+              : null
+          })
+          .eq('subscription_id', subscription.id);
+        
+        break;
+      }
+      
+      case 'payment_intent.succeeded': {
+        const paymentIntent = event.data.object;
+        
+        await supabase
+          .from('payment_intents')
+          .update({
+            status: 'succeeded',
+            completed_at: new Date().toISOString()
+          })
+          .eq('stripe_payment_intent_id', paymentIntent.id);
+        
+        break;
+      }
+      
+      case 'payment_intent.payment_failed': {
+        const paymentIntent = event.data.object;
+        
+        await supabase
+          .from('payment_intents')
+          .update({
+            status: 'failed',
+            error_message: paymentIntent.last_payment_error?.message
+          })
+          .eq('stripe_payment_intent_id', paymentIntent.id);
+        
+        break;
+      }
+    }
+    
+    res.json({ received: true });
+  } catch (error) {
+    console.error('Webhook error:', error);
+    res.status(400).json({ error: error.message });
+  }
+});
+
+// Get payment history for a client
+app.get('/api/stripe/payments/:clientId', authenticateAPI, async (req, res) => {
+  try {
+    const { clientId } = req.params;
+    
+    const { data: payments, error } = await supabase
+      .from('payment_intents')
+      .select('*')
+      .eq('client_id', clientId)
+      .order('created_at', { ascending: false });
+    
+    if (error) throw error;
+    res.json(payments);
+  } catch (error) {
+    console.error('Get payments error:', error);
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// Get available products and pricing
+app.get('/api/stripe/products', async (req, res) => {
+  try {
+    res.json({
+      products: BOWERY_PRODUCTS,
+      currency: 'usd'
+    });
+  } catch (error) {
+    console.error('Get products error:', error);
+    res.status(500).json({ error: error.message });
   }
 });
 
