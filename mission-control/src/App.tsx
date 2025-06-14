@@ -35,6 +35,7 @@ import {
 import ContentStudio from './components/ContentStudio';
 import EmailMarketing from './components/EmailMarketing';
 import SEOAnalyzer from './components/SEOAnalyzer';
+import SocialMedia from './components/SocialMedia';
 
 // Mission Control Theme
 const theme = createTheme({
@@ -236,7 +237,7 @@ function App() {
       case 'email':
         return <EmailMarketing />;
       case 'social':
-        return renderPlaceholder('Social Media Management');
+        return <SocialMedia />;
       case 'content':
         return <ContentStudio />;
       case 'seo':
