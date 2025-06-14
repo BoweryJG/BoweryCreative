@@ -8,7 +8,6 @@ import {
   LinearProgress,
   Paper,
   Stack,
-  Chip,
   IconButton,
   Tooltip,
   Select,
@@ -18,14 +17,12 @@ import {
   Button
 } from '@mui/material';
 import {
-  TrendingUp,
   Email,
   TouchApp,
   ShoppingCart,
   AttachMoney,
   Refresh,
   Download,
-  CalendarToday,
   Visibility
 } from '@mui/icons-material';
 import {
@@ -33,8 +30,6 @@ import {
   Line,
   BarChart,
   Bar,
-  PieChart,
-  Pie,
   Cell,
   XAxis,
   YAxis,
@@ -43,7 +38,7 @@ import {
   Legend,
   ResponsiveContainer
 } from 'recharts';
-import { useAuth } from '../hooks/useAuth';
+import { useAuth } from '../contexts/AuthContext';
 
 interface CampaignAnalyticsProps {
   campaignId: string;
