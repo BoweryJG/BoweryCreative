@@ -1,0 +1,15 @@
+RENDER ENVIRONMENT VARIABLES TO ADD:
+
+1. Go to: https://dashboard.render.com/web/srv-d16156emcj7s73dt9m7g/env
+
+2. Add these environment variables:
+
+SUPABASE_URL=https://fiozmyoedptukpkzuhqm.supabase.co
+SUPABASE_ANON_KEY=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImZpb3pteW9lZHB0dWtwa3p1aHFtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NDk4MTUxODcsImV4cCI6MjA2NTM5MTE4N30.XrzLFbtoOKcX0kU5K7MSPQKwTDNm6cFtefUGxSJzm-o
+API_KEY=zaSS35rFh9co5lWYpSlnCrKQ9IhHbApKhmbBGd9Aj2Y=
+RESEND_API_KEY=re_5aDHGigQ_2Sjq8BR1o5C2v9eTBsf4r1Ux
+OPENROUTER_API_KEY=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
+
+3. Click "Save Changes" to trigger a redeploy
+
+Your backend will then have all the API endpoints connected!
