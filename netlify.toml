@@ -1,5 +1,6 @@
 [build]
   base = "bowerycreativefrontend"
+  # Clear cache - v2
   command = "npm ci && npm run build"
   publish = "dist"
 
