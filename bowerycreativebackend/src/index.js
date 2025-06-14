@@ -1251,20 +1251,26 @@ app.get('/api/usage/analytics', authenticateAPI, getClientContext, async (req, r
 
 // Campaign Marketplace Endpoints
 
-// Get all active campaigns
+// Get all active campaigns with enhanced filtering
 app.get('/api/campaigns', async (req, res) => {
   try {
-    const { category, industry } = req.query;
+    const { category, industry, specialty_tags, channel_type } = req.query;
     
     let query = supabase
       .from('campaigns')
-      .select('*')
+      .select('*, campaign_metrics(*), campaign_performance_metrics(*)')
       .eq('is_active', true);
     
     if (category) query = query.eq('category', category);
     if (industry) query = query.eq('industry', industry);
+    if (channel_type) query = query.eq('channel_type', channel_type);
+    if (specialty_tags) {
+      const tags = specialty_tags.split(',');
+      query = query.contains('specialty_tags', tags);
+    }
     
-    const { data: campaigns, error } = await query;
+    const { data: campaigns, error } = await query
+      .order('success_rate', { ascending: false });
     
     if (error) throw error;
     res.json(campaigns);
@@ -1525,6 +1531,157 @@ app.get('/api/purchases/:purchaseId/emails', authenticateAPI, async (req, res) =
     res.json(emails);
   } catch (error) {
     console.error('Get generated emails error:', error);
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// Track campaign performance metrics
+app.post('/api/campaigns/:id/track-performance', authenticateAPI, async (req, res) => {
+  try {
+    const { id: campaignId } = req.params;
+    const { emails_sent, emails_opened, links_clicked, conversions, revenue_generated } = req.body;
+    const userId = req.headers['x-user-id'];
+    
+    // Verify user has purchased this campaign
+    const { data: purchase, error: purchaseError } = await supabase
+      .from('campaign_purchases')
+      .select('id')
+      .eq('campaign_id', campaignId)
+      .eq('user_id', userId)
+      .single();
+    
+    if (purchaseError) {
+      return res.status(403).json({ error: 'Campaign not purchased' });
+    }
+    
+    // Upsert performance metrics
+    const today = new Date().toISOString().split('T')[0];
+    const { data, error } = await supabase
+      .from('campaign_performance_metrics')
+      .upsert({
+        campaign_id: campaignId,
+        metric_date: today,
+        emails_sent,
+        emails_opened,
+        links_clicked,
+        conversions,
+        revenue_generated,
+        updated_at: new Date().toISOString()
+      }, {
+        onConflict: 'campaign_id,metric_date'
+      })
+      .select()
+      .single();
+    
+    if (error) throw error;
+    res.json(data);
+  } catch (error) {
+    console.error('Track performance error:', error);
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// Get campaign performance analytics
+app.get('/api/campaigns/:id/analytics', authenticateAPI, async (req, res) => {
+  try {
+    const { id: campaignId } = req.params;
+    const { start_date, end_date } = req.query;
+    const userId = req.headers['x-user-id'];
+    
+    // Verify access
+    const { data: purchase, error: purchaseError } = await supabase
+      .from('campaign_purchases')
+      .select('id')
+      .eq('campaign_id', campaignId)
+      .eq('user_id', userId)
+      .single();
+    
+    if (purchaseError) {
+      return res.status(403).json({ error: 'Campaign not purchased' });
+    }
+    
+    let query = supabase
+      .from('campaign_performance_metrics')
+      .select('*')
+      .eq('campaign_id', campaignId);
+    
+    if (start_date) query = query.gte('metric_date', start_date);
+    if (end_date) query = query.lte('metric_date', end_date);
+    
+    const { data: metrics, error } = await query
+      .order('metric_date', { ascending: true });
+    
+    if (error) throw error;
+    
+    // Calculate totals and averages
+    const totals = metrics.reduce((acc, metric) => ({
+      emails_sent: acc.emails_sent + metric.emails_sent,
+      emails_opened: acc.emails_opened + metric.emails_opened,
+      links_clicked: acc.links_clicked + metric.links_clicked,
+      conversions: acc.conversions + metric.conversions,
+      revenue_generated: acc.revenue_generated + metric.revenue_generated
+    }), {
+      emails_sent: 0,
+      emails_opened: 0,
+      links_clicked: 0,
+      conversions: 0,
+      revenue_generated: 0
+    });
+    
+    const analytics = {
+      totals,
+      averages: {
+        open_rate: totals.emails_sent > 0 ? (totals.emails_opened / totals.emails_sent * 100).toFixed(1) : 0,
+        click_rate: totals.emails_opened > 0 ? (totals.links_clicked / totals.emails_opened * 100).toFixed(1) : 0,
+        conversion_rate: totals.emails_sent > 0 ? (totals.conversions / totals.emails_sent * 100).toFixed(1) : 0
+      },
+      daily_metrics: metrics
+    };
+    
+    res.json(analytics);
+  } catch (error) {
+    console.error('Get analytics error:', error);
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// Create A/B test variant
+app.post('/api/campaigns/:id/ab-test', authenticateAPI, async (req, res) => {
+  try {
+    const { id: campaignId } = req.params;
+    const { variant_name, subject_line, preview_text, cta_text, send_time } = req.body;
+    const userId = req.headers['x-user-id'];
+    
+    // Verify access
+    const { data: purchase, error: purchaseError } = await supabase
+      .from('campaign_purchases')
+      .select('id')
+      .eq('campaign_id', campaignId)
+      .eq('user_id', userId)
+      .single();
+    
+    if (purchaseError) {
+      return res.status(403).json({ error: 'Campaign not purchased' });
+    }
+    
+    const { data, error } = await supabase
+      .from('campaign_ab_tests')
+      .insert({
+        campaign_id: campaignId,
+        variant_name,
+        subject_line,
+        preview_text,
+        cta_text,
+        send_time,
+        performance_data: {}
+      })
+      .select()
+      .single();
+    
+    if (error) throw error;
+    res.json(data);
+  } catch (error) {
+    console.error('Create A/B test error:', error);
     res.status(500).json({ error: error.message });
   }
 });
