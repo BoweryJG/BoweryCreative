@@ -23,11 +23,13 @@
 
 ## Deployment Commands
 
-### Deploy Everything:
+### Deploy Everything (Recommended):
 ```bash
 # 1. Make your changes
-# 2. Test locally
-# 3. Commit and push
+# 2. Check builds before pushing
+./check-builds.sh
+
+# 3. If builds pass, commit and push
 git add .
 git commit -m "Your commit message"
 git push
@@ -35,6 +37,11 @@ git push
 # Netlify will auto-rebuild both frontends
 # For backend, go to Render dashboard and click "Deploy"
 ```
+
+### Smart Build Optimization:
+- Main site skips rebuild when only Mission Control changes
+- Mission Control skips rebuild when only docs/SQL files change
+- This prevents unnecessary builds and cancellations
 
 ### Local Testing:
 ```bash
