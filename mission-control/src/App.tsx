@@ -30,13 +30,17 @@ import {
   Analytics,
   Settings,
   Business,
-  Menu as MenuIcon
+  Menu as MenuIcon,
+  Campaign as CampaignIcon,
+  ShoppingCart as ShoppingCartIcon
 } from '@mui/icons-material';
 import ContentStudio from './components/ContentStudio';
 import EmailMarketing from './components/EmailMarketing';
 import SEOAnalyzer from './components/SEOAnalyzer';
 import SocialMedia from './components/SocialMedia';
 import Analytics from './components/Analytics';
+import CampaignMarketplace from './components/CampaignMarketplace';
+import CampaignManager from './components/CampaignManager';
 
 // Mission Control Theme
 const theme = createTheme({
@@ -100,6 +104,8 @@ const navigationItems: NavigationItem[] = [
   { id: 'clients', label: 'Clients', icon: <Business />, badge: 3 },
   { id: 'contacts', label: 'Contacts', icon: <People />, badge: 12 },
   { id: 'chatbots', label: 'AI Chatbots', icon: <Chat />, badge: 2 },
+  { id: 'campaigns', label: 'Campaign Marketplace', icon: <CampaignIcon /> },
+  { id: 'my-campaigns', label: 'My Campaigns', icon: <ShoppingCartIcon /> },
   { id: 'email', label: 'Email Marketing', icon: <Email /> },
   { id: 'social', label: 'Social Media', icon: <Share /> },
   { id: 'content', label: 'Content Studio', icon: <Create /> },
@@ -111,16 +117,16 @@ const navigationItems: NavigationItem[] = [
 // Sample data for the dashboard
 const dashboardStats = [
   { title: 'Active Clients', value: '12', change: '+2 this month', color: '#4caf50' },
-  { title: 'Total Contacts', value: '1,847', change: '+156 this week', color: '#2196f3' },
+  { title: 'Campaign Credits', value: '245', change: '45 used this week', color: '#d4af37' },
   { title: 'Email Campaigns', value: '24', change: '3 scheduled', color: '#ff9800' },
   { title: 'Social Posts', value: '89', change: '12 published today', color: '#9c27b0' },
 ];
 
 const recentActivities = [
-  { type: 'chatbot', message: 'Dr. Smith\'s chatbot answered 15 questions today', time: '2 min ago' },
-  { type: 'email', message: 'Welcome email campaign sent to 45 new subscribers', time: '1 hour ago' },
-  { type: 'social', message: 'Instagram post published for Wellness Clinic', time: '3 hours ago' },
-  { type: 'content', message: 'Generated 5 social media posts for dental practice', time: '5 hours ago' },
+  { type: 'campaign', message: 'New Patient Welcome campaign purchased - 20 credits', time: '15 min ago' },
+  { type: 'chatbot', message: 'Dr. Smith\'s chatbot answered 15 questions today', time: '2 hours ago' },
+  { type: 'email', message: 'Welcome email campaign sent to 45 new subscribers', time: '3 hours ago' },
+  { type: 'social', message: 'Instagram post published for Wellness Clinic', time: '5 hours ago' },
 ];
 
 function App() {
@@ -169,6 +175,7 @@ function App() {
               {recentActivities.map((activity, index) => (
                 <ListItem key={index} divider={index < recentActivities.length - 1}>
                   <ListItemIcon>
+                    {activity.type === 'campaign' && <CampaignIcon sx={{ color: '#d4af37' }} />}
                     {activity.type === 'chatbot' && <Chat color="primary" />}
                     {activity.type === 'email' && <Email color="secondary" />}
                     {activity.type === 'social' && <Share color="info" />}
@@ -235,6 +242,10 @@ function App() {
         return renderPlaceholder('Contact Management');
       case 'chatbots':
         return renderPlaceholder('AI Chatbots');
+      case 'campaigns':
+        return <CampaignMarketplace />;
+      case 'my-campaigns':
+        return <CampaignManager />;
       case 'email':
         return <EmailMarketing />;
       case 'social':

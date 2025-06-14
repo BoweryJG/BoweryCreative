@@ -1249,6 +1249,286 @@ app.get('/api/usage/analytics', authenticateAPI, getClientContext, async (req, r
   }
 });
 
+// Campaign Marketplace Endpoints
+
+// Get all active campaigns
+app.get('/api/campaigns', async (req, res) => {
+  try {
+    const { category, industry } = req.query;
+    
+    let query = supabase
+      .from('campaigns')
+      .select('*')
+      .eq('is_active', true);
+    
+    if (category) query = query.eq('category', category);
+    if (industry) query = query.eq('industry', industry);
+    
+    const { data: campaigns, error } = await query;
+    
+    if (error) throw error;
+    res.json(campaigns);
+  } catch (error) {
+    console.error('Get campaigns error:', error);
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// Get single campaign details
+app.get('/api/campaigns/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    
+    const { data: campaign, error } = await supabase
+      .from('campaigns')
+      .select('*, campaign_metrics(*)')
+      .eq('id', id)
+      .single();
+    
+    if (error) throw error;
+    res.json(campaign);
+  } catch (error) {
+    console.error('Get campaign error:', error);
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// Purchase a campaign
+app.post('/api/campaigns/:id/purchase', authenticateAPI, async (req, res) => {
+  try {
+    const { id: campaignId } = req.params;
+    const { clientId, paymentMethod = 'credit' } = req.body;
+    
+    // Get campaign details
+    const { data: campaign, error: campaignError } = await supabase
+      .from('campaigns')
+      .select('*')
+      .eq('id', campaignId)
+      .single();
+    
+    if (campaignError) throw campaignError;
+    
+    // Create purchase record
+    const { data: purchase, error: purchaseError } = await supabase
+      .from('campaign_purchases')
+      .insert({
+        user_id: req.headers['x-user-id'], // Assuming user ID is passed in header
+        organization_id: clientId,
+        campaign_id: campaignId,
+        credits_purchased: campaign.credits_included,
+        amount_paid: campaign.base_price,
+        payment_method: paymentMethod
+      })
+      .select()
+      .single();
+    
+    if (purchaseError) throw purchaseError;
+    
+    res.json(purchase);
+  } catch (error) {
+    console.error('Purchase campaign error:', error);
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// Get user's campaign purchases
+app.get('/api/purchases', authenticateAPI, async (req, res) => {
+  try {
+    const userId = req.headers['x-user-id'];
+    
+    const { data: purchases, error } = await supabase
+      .from('campaign_purchases')
+      .select('*, campaigns(*)')
+      .eq('user_id', userId)
+      .order('purchase_date', { ascending: false });
+    
+    if (error) throw error;
+    res.json(purchases);
+  } catch (error) {
+    console.error('Get purchases error:', error);
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// Generate emails for a campaign
+app.post('/api/purchases/:purchaseId/generate', authenticateAPI, async (req, res) => {
+  try {
+    const { purchaseId } = req.params;
+    const { recipients } = req.body; // Array of {email, name, customData}
+    const userId = req.headers['x-user-id'];
+    
+    // Verify purchase belongs to user
+    const { data: purchase, error: purchaseError } = await supabase
+      .from('campaign_purchases')
+      .select('*, campaigns(*)')
+      .eq('id', purchaseId)
+      .eq('user_id', userId)
+      .single();
+    
+    if (purchaseError) throw purchaseError;
+    
+    // Check if user has credits
+    if (purchase.credits_used + recipients.length > purchase.credits_purchased) {
+      return res.status(400).json({ error: 'Insufficient credits' });
+    }
+    
+    // Generate personalized emails
+    const generatedEmails = [];
+    
+    for (const recipient of recipients) {
+      // Use AI to generate personalized content
+      const personalizedContent = await generatePersonalizedEmail(
+        purchase.campaigns.ai_prompt_template,
+        recipient
+      );
+      
+      // Create mailto link
+      const mailtoLink = createMailtoLink(
+        recipient.email,
+        personalizedContent.subject,
+        personalizedContent.body
+      );
+      
+      generatedEmails.push({
+        purchase_id: purchaseId,
+        recipient_email: recipient.email,
+        recipient_name: recipient.name,
+        subject_line: personalizedContent.subject,
+        email_body: personalizedContent.body,
+        personalization_data: recipient.customData,
+        mailto_link: mailtoLink
+      });
+    }
+    
+    // Save generated emails
+    const { data: savedEmails, error: saveError } = await supabase
+      .from('generated_emails')
+      .insert(generatedEmails)
+      .select();
+    
+    if (saveError) throw saveError;
+    
+    // Update credits used
+    await supabase
+      .from('campaign_purchases')
+      .update({ credits_used: purchase.credits_used + recipients.length })
+      .eq('id', purchaseId);
+    
+    res.json(savedEmails);
+  } catch (error) {
+    console.error('Generate emails error:', error);
+    res.status(500).json({ error: error.message });
+  }
+});
+
+// Helper function to generate personalized email content
+async function generatePersonalizedEmail(promptTemplate, recipient) {
+  const openRouterKey = process.env.OPENROUTER_API_KEY;
+  
+  if (!openRouterKey) {
+    // Fallback to simple template replacement
+    const subject = promptTemplate.includes('{name}') 
+      ? promptTemplate.replace('{name}', recipient.name).split('\n')[0]
+      : `Important message for ${recipient.name}`;
+      
+    const body = promptTemplate
+      .replace(/\{name\}/g, recipient.name)
+      .replace(/\{email\}/g, recipient.email)
+      .replace(/\{([^}]+)\}/g, (match, key) => recipient.customData?.[key] || match);
+    
+    return { subject, body };
+  }
+  
+  try {
+    // Use AI for more sophisticated personalization
+    const prompt = promptTemplate
+      .replace(/\{name\}/g, recipient.name)
+      .replace(/\{email\}/g, recipient.email)
+      .replace(/\{([^}]+)\}/g, (match, key) => recipient.customData?.[key] || match);
+    
+    const response = await fetch('https://openrouter.ai/api/v1/chat/completions', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${openRouterKey}`,
+        'Content-Type': 'application/json',
+        'HTTP-Referer': 'https://bowerycreativeagency.com',
+        'X-Title': 'Mission Control Campaign Generator'
+      },
+      body: JSON.stringify({
+        model: 'anthropic/claude-3.5-sonnet',
+        messages: [
+          { 
+            role: 'system', 
+            content: 'You are an expert email copywriter. Generate a professional, engaging email based on the template provided. Extract the subject line as the first line of your response, followed by two newlines, then the email body.' 
+          },
+          { role: 'user', content: prompt }
+        ],
+        temperature: 0.7,
+        max_tokens: 800
+      })
+    });
+    
+    if (response.ok) {
+      const result = await response.json();
+      const content = result.choices[0].message.content;
+      const [subject, ...bodyParts] = content.split('\n\n');
+      return { 
+        subject: subject.replace(/^Subject:\s*/i, ''), 
+        body: bodyParts.join('\n\n') 
+      };
+    }
+  } catch (error) {
+    console.error('AI generation error:', error);
+  }
+  
+  // Fallback to simple replacement if AI fails
+  const subject = promptTemplate.split('\n')[0]
+    .replace(/\{name\}/g, recipient.name);
+  const body = promptTemplate
+    .replace(/\{name\}/g, recipient.name)
+    .replace(/\{email\}/g, recipient.email)
+    .replace(/\{([^}]+)\}/g, (match, key) => recipient.customData?.[key] || match);
+  
+  return { subject, body };
+}
+
+// Helper function to create mailto link
+function createMailtoLink(email, subject, body) {
+  const encodedSubject = encodeURIComponent(subject);
+  const encodedBody = encodeURIComponent(body);
+  return `mailto:${email}?subject=${encodedSubject}&body=${encodedBody}`;
+}
+
+// Get generated emails for a purchase
+app.get('/api/purchases/:purchaseId/emails', authenticateAPI, async (req, res) => {
+  try {
+    const { purchaseId } = req.params;
+    const userId = req.headers['x-user-id'];
+    
+    // Verify purchase belongs to user
+    const { data: purchase, error: purchaseError } = await supabase
+      .from('campaign_purchases')
+      .select('id')
+      .eq('id', purchaseId)
+      .eq('user_id', userId)
+      .single();
+    
+    if (purchaseError) throw purchaseError;
+    
+    const { data: emails, error } = await supabase
+      .from('generated_emails')
+      .select('*')
+      .eq('purchase_id', purchaseId)
+      .order('created_at', { ascending: false });
+    
+    if (error) throw error;
+    res.json(emails);
+  } catch (error) {
+    console.error('Get generated emails error:', error);
+    res.status(500).json({ error: error.message });
+  }
+});
+
 // Podcast feed endpoints
 // RSS Feed Parser endpoint
 app.post('/api/feeds/rss', async (req, res) => {
