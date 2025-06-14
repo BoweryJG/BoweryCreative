@@ -1,6 +1,6 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import * as Tone from 'tone';
+import audioManager from '../utils/audioManager';
 
 interface TechIconProps {
   icon: React.ReactNode;
@@ -10,72 +10,24 @@ interface TechIconProps {
 
 export const TechIcon: React.FC<TechIconProps> = ({ icon, type, className = '' }) => {
   const [isHovered, setIsHovered] = useState(false);
-  const synthRef = useRef<Tone.Synth | null>(null);
-  const containerRef = useRef<HTMLDivElement>(null);
-
-  const audioInitialized = useRef(false);
-
-  const initializeAudio = async () => {
-    if (audioInitialized.current || synthRef.current) return;
-    
-    try {
-      // Only initialize audio after user interaction
-      await Tone.start();
-      
-      synthRef.current = new Tone.Synth({
-        oscillator: { type: 'sine' },
-        envelope: {
-          attack: 0.005,
-          decay: 0.1,
-          sustain: 0.3,
-          release: 1
-        }
-      }).toDestination();
-
-      // Set volume
-      synthRef.current.volume.value = -20; // Subtle volume
-      audioInitialized.current = true;
-    } catch (error) {
-      console.log('Audio initialization failed:', error);
-    }
-  };
-
-  useEffect(() => {
-    return () => {
-      synthRef.current?.dispose();
-    };
-  }, []);
 
   const playSound = async () => {
     try {
-      // Initialize audio on first interaction
-      await initializeAudio();
-      
-      if (!synthRef.current) return;
-      
+      // Use centralized audioManager with different frequencies for each type
       switch (type) {
         case 'code':
-          // Mechanical keyboard sound sequence
-          const notes = ['C5', 'E5', 'G5'];
-          notes.forEach((note, i) => {
-            synthRef.current?.triggerAttackRelease(note, '32n', `+${i * 0.05}`);
-          });
+          // Higher frequency for code - clean, precise
+          await audioManager.playHoverSound(523.25); // C5
           break;
         
         case 'database':
-          // Data transfer sound - ascending arpeggio
-          const dataFlow = ['C4', 'E4', 'G4', 'C5', 'E5'];
-          dataFlow.forEach((note, i) => {
-            synthRef.current?.triggerAttackRelease(note, '16n', `+${i * 0.03}`);
-          });
+          // Mid frequency for database - stable, reliable
+          await audioManager.playHoverSound(440); // A4
           break;
         
         case 'cpu':
-          // Deep resonant hum
-          synthRef.current.triggerAttackRelease('C2', '8n');
-          setTimeout(() => {
-            synthRef.current?.triggerAttackRelease('G2', '8n');
-          }, 100);
+          // Lower frequency for CPU - powerful, deep
+          await audioManager.playHoverSound(261.63); // C4
           break;
       }
     } catch (error) {
@@ -220,7 +172,6 @@ export const TechIcon: React.FC<TechIconProps> = ({ icon, type, className = '' }
 
   return (
     <motion.div
-      ref={containerRef}
       className={`relative ${className}`}
       onHoverStart={() => {
         setIsHovered(true);

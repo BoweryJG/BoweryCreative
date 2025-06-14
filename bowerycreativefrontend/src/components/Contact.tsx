@@ -1,6 +1,8 @@
 import React, { useState, useRef } from 'react';
 import { motion } from 'framer-motion';
 import { contactsAPI, onboardingAPI, emailAPI } from '../services/api';
+import { AudioButton } from './AudioButton';
+import audioManager from '../utils/audioManager';
 
 // Rate limiting: Track submissions per IP/session
 const SUBMISSION_COOLDOWN = 60000; // 1 minute
@@ -156,6 +158,10 @@ export const Contact: React.FC = () => {
       }
 
       setSubmitStatus('success');
+      
+      // Play success sound
+      audioManager.playSuccessSound();
+      
       setFormData({
         name: '',
         email: '',
@@ -502,15 +508,17 @@ export const Contact: React.FC = () => {
             />
 
             <div className="flex flex-col sm:flex-row gap-6 pt-8">
-              <button
+              <AudioButton
                 type="submit"
                 disabled={isSubmitting}
                 className={`btn-performance ${isSubmitting ? 'opacity-50 cursor-not-allowed' : ''}`}
+                variant="primary"
+                soundFrequency={523.25} // C5 note
               >
                 <span className="relative z-10">
                   {isSubmitting ? 'Processing...' : 'Launch Project'}
                 </span>
-              </button>
+              </AudioButton>
               
               <div className="flex items-center gap-4 text-racing-silver text-sm">
                 <div className="w-2 h-2 bg-electric rounded-full animate-pulse" />

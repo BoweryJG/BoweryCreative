@@ -7,21 +7,31 @@ interface AudioButtonProps extends HTMLMotionProps<"button"> {
   children: React.ReactNode;
   soundFrequency?: number;
   onClick?: () => void;
+  variant?: 'primary' | 'secondary';
+  disableHoverSound?: boolean;
 }
 
 export const AudioButton: React.FC<AudioButtonProps> = ({ 
   children, 
-  soundFrequency = 600,
+  soundFrequency = 440,
   onClick,
+  variant = 'secondary',
+  disableHoverSound = false,
   ...props 
 }) => {
   const handleClick = () => {
-    audioManager.playClickSound();
+    // Only play click sound for primary buttons
+    if (variant === 'primary') {
+      audioManager.playClickSound();
+    }
     onClick?.();
   };
 
   const handleHover = () => {
-    audioManager.playHoverSound(soundFrequency, '64n');
+    // Only play hover sound for primary buttons and if not disabled
+    if (variant === 'primary' && !disableHoverSound) {
+      audioManager.playHoverSound(soundFrequency);
+    }
   };
 
   return (

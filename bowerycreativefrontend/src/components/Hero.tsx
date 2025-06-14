@@ -9,6 +9,7 @@ import {
   KeyboardArrowRight,
 } from '@mui/icons-material';
 import { motion, AnimatePresence } from 'framer-motion';
+import { AudioButton } from './AudioButton';
 
 export const Hero: React.FC = () => {
   const [currentWord, setCurrentWord] = useState(0);
@@ -311,50 +312,40 @@ export const Hero: React.FC = () => {
             transition={{ delay: 1.4 }}
           >
             <Box sx={{ display: 'flex', gap: 3, justifyContent: 'center', flexWrap: 'wrap' }}>
-              <Button
-                variant="contained"
-                size="large"
-                endIcon={<KeyboardArrowRight />}
+              <AudioButton
+                variant="primary"
                 onClick={() => {
                   const contactSection = document.getElementById('contact');
                   if (contactSection) {
                     contactSection.scrollIntoView({ behavior: 'smooth' });
                   }
                 }}
-                sx={{
-                  bgcolor: '#FFD700',
+                style={{
+                  backgroundColor: '#FFD700',
                   color: '#000000',
-                  px: 4,
-                  py: 2,
+                  padding: '16px 32px',
                   fontSize: '0.875rem',
                   fontWeight: 600,
                   textTransform: 'uppercase',
                   letterSpacing: '0.1em',
                   position: 'relative',
                   overflow: 'hidden',
-                  '&:hover': {
-                    bgcolor: '#00BFFF',
-                    color: '#000000',
-                    transform: 'scale(1.05)',
-                  },
-                  '&::before': {
-                    content: '""',
-                    position: 'absolute',
-                    top: 0,
-                    left: '-100%',
-                    width: '100%',
-                    height: '100%',
-                    background: 'linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent)',
-                    transition: 'left 0.5s',
-                  },
-                  '&:hover::before': {
-                    left: '100%',
-                  },
+                  border: 'none',
+                  borderRadius: '4px',
+                  cursor: 'pointer',
+                  display: 'inline-flex',
+                  alignItems: 'center',
+                  gap: '8px',
                   transition: 'all 0.3s ease',
+                }}
+                whileHover={{
+                  backgroundColor: '#00BFFF',
+                  scale: 1.05,
                 }}
               >
                 Accelerate Your Vision
-              </Button>
+                <KeyboardArrowRight style={{ fontSize: '20px' }} />
+              </AudioButton>
               
               <Button
                 variant="outlined"
