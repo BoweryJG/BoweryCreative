@@ -36,6 +36,7 @@ import ContentStudio from './components/ContentStudio';
 import EmailMarketing from './components/EmailMarketing';
 import SEOAnalyzer from './components/SEOAnalyzer';
 import SocialMedia from './components/SocialMedia';
+import Analytics from './components/Analytics';
 
 // Mission Control Theme
 const theme = createTheme({
@@ -243,7 +244,7 @@ function App() {
       case 'seo':
         return <SEOAnalyzer />;
       case 'analytics':
-        return renderPlaceholder('Analytics & Reporting');
+        return <Analytics />;
       case 'settings':
         return renderPlaceholder('Settings');
       default:
