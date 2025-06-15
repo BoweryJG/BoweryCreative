@@ -115,7 +115,24 @@ export const Hero: React.FC = () => {
                   fontWeight: 500,
                 }}
               >
-                Engineering Tomorrow's Intelligence
+                Engineering Tomorrow's Intell
+                <Box
+                  component="a"
+                  href="https://bowerycreative-dashboard.netlify.app/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  sx={{
+                    color: 'inherit',
+                    textDecoration: 'none',
+                    cursor: 'default',
+                    '&:hover': {
+                      cursor: 'pointer',
+                    }
+                  }}
+                >
+                  i
+                </Box>
+                gence
               </Typography>
               <Box sx={{ height: '1px', width: 60, bgcolor: '#FFD700' }} />
             </Box>
