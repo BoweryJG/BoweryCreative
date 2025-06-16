@@ -13,6 +13,8 @@ import { Contact } from './components/Contact';
 import { Footer } from './components/Footer';
 import { AudioToggle } from './components/AudioToggle';
 import { DashboardAccess } from './components/DashboardAccess';
+import { AuthProvider } from './contexts/AuthContext';
+import { AuthGate } from './components/AuthGate';
 import { trackPageView } from './lib/analytics';
 
 type LegalDocumentType = 'privacy' | 'terms' | null;
@@ -64,11 +66,13 @@ function App() {
   };
 
   return (
-    <ErrorBoundary>
-      <div className="min-h-screen bg-obsidian cursor-luxury">
-        <ErrorBoundary fallback={<div className="text-center p-8 text-arctic">Navigation temporarily unavailable</div>}>
-          <Navigation />
-        </ErrorBoundary>
+    <AuthProvider>
+      <ErrorBoundary>
+        <AuthGate>
+          <div className="min-h-screen bg-obsidian cursor-luxury">
+            <ErrorBoundary fallback={<div className="text-center p-8 text-arctic">Navigation temporarily unavailable</div>}>
+              <Navigation />
+            </ErrorBoundary>
         
         <ErrorBoundary fallback={<div className="h-screen bg-obsidian flex items-center justify-center text-arctic">Hero section loading...</div>}>
           <Hero />
@@ -98,28 +102,30 @@ function App() {
           <Insights />
         </ErrorBoundary>
         
-        <ErrorBoundary fallback={<div className="text-center p-8 text-arctic">Contact form temporarily unavailable. Please email us directly.</div>}>
-          <Contact />
-        </ErrorBoundary>
-        
-        <ErrorBoundary>
-          <Footer />
-        </ErrorBoundary>
-      </div>
-
-      {/* Legal Documents Modal */}
-      <LegalModal
-        isOpen={legalModal.isOpen}
-        documentType={legalModal.documentType}
-        onClose={closeLegalModal}
-      />
-      
-      {/* Audio Toggle */}
-      <AudioToggle />
-      
-      {/* Dashboard Access */}
-      <DashboardAccess />
-    </ErrorBoundary>
+            <ErrorBoundary fallback={<div className="text-center p-8 text-arctic">Contact form temporarily unavailable. Please email us directly.</div>}>
+              <Contact />
+            </ErrorBoundary>
+            
+            <ErrorBoundary>
+              <Footer />
+            </ErrorBoundary>
+            
+            {/* Legal Documents Modal */}
+            <LegalModal
+              isOpen={legalModal.isOpen}
+              documentType={legalModal.documentType}
+              onClose={closeLegalModal}
+            />
+            
+            {/* Audio Toggle */}
+            <AudioToggle />
+            
+            {/* Dashboard Access */}
+            <DashboardAccess />
+          </div>
+        </AuthGate>
+      </ErrorBoundary>
+    </AuthProvider>
   );
 }
 
