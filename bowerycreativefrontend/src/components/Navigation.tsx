@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X, Cpu, Brain, Code2, Database } from 'lucide-react';
+import { Menu, X, Cpu, Brain, Code2, Database, LayoutDashboard, CreditCard } from 'lucide-react';
+import { useAuth } from '../contexts/AuthContext';
 
 const navItems = [
   { label: 'Capabilities', href: '#capabilities' },
@@ -15,6 +16,7 @@ const navItems = [
 export const Navigation: React.FC = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const { user, isAdmin } = useAuth();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -76,8 +78,32 @@ export const Navigation: React.FC = () => {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.6 }}
-              className="hidden lg:block"
+              className="hidden lg:flex items-center gap-4"
             >
+              {user && (
+                <>
+                  {isAdmin && (
+                    <a
+                      href="https://bowerycreative-dashboard.netlify.app/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="btn-ghost flex items-center gap-2"
+                    >
+                      <LayoutDashboard className="w-4 h-4" />
+                      Dashboard
+                    </a>
+                  )}
+                  <a
+                    href="https://payments.bowerycreativeagency.com/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="btn-ghost flex items-center gap-2"
+                  >
+                    <CreditCard className="w-4 h-4" />
+                    Payments
+                  </a>
+                </>
+              )}
               <button className="btn-ghost">
                 Start Project
               </button>
@@ -122,6 +148,38 @@ export const Navigation: React.FC = () => {
                   <span className="absolute -bottom-2 left-0 w-0 h-px bg-champagne transition-all duration-300 group-hover:w-full" />
                 </motion.a>
               ))}
+              
+              {user && (
+                <motion.div
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 0.4 }}
+                  className="flex flex-col gap-4 mt-4"
+                >
+                  {isAdmin && (
+                    <a
+                      href="https://bowerycreative-dashboard.netlify.app/"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-xl text-champagne flex items-center gap-2 justify-center"
+                      onClick={() => setIsMobileMenuOpen(false)}
+                    >
+                      <LayoutDashboard className="w-5 h-5" />
+                      Dashboard
+                    </a>
+                  )}
+                  <a
+                    href="https://payments.bowerycreativeagency.com/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-xl text-champagne flex items-center gap-2 justify-center"
+                    onClick={() => setIsMobileMenuOpen(false)}
+                  >
+                    <CreditCard className="w-5 h-5" />
+                    Payments
+                  </a>
+                </motion.div>
+              )}
               
               <motion.div
                 initial={{ opacity: 0 }}

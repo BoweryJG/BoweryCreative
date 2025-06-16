@@ -7,13 +7,17 @@ import {
 } from '@mui/material';
 import {
   KeyboardArrowRight,
+  Dashboard as DashboardIcon,
+  Payment as PaymentIcon,
 } from '@mui/icons-material';
 import { motion, AnimatePresence } from 'framer-motion';
 import { AudioButton } from './AudioButton';
+import { useAuth } from '../contexts/AuthContext';
 
 export const Hero: React.FC = () => {
   const [currentWord, setCurrentWord] = useState(0);
   const techWords = ['Machine Learning', 'AGI', 'Augmented Intelligence', 'Neural Networks', 'Deep Learning'];
+  const { user, isAdmin } = useAuth();
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -394,6 +398,56 @@ export const Hero: React.FC = () => {
               </Button>
             </Box>
           </motion.div>
+
+          {/* Dashboard and Payment Links */}
+          {user && (
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 1.6 }}
+            >
+              <Box sx={{ display: 'flex', gap: 2, justifyContent: 'center', mt: 4 }}>
+                {isAdmin && (
+                  <Button
+                    variant="text"
+                    startIcon={<DashboardIcon />}
+                    href="https://bowerycreative-dashboard.netlify.app/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    sx={{
+                      color: '#C0C0C0',
+                      textTransform: 'uppercase',
+                      letterSpacing: '0.1em',
+                      fontSize: '0.75rem',
+                      '&:hover': {
+                        color: '#FFD700',
+                      },
+                    }}
+                  >
+                    Mission Control
+                  </Button>
+                )}
+                <Button
+                  variant="text"
+                  startIcon={<PaymentIcon />}
+                  href="https://payments.bowerycreativeagency.com/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  sx={{
+                    color: '#C0C0C0',
+                    textTransform: 'uppercase',
+                    letterSpacing: '0.1em',
+                    fontSize: '0.75rem',
+                    '&:hover': {
+                      color: '#FFD700',
+                    },
+                  }}
+                >
+                  Payment Portal
+                </Button>
+              </Box>
+            </motion.div>
+          )}
         </Box>
       </Container>
 
