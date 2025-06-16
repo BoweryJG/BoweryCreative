@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Code2 } from 'lucide-react';
 
 export const DashboardAccess: React.FC = () => {
-  const [isVisible, setIsVisible] = useState(true);
+  const [isVisible] = useState(true);
 
   const handleDashboardAccess = () => {
     // Open dashboard in new tab
